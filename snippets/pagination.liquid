@@ -1,0 +1,27 @@
+<nav class="la-pagination clearfix">
+  <ul class='page-numbers'>
+    {% if paginate.previous %}
+    <li><a class="prev page-numbers" href="{{ paginate.previous.url }}">{{ 'collections.toolbar.previous' | t }}</a></li>
+    {% else %}
+    <li class="disabled" style="display:none"><span class="pagicon arrow_left"></span></li>
+    {% endif %}
+    {% for part in paginate.parts %}
+      {% if part.is_link %}
+      <li>
+        <a class="page-numbers" href="{{ part.url }}">{{ part.title }}</a>
+      </li>
+      {% else %}
+        {% if part.title == paginate.current_page %}
+        <li><span class="page-numbers current">{{ part.title }}</span></li>
+        {% else %}
+        <li><span>{{ part.title }}</span></li>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    {% if paginate.next %}
+    <li><a href="{{ paginate.next.url }}" class="next page-numbers">{{ 'collections.toolbar.next' | t }}</a></li>
+    {% else %}
+    <li class="next page-numbers disabled" style="display:none"><span class="pagicon arrow_right"></span></li>
+    {% endif %}
+  </ul>
+</nav>

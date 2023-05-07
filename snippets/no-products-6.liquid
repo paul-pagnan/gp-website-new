@@ -1,0 +1,34 @@
+{% for i in (1..6) %}
+<div class="grid-item">
+  <div class="product_item--inner">
+    <div class="product_item--thumbnail">
+      <div class="product_item--thumbnail-holder">
+        <a href="/" class="product__link" tabindex="0">
+          {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+          {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+          <span class="label-product new">{{ 'products.product.new' | t }}</span>
+        </a>
+      </div>
+      <div class="product_item_thumbnail_action product_item--action">
+        <div class="wrap-addto">
+          <a href="javascript:;" class="quickview button la-quickview-button" data-toggle="tooltip" data-placement="top" title="Quick view" tabindex="0"><span>{{ 'products.product.quick_view' | t }}</span></a>
+          <a href="javascript:;" class="globo-add-to-cart" rel="nofollow" tabindex="0" data-toggle="tooltip" data-placement="top" title="Add to cart"><span>{{ 'products.product.add_to_cart' | t }}</span></a>
+          <a class="add_wishlist button la-core-wishlist" href="javascript:;" data-toggle="tooltip" data-placement="top" title="Add to wishlist" rel="nofollow"tabindex="0"><span>{{ 'products.product.add_to_wishlist' | t }}</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="product_item--info">
+      <div class="product_item--info-inner text-left">
+        <h2 class="product_item--title">
+          <a href="/" tabindex="0">Product Title</a>
+        </h2>
+        <span class="price">
+          <del><span class="amount">$56.00</span></del>
+          <ins><span class="amount">$34.00</span></ins>
+        </span>
+      </div>
+    </div>
+  </div>  
+</div>
+{% endfor %}
+

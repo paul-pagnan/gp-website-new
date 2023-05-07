@@ -1,0 +1,160 @@
+{%- case section.settings.sidetoshow -%}
+    {% when '3' %}
+      	{%- assign slider_class_width = 'xlg-grid-3-items lg-grid-3-items md-grid-3-items' -%}
+    {% when '4' %}
+    	{%- assign slider_class_width = 'xlg-grid-4-items lg-grid-4-items md-grid-4-items' -%}
+{%- endcase -%}
+<div class="g-banner-carousel" {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+  <div class="container-full">
+    <div style="display: none;">{% include 'dlicon-arrow-left2' %}{% include 'dlicon-arrow-right2' %}</div>
+    <div class="g-slick-banner grid-items {{ slider_class_width }} sm-grid-3-items xs-grid-2-items mb-grid-1-items" data-slick='{"infinite":{% if section.settings.use_loop %}true{% else %}false{% endif %},"dots":{% if section.settings.use_dots %}true{% else %}false{% endif %},"slidesToShow":{{ section.settings.sidetoshow }},"slidesToScroll":{{ section.settings.sidetoshow }},"autoplay":{% if section.settings.use_autoplay %}true{% else %}false{% endif %},"arrows":{% if section.settings.use_arrow %}true{% else %}false{% endif %},"speed":"1000","autoplaySpeed":3000,"centerMode":false,"variableWidth":false,"nextArrow":"<button type=\"button\" style=\"font-size:24px;width:24px;height:24px;line-height:24px;\" class=\"slick-next default\"><svg><use xlink:href=\"#dlicon-arrow-right2\"><\/use><\/svg><\/button>","prevArrow":"<button type=\"button\" style=\"font-size:24px;width:24px;height:24px;line-height:24px;\" class=\"slick-prev default\"><svg><use xlink:href=\"#dlicon-arrow-left2\"><\/use><\/svg><\/button>","responsive":[{"breakpoint":1200,"settings":{"slidesToShow":3,"slidesToScroll":3}},{"breakpoint":992,"settings":{"slidesToShow":2,"slidesToScroll":2}},{"breakpoint":768,"settings":{"slidesToShow":1,"slidesToScroll":1}},{"breakpoint":480,"settings":{"slidesToShow":1,"slidesToScroll":1}}]}'>
+      {% for block in section.blocks %}
+        <div class="grid-item col-banner-hover">
+          <div class="col-relative">
+            <div class="banner--image">
+              {% if block.settings.image != blank %}
+              <div class="cover-background-carousel lazy" data-src="{{ block.settings.image | img_url: 'master', format: 'pjpg' | split:'?' | first }}"></div>
+              {% else %}
+              {% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}
+              {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+              {% endif %}
+            </div>
+            <div class="banner--info">
+              <div class="table-banner">
+                <div class="table-cell-banner text-left">
+                  {% if block.settings.title != blank %}
+                  <div class="title">{{ block.settings.title }}</div>
+                  {% endif %}
+                  {% if block.settings.heading != blank %}
+                  <div class="heading">{{ block.settings.heading }}</div>
+                  {% endif %}
+                  {% if block.settings.button_name != blank %}
+                  <a href="{{ block.settings.link }}" class="banner--btn">{{ block.settings.button_name }}</a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% if block.settings.link != blank %}
+            <a href="{{ block.settings.link }}" class="overflow-link"></a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Block banner carousel",
+    "class": "globo_banner_carousel",
+	"max_blocks": 8,
+  	"presets": [
+      {
+        "name": "Block banner carousel",
+        "category": "Categories & Banner",
+        "blocks": [
+          {
+            "type": "block_banner_carousel"
+          },
+          {
+            "type": "block_banner_carousel"
+          },
+          {
+            "type": "block_banner_carousel"
+          },
+          {
+            "type": "block_banner_carousel"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      },
+      {
+       "type": "header",
+       "content": "Banner Slider"
+      },
+      {
+        "type": "select",
+        "id": "sidetoshow",
+        "label": "Slides To Show",
+        "options": [
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          }
+        ],
+        "default": "3"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_loop",
+        "label": "Use Infinite loop sliding?",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "use_autoplay",
+        "label": "Use autoplay?",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "use_dots",
+        "label": "Use dots?",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "use_arrow",
+        "label": "Use arrow?",
+        "default": true
+      }
+    ],
+  	"blocks": [
+      {
+        "type": "block_banner_carousel",
+        "name": "Block banner carousel",
+        "settings": [
+           {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+           },
+           {
+              "type": "text",
+              "id": "title",
+              "label": "Title",
+              "default": "Pebbled effect shopper bag"
+           },
+           {
+              "type": "text",
+              "id": "heading",
+              "label": "Heading",
+              "default": "off 20%"
+           },
+           {
+              "type": "text",
+              "id": "button_name",
+              "label": "Button name",
+              "default": "SHOP NOW"
+           },
+           {
+              "type": "url",
+              "id": "link",
+              "label": "Link"
+           }
+        ]
+      }
+    ]
+  }
+{% endschema %}

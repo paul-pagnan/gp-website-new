@@ -1,0 +1,115 @@
+<div class="g--instagram_feed {% if section.settings.use_container %}container{% endif %}">
+  {% if section.settings.title != blank %}
+  <div class="globo-heading text-center">
+    <h2>{{ section.settings.title }}</h2>
+  </div>
+  {% endif %}
+  <div id="la_instagram_feed{{ section.id }}" class="la-instagram-feeds instagram-grayscale">
+    <div class="instagram-feed-inner">
+      <input type="hidden" id="g-token-{{ section.id }}" value="{{ section.settings.accessToken }}">
+      <div class="globo-instagram clearfix" data-id="{{ section.id }}">
+        <div id="g-instafeed-{{ section.id }}" class="g-instafeed-slick-{{ section.id }} instagram--with-padding" data-limit="{{ section.settings.limit }}" data-sort-by="{{ section.settings.sort }}" data-slick='{"slidesToShow": "{{ section.settings.sidetoshow }}", "autoplay": true, "arrows": false,"responsive":[{"breakpoint": 1024,"settings":{"slidesToShow": 3}},{"breakpoint": 480,"settings":{"slidesToShow": 1}}]}'>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Instagram Feed",
+    "class": "globo_instagram_feed",
+    "presets": [
+      {
+        "name": "Instagram Feed",
+        "category": "Instagram"
+      }
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "accessToken",
+        "label": "Access Token:",
+        "default": "7608181471.3a81a9f.7aa83c93a1e5412783f3a5cf5fa46b51",
+		"info": "Use when Get Image from: 'Access Token'. [Where do I find Access Token?](http:\/\/instagram.pixelunion.net\/)"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Follow us on Instagram"
+      },
+      {
+        "type": "text",
+        "id": "limit",
+        "label": "Limit: (integer)(Max: 33)",
+        "default": "20"
+      },
+      {
+        "type": "select",
+        "id": "sort",
+        "label": "Sort by",
+        "default": "none",
+        "options": [
+          {
+            "value": "none",
+            "label": "Default"
+          },
+          {
+            "value": "most-recent",
+            "label": "Newest to oldest"
+          },
+          {
+            "value": "least-recent",
+            "label": "Oldest to newest"
+          },
+          {
+            "value": "most-liked",
+            "label": "Highest # of likes to lowest"
+          },
+          {
+            "value": "least-liked",
+            "label": "Lowest # likes to highest"
+          },
+          {
+            "value": "most-commented",
+            "label": "Highest # of comments to lowest"
+          },
+          {
+            "value": "least-commented",
+            "label": "Lowest # of comments to highest"
+          },
+          {
+            "value": "random",
+            "label": "Random order"
+          }
+        ]
+      },
+      {
+       "type": "header",
+       "content": "Settings Slider"
+      },
+      {
+        "type": "text",
+        "id": "speed",
+        "label": "Speed: (integer)",
+        "default": "300"
+      },
+      {
+        "type": "text",
+        "id": "sidetoshow",
+        "label": "Slides to show: (integer)",
+        "default": "5"
+      },
+      {
+        "type": "header",
+        "content": "Design settings"
+      },
+      {
+      "type": "checkbox",
+      "id": "use_container",
+      "label": "Use Container?",
+      "default": false 
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,46 @@
+<div class="g-product-isotope" {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+  <div class="container-full">
+    <ul class="products grid-space-20 products-grid la-isotope-container prods_masonry masonry__column-type-custom" data-portfolionumber="2" data-item-width="585" data-item-height="595" data-container-width="1170" data-md-col="2" data-sm-col="2" data-xs-col="1" data-mb-col="1" data-item_selector=".product_item">
+        {% assign collection = collections[section.settings.id_collection] %}
+        {% if collection.empty? %}
+        {% include 'no-products-isope' %}
+        {% else %}
+        {% for product in collection.products limit:section.settings.items_show %}
+        {% include 'g_product_isotope' %} 
+        {% endfor %}
+        {% endif %}
+    </ul>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Product Isotope",
+    "class": "globo_product_isotope",
+    "presets": [
+      {
+        "name": "Product Isotope",
+        "category": "Sections Products Home"
+      }
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      },
+      {
+        "type": "collection",
+        "id": "id_collection",
+        "label": "Collection to use"
+      },
+      {
+        "type": "text",
+        "id": "items_show",
+        "label": "Number product to show",
+        "default": "12"
+      }
+    ]
+  }
+{% endschema %}
+

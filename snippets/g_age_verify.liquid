@@ -1,0 +1,42 @@
+<div class="section-age-verify" {% if settings.bg_age_verify != blank %}style="background-image: url({{ settings.bg_age_verify | img_url: '1920x', format: 'pjpg' | split:'?' | first }})"{% endif %}>
+  <div class="content-age-verify">
+    <div class="cell-age-verify">
+      <div class="box-age-verify">
+        {% if settings.title_age_verify != blank %}
+        <h1>{{ settings.title_age_verify }}</h1>
+        {% endif %}
+        {% if settings.text_age_verify != blank %}
+        <p>{{ settings.text_age_verify }}</p>
+        {% endif %}
+        <button id="submit_age-verify" class="btn submit-age-verify" onclick="ageCheck()">Enter</button> 
+        <span class="or">or</span>
+        <a href="{{ settings.link_exit }}" id="button-exit" class="btn" name="button-exit">Exit</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+ function ageCheck() {
+     var days = 14; //number of days until they must go through the age checker again.
+     var date = new Date();
+     date.setTime(date.getTime()+(days*24*60*60*1000));
+     var expires = "; expires="+date.toGMTString();
+     document.cookie = 'isAnAdult=true;'+expires+"; path=/";
+     location.reload();
+  };
+  function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') c = c.substring(1,c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+  };
+  var isAnAdult = readCookie('isAnAdult');
+  if (isAnAdult) {
+    document.write("<style> .section-age-verify { display: none; }</style>");
+  };
+</script>

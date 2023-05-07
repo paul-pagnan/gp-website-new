@@ -1,0 +1,79 @@
+{%- if section.blocks.size > 0 and section.settings.use -%}
+<style>
+{%- for block in section.blocks -%}
+    {%-if block.settings.title != "" -%}
+    .g-bg-color-{{block.settings.title | handleize }}{
+      {%-if block.settings.g_color_1 != blank -%}
+      background-color: {{block.settings.g_color_1}} !important;
+      {%-endif %}
+      {%-if block.settings.g_color_1 != blank and block.settings.g_color_2 != blank %}
+      background: {{block.settings.g_color_1}} !important; 
+      background: -webkit-linear-gradient(to right, {{block.settings.g_color_1}} 50%, {{block.settings.g_color_2}} 50%) !important;
+      background: -o-linear-gradient(to right, {{block.settings.g_color_1}} 50%, {{block.settings.g_color_2}} 50%) !important; 
+      background: -moz-linear-gradient(to right, {{block.settings.g_color_1}} 50%, {{block.settings.g_color_2}} 50%) !important; 
+      background: linear-gradient(to right, {{block.settings.g_color_1}} 50%, {{block.settings.g_color_2}} 50%) !important;
+      {%-endif %}
+      {%- if block.settings.color_img and block.settings.g_color_img != blank %}
+      background-image: url({{ block.settings.g_color_img | img_url: '30x30', crop: 'center' | split:'?' | first }}) !important;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      {%-endif %}
+    }
+  {%-endif %}
+{%- endfor -%}
+</style>
+{%-endif %}
+{%- schema -%}
+  {
+    "name": "Custom Color Variants",
+    "settings": [
+    	{
+          "type": "paragraph",
+          "content": "Enter the color name and select color code for the custom color"
+        },
+        {
+          "type": "checkbox",
+          "id": "use",
+          "label": "Use Custom color?",
+          "default": true
+        }
+  ],
+    "blocks": [
+    {
+        "type":"color_color",
+         "name":"Choose color",
+          "settings": [
+        {
+                  "type": "text",
+                  "id": "title",
+                  "label": "Color Names",
+                  "info": "eg: yellow"
+                },
+                {
+                  "type": "color",
+                  "id": "g_color_1",
+                  "label": "Select color"
+                },
+                {
+                  "type": "color",
+                  "id": "g_color_2",
+                  "label": "Select color 2"
+                },
+                {
+                  "type": "checkbox",
+                  "id": "color_img",
+                  "label": "Show image?"
+                },
+                {
+                  "type": "image_picker",
+                  "id": "g_color_img",
+                  "label": "Color image",
+                  "info": "30px x 30px recommended"
+                }
+       ]
+    }
+  ]
+  }
+{% endschema %}
+

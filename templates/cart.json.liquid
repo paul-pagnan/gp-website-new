@@ -1,0 +1,46 @@
+{%- layout none -%}
+<div class="cart-flyout">
+  <div class="cart-flyout--inner">
+    <a href="javascript:;" class="btn-close-cart"><i class="dl-icon-close"></i></a>
+    <div class="cart-flyout__content">
+      <div class="cart-flyout__heading">{{ 'layout.cart.mini_cart' | t }}</div>
+      <div class="widget_shopping_cart_content">
+          {%- if cart.item_count > 0 -%}
+          <ul class="woocommerce-mini-cart cart_list product_list_widget">
+            {%- for item in cart.items -%}
+            <li class="woocommerce-mini-cart-item mini_cart_item">
+              <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="remove" aria-label="Remove this item" onclick="Shopify.removeItem({{ item.id }}); return false">×</a>
+              <a href="{{ item.url | within: item.product.collections.last }}">
+                <img width="120" height="150" src="{{ item | img_url: '120x' | split:'?' | first }}" class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" alt="">
+                {{ item.product.title }}&nbsp;
+              </a>
+              {% unless item.variant.title contains 'Default' %}
+              <dl class="variation">
+                {% for option in item.product.options %}
+                <dt class="variation-Color">{{ option }}:</dt>
+                <dd class="variation-Color"><p>{{ item.variant.options[forloop.index0] }}</p></dd>
+                {% endfor %}
+              </dl>
+              {% endunless %}
+              <span class="quantity">{{ item.quantity }} × <span class="woocommerce-Price-amount amount">{{ item.price | money }}</span>
+              </span>
+            </li>
+            {%- endfor -%}
+          </ul>
+          {%- else -%}
+          	<p class="woocommerce-mini-cart__empty-message">{{ 'cart.general.empty' | t }}</p>
+          {%- endif -%}
+          {%- if cart.item_count > 0 -%}
+            <p class="woocommerce-mini-cart__total total">
+              <strong>{{ 'cart.general.subtotal' | t }}</strong> <span class="woocommerce-Price-amount amount">{{ cart.total_price | money }}</span>
+            </p>
+            <p class="woocommerce-mini-cart__buttons buttons">
+              <a href="/cart" class="button wc-forward">{{ 'cart.general.view_cart' | t }}</a>
+              <a href="/checkout" class="button checkout wc-forward">{{ 'cart.general.checkout' | t }}</a>
+            </p>
+          {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="la-overlay-global"></div>

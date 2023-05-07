@@ -1,0 +1,103 @@
+{% assign items_list_1 = settings.megamenu1 | split:"," | strip | downcase %}
+{% assign items_list_2 = settings.megamenu2 | split:"," | strip | downcase %}  
+{% assign items_list_new = settings.megamenunew | split:"," | strip | downcase %}
+{% assign items_list_hot = settings.megamenuhot | split:"," | strip | downcase %}
+{% assign megamenu_image_index = 1 %}
+{% assign megamenu_links_image_index = 1 %}
+{% assign megamenu_content_index = 1 %}
+
+{% case settings.header_imported %}
+   {% when 'header_one' %}
+      {% include 'header_one' %}
+   {% when 'header_two' %}
+      {% include 'header_two' %} 
+   {% when 'header_three' %}
+      {% include 'header_three' %}  
+   {% when 'header_four' %}
+      {% include 'header_four' %}
+   {% when 'header_five' %}
+      {% include 'header_five' %}
+   {% when 'header_six' %}
+      {% include 'header_six' %}
+   {% when 'header_seven' %}
+      {% include 'header_seven' %}
+   {% when 'header_eight' %}
+      {% include 'header_eight' %}
+{% endcase %}
+
+<div class="site-header-mobile">
+    <div class="site-header-outer">
+        <div class="site-header-inner">
+            <div class="container">
+                <div class="header-main clearfix">
+                    <div class="header-component-outer header-component-outer_logo">
+                      <div class="logo">
+                        {% if settings.logo %}
+                        <a href="/" itemprop="url" rel="home">
+                          {% if settings.logo_image_sticky %}
+                          <figure class="logo--transparency"><img src="{{ settings.logo_sticky | img_url: 'master' | split:'?' | first }}" alt="{{ settings.logo.alt | default: shop.name }}" itemprop="logo"></figure>
+                          <figure class="logo--normal"><img src="{{ settings.logo | img_url: 'master' | split:'?' | first }}" alt="{{ settings.logo.alt | default: shop.name }}" itemprop="logo"></figure>
+                          {% else%}
+                          <figure class="logo--normal"><img src="{{ settings.logo | img_url: 'master' | split:'?' | first }}" alt="{{ settings.logo.alt | default: shop.name }}" itemprop="logo"></figure>
+                          <figure class="logo--transparency"><img src="{{ settings.logo | img_url: 'master' | split:'?' | first }}" alt="{{ settings.logo.alt | default: shop.name }}" itemprop="logo"></figure>
+                          {% endif %}
+                        </a>
+                        {% else %}
+                        <a href="/" itemprop="url">{{ shop.name }}</a>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="header-component-outer header-component-outer_1">
+                        <div class="header-component-inner clearfix">
+                          <div class="header_component header_component--linktext la_compt_iem la_com_action--linktext">
+                            {% if shop.customer_accounts_enabled %}
+                            {% if customer %}
+                            <a rel="nofollow" class="component-target" href="/account">
+                              <i class="dl-icon-user12"></i><span class="component-target-text">{{ 'customer.account.title' | t }}</span>
+                            </a>
+                            {{ 'Logout' | customer_logout_link }}
+                            {% else %}
+                            <a rel="nofollow" class="component-target" href="/account/login"><i class="dl-icon-user12"></i><span class="component-target-text">{{ 'customer.login.sign_in' | t }}</span></a>
+                            {% endif %}
+                            {% endif %}
+                          </div>
+                          <div class="header_component header_component--searchbox la_compt_iem la_com_action--searchbox searchbox__01 "><a class="component-target btn-search" href="javascript:;"><i class="dl-icon-search1"></i></a></div>
+                          <div class="header_component header_component--cart la_compt_iem la_com_action--cart">
+                            <a rel="nofollow" class="component-target" href="/cart">
+                              <i class="dl-icon-cart1"></i><span class="component-target-badget la-cart-count">{{ cart.item_count }}</span>
+                            </a>
+                          </div>
+                          <div class="header_component header_component--primary-menu la_compt_iem la_com_action--primary-menu "><a rel="nofollow" class="component-target" href="javascript:;"><i class="dl-icon-menu1"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mobile-menu-wrap">
+                <div id="la_mobile_nav" class="dl-menuwrapper">
+					<ul class="dl-menu menu">
+                      {% for link in linklists[settings.main_linklist].links %}
+                      {%- assign child_list_handle = link.title | handleize -%}
+                      <li class="menu-item {% if linklists[link.handle] != empty %}menu-item-has-children{% endif %}"><a href="{{ link.url }}">{{ link.title }}</a>{% if linklists[link.handle] != empty %}<span class="narrow"><i class="fa fa-angle-right"></i></span>{% endif %}
+                        {% if linklists[child_list_handle].links != blank %}
+                        <ul class="sub-menu">
+                          {% for sublink in linklists[link.handle].links %}
+                          <li class="menu-item {% if linklists[sublink.handle] != empty %}menu-item-has-children{% endif %}"><a href="{{ sublink.url }}">{{ sublink.title }}</a>{% if linklists[sublink.handle] != empty %}<span class="narrow"><i class="fa fa-angle-right"></i></span>{% endif %}
+                            {% if linklists[sublink.handle] != empty %}
+                            <ul class="sub-menu">
+                              {% for subsublink in linklists[sublink.handle].links %}
+                              <li><a href="{{ subsublink.url }}">{{ subsublink.title }}</a></li>
+                              {% endfor %}
+                            </ul>
+                            {% endif %}
+                          </li>
+                          {% endfor %}
+                        </ul>
+                        {% endif %}
+                      </li>
+                      {% endfor %}                    	  
+                  	</ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

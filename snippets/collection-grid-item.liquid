@@ -1,0 +1,32 @@
+{% if collection.image %}
+  {%- assign collection_image = collection.image -%}
+{% elsif collection.products.first and collection.products.first.images != empty %}
+  {%- assign collection_image = collection.products.first.featured_image -%}
+{% else %}
+  {% assign collection_image = blank %}
+{% endif %}
+
+<div class="col-banner-hover margin-bottom-30">
+  <div class="col-relative banner-type-3">
+    <div class="banner--image">
+      {% unless collection_image == blank %}
+      	<div class="cover-background-carousel lazy" data-src="{{ collection_image | img_url: 'master' }}"></div>
+      {% else %}
+      	{% if collection == empty %}
+      	{% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}
+      	{{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+      	{% endif %}
+      {% endunless %}
+    </div>
+    <div class="banner--info">
+      <a class="b-title" href="{% if collection.products == empty %}#{% else %}{{ collection.url }}{% endif %}">
+        {% if collection.title == blank %}
+          {{ 'homepage.onboarding.collection_title' | t }}
+        {% else %}
+          {{ collection.title }}
+        {% endif %}
+      </a>
+    </div>
+    <a href="{{ collection.url }}" class="overflow-link"></a>
+  </div>
+</div>

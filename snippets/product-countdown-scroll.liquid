@@ -1,0 +1,38 @@
+<div class="g-sticky-product-countdown">
+    <form action="/cart/add" method="post" enctype="multipart/form-data" class="variations_form cart">
+      <div class="product-name-review">
+        <h3>{{ product.title }}</h3>
+        <div class="ratings">
+          <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+        </div> 
+      </div>
+      {% if product.images.size > 0 %}       
+      <div class="image">
+        <img class="img-responsive" src="{{ featured_image | img_url: '45x45' }}" alt="{{ product.title }}" title="{{ product.title }}" />
+      </div>
+      {% endif %}
+      {% assign hide_default_title = false %}
+      {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+      {% assign hide_default_title = true %}
+      {% endif %}
+      <div class="select clearfix"{% if hide_default_title %} style="display:none"{% endif %}>
+        <select id="product-select-countdown" name="id">
+          {% for variant in product.variants %}
+          <option value="{{ variant.id }}"{% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %}>{{ variant.title }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="single_variation_wrap">
+        <div class="quantity">
+          <input type="number" class="input-text qty text" step="1" min="1" max="" name="quantity" value="1" title="Qty" size="4" pattern="[0-9]*" inputmode="numeric" />
+        </div>
+        <button type="submit" {% unless g_current_variant.available %}disabled="disabled"{% endunless %} class="single_add_to_cart_button {% if settings.enable_ajax %}ajax_form_cart{% endif %} button alt">
+          {% unless g_current_variant.available %}
+          {{ 'products.product.sold_out' | t }}
+          {% else %}
+          {{ 'products.product.add_to_cart' | t }}
+          {% endunless %}
+        </button>
+      </div>
+    </form>
+</div>

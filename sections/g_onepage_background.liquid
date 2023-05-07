@@ -1,0 +1,158 @@
+<div class="g-onepage-background" {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+    {% for block in section.blocks %}
+    
+      {%- case block.settings.align_text -%}
+      {% when '1' %}
+      {%- assign align_style_text = 'text-left' -%}
+      {% when '2' %}
+      {%- assign align_style_text = 'text-center' -%}
+      {% when '3' %}
+      {%- assign align_style_text = 'text-right' -%}
+      {%- endcase -%}
+      <div class="item-onepage-background">
+        <div class="g-parallax lazy" data-src="{{ block.settings.image | img_url: 'master', format: 'pjpg' | split:'?' | first }}" {% if section.settings.use_parallax %}style="background-attachment: fixed;"{% endif %}>
+          {% if block.settings.image == blank %}
+          {% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}
+          {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+          <div class="content-onepage-bg {{ align_style_text }}">
+            <div class="container">
+              {% if block.settings.title != blank %}
+              <div class="title" style="font-size: {{ block.settings.title_font_size }}px; color: {{ block.settings.title_color }}; line-height: 1;">{{ block.settings.title }}</div>
+              {% endif %}
+              {% if block.settings.heading != blank %}
+              <h2 style="font-size: {{ block.settings.heading_font_size }}px; color: {{ block.settings.heading_color }}; margin: 0 0 12px 0; text-shadow: 0 2px 15px rgba(72, 72, 72, 0.5); line-height: 1.15;">{{ block.settings.heading }}</h2>
+              {% endif %}
+              {% if block.settings.button_name != blank %}
+              <a href="{{ block.settings.button_link }}" class="btn-border-bottom" style="font-size: {{ block.settings.button_font_size }}px; color: {{ block.settings.button_color }}; font-weight: 600; border-bottom: 2px solid; display: inline-block; text-transform: uppercase;">{{ block.settings.button_name }}</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+</div>
+{% schema %}
+  {
+    "name": "Onepage Background",
+    "class": "globo_onepage_background",
+	"max_blocks": 6,
+  	"presets": [
+      {
+        "name": "Onepage Background",
+        "category": "Onepage",
+        "blocks": [
+          {
+            "type": "block_onepage_background"
+          },
+          {
+            "type": "block_onepage_background"
+          },
+          {
+            "type": "block_onepage_background"
+          },
+          {
+            "type": "block_onepage_background"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_parallax",
+        "label": "Use parallax?",
+        "default": false
+      }
+    ],
+  	"blocks": [
+      {
+        "type": "block_onepage_background",
+        "name": "Add background & text",
+        "settings": [
+           {
+              "type": "select",
+              "id": "align_text",
+              "label": "Align text",
+              "options": [
+              { "value": "1", "label": "Align left text" },
+              { "value": "2", "label": "Align center text" },
+              { "value": "3", "label": "Align right text" }
+              ],
+              "default": "1"
+           },
+           {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+           },
+           {
+              "type": "text",
+              "id": "title",
+              "label": "Title",
+              "default": "#woman"
+           },
+           {
+              "type": "text",
+              "id": "title_font_size",
+              "label": "Title font size",
+              "default": "18"
+           },
+           {
+              "type": "color",
+              "id": "title_color",
+              "label": "Title color",
+              "default": "#ffffff"
+           },
+           {
+              "type": "text",
+              "id": "heading",
+              "label": "Heading",
+              "default": "Sport Clothing"
+           },
+           {
+              "type": "text",
+              "id": "heading_font_size",
+              "label": "Heading font size",
+              "default": "130"
+           },
+           {
+              "type": "color",
+              "id": "heading_color",
+              "label": "Heading color",
+              "default": "#ffffff"
+           },
+           {
+              "type": "text",
+              "id": "button_name",
+              "label": "Button name",
+              "default": "Shop Now"
+           },
+           {
+              "type": "text",
+              "id": "button_font_size",
+              "label": "Button font size",
+              "default": "16"
+           },
+           {
+              "type": "color",
+              "id": "button_color",
+              "label": "Button color",
+              "default": "#ffffff"
+           },
+           {
+              "type": "url",
+              "id": "button_link",
+              "label": "Button link"
+           }
+        ]
+      }
+    ]
+  }
+{% endschema %}

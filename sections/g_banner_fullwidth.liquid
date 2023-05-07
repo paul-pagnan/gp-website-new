@@ -1,0 +1,157 @@
+<div class="g-banner-full-width" {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+  <div class="row">
+    {% for block in section.blocks %}
+      {%- case block.settings.width -%}
+      {% when '50%' %}
+      {%- assign banner_width = 'col-sm-6 col-xs-12' -%}
+      {% when '100%' %}
+      {%- assign banner_width = 'col-xs-12 col-full-width' -%}
+      {%- endcase -%}
+    	
+      {%- case block.settings.align_content -%}
+      {% when '1' %}
+      {%- assign align_style = 'align-left_content' -%}
+      {% when '2' %}
+      {%- assign align_style = 'align-center_content' -%}
+      {% when '3' %}
+      {%- assign align_style = 'align-right_content' -%}
+      {%- endcase -%}
+    
+      {%- case block.settings.align_text -%}
+      {% when '1' %}
+      {%- assign align_style_text = 'text-left' -%}
+      {% when '2' %}
+      {%- assign align_style_text = 'text-center' -%}
+      {% when '3' %}
+      {%- assign align_style_text = 'text-right' -%}
+      {%- endcase -%}
+      <div class="{{ banner_width }} margin-bottom-30">
+        {% if block.settings.image != blank %}
+        	<div class="banner-fullwidth--image lazy" data-src="{{ block.settings.image | img_url: 'master', format: 'pjpg' | split:'?' | first }}"></div>
+        {% else %}
+        {% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}
+        	{{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+        <div class="banner-fullwidth--content">
+          <div class="banner-fullwidth--content-box {{ align_style }} {{ align_style_text }}">
+            {% if block.settings.title != blank %}
+            <div class="title"><a href="{{  block.settings.button_link }}">{{ block.settings.title }}</a></div>
+            {% endif %}
+            {% if block.settings.price != blank %}
+            <div class="price">{{ block.settings.price }}</div>
+            {% endif %}
+            {% if block.settings.button_name != blank %}
+            <a href="{{ block.settings.button_link }}" class="btn-border-top">{{ block.settings.button_name }}</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Block banner full width",
+    "class": "globo_banner_full_width",
+	"max_blocks": 6,
+  	"presets": [
+      {
+        "name": "Block banner full width",
+        "category": "Categories & Banner",
+        "blocks": [
+          {
+            "type": "block_banner_full_width"
+          },
+          {
+            "type": "block_banner_full_width"
+          },
+          {
+            "type": "block_banner_full_width"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      }
+    ],
+  	"blocks": [
+      {
+        "type": "block_banner_full_width",
+        "name": "Block banner full width",
+        "settings": [
+           {
+              "type": "select",
+              "id": "width",
+              "label": "Width",
+              "options": [
+                {
+                  "value": "50%",
+                  "label": "50%"
+                },
+                {
+                  "value": "100%",
+                  "label": "100%"
+                }
+              ],
+              "default": "100%"
+           },
+           {
+              "type": "select",
+              "id": "align_content",
+              "label": "Align content",
+              "options": [
+              { "value": "1", "label": "Align left content" },
+              { "value": "2", "label": "Align center content" },
+              { "value": "3", "label": "Align right content" }
+              ],
+              "default": "1"
+           },
+           {
+              "type": "select",
+              "id": "align_text",
+              "label": "Align text",
+              "options": [
+              { "value": "1", "label": "Align left text" },
+              { "value": "2", "label": "Align center text" },
+              { "value": "3", "label": "Align right text" }
+              ],
+              "default": "1"
+           },
+           {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+           },
+           {
+              "type": "text",
+              "id": "title",
+              "label": "Title",
+              "default": "Striped linen dress"
+           },
+           {
+              "type": "text",
+              "id": "price",
+              "label": "Price",
+              "default": "$49.99"
+           },
+           {
+              "type": "text",
+              "id": "button_name",
+              "label": "Button name",
+              "default": "Shop Now"
+           },
+           {
+              "type": "url",
+              "id": "button_link",
+              "label": "Button link"
+           }
+        ]
+      }
+    ]
+  }
+{% endschema %}

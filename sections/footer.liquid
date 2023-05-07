@@ -1,0 +1,563 @@
+{% if settings.show_backtotop %}
+	<div class="backtotop-container show"> <a href="#PageContainer" class="btn-backtotop btn btn-secondary"><span class="fa fa-angle-up"></span></a></div>
+{% endif %}
+{%- case section.settings.style -%}
+{%- when '1' -%}
+{%- assign footer_top_style = 'footer-top-style-1' -%}
+{%- when '2' -%}
+{%- assign footer_top_style = 'footer-top-style-2' -%}
+{%- endcase -%}
+{% if section.settings.show_footer %}
+<footer id="colophon" class="site-footer">
+    <div class="footer-top {{ footer_top_style }}">
+        <div class="{% if section.settings.use_container %}container{% else %}container-full{% endif %}">
+            <div class="row">
+              	{%- for block in section.blocks -%}
+                {%- case block.settings.width -%}
+                {%- when '180px' -%}
+                {%- assign block_width = 'col-180-px col-xs-12 col-sm-2' -%}
+                {%- when 'calc((100%-(180px*4))/2)' -%}
+                {%- assign block_width = 'col-calc-px col-xs-12 col-sm-2' -%}
+                {%- when '16.66667%' -%}
+                {%- assign block_width = 'col-xs-12 col-sm-6 col-md-2' -%}
+                {%- when '25%' -%}
+                {%- assign block_width = 'col-xs-12 col-sm-6 col-md-3' -%}
+                {%- when '33.33333%' -%}
+                {%- assign block_width = 'col-xs-12 col-sm-4 col-md-4' -%}
+                {%- when '41.66667%' -%}
+                {%- assign block_width = 'col-xs-12 col-sm-6 col-md-5' -%}
+                {%- when '50%' -%}
+                {%- assign block_width = 'col-xs-12 col-sm-6 col-md-6' -%}
+                {%- when '100%' -%}
+                {%- assign block_width = 'col-xs-12 col-sm-12 col-md-12' -%}
+                {%- endcase -%}
+                <div class="footer-column {{ block_width }}">
+                    <div class="footer-column-inner">
+                        {% case block.type %}
+                        {% when 'text' %}
+                          {% if block.settings.text != blank %}
+                            <div class="widget widget_text">
+                                <div class="textwidget">
+                                    <p>
+                                      	{{ block.settings.text }}
+                                    </p>
+                                </div>
+                            </div>
+                          {% endif %}
+                        {% when 'menu' %}
+                          <div class="widget widget_nav_menu">
+                            <div class="widget-inner">
+                              	{% if block.settings.title != blank %}
+                                <h3 class="widget-title"><span>{{ block.settings.title }}</span></h3>
+                              	{% endif %}
+                                <div class="menu--container">
+                                    <ul class="menu">
+                                      {%- for link in linklists[block.settings.menu].links -%}
+                                        <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                                      {%- else -%}
+                                        {% capture theme_settings_footer_linklist_path %}<strong>Footer</strong> > <strong>List Links</strong>{% endcapture %}
+                                        {{ 'layout.footer.instructions_for_linklist_html' | t: theme_settings_link: theme_settings_link, theme_settings_footer_linklist_path: theme_settings_footer_linklist_path }}
+                                      {%- endfor -%}
+                                    </ul>
+                                </div>
+                            </div>
+                          </div>
+                      	{% when 'logo' %}
+                          {% if block.settings.logo_footer != blank %}
+                            <div class="padding-top-20 text-center widget widget_text">
+                              <div class="textwidget">
+                                <p>
+                                  <a href="/"><img src="{{ block.settings.logo_footer | img_url: 'master' | split:'?' | first }}" alt="{{ block.settings.logo_footer.alt | default: shop.name }}"></a>
+                                </p>
+                              </div>
+                            </div>
+                          {% else %}
+                            <div class="padding-top-20 text-center widget widget_text widget_svg-logo">
+                              <div class="textwidget">
+                                <p>
+                                  <a href="/">{{ 'logo' | placeholder_svg_tag: 'placeholder-svg' }}</a>
+                                </p>
+                              </div>
+                            </div>       		
+                          {% endif %}
+                      	{% when 'newsletter' %}
+                        <div class="widget widget_newsletter">
+                          {% if block.settings.title != blank %}
+                          <h3 class="widget-title">{{ block.settings.title }}</h3>
+                          {% endif %}
+                          {% form 'customer', id: 'contact-form-footer',  class:'form-newsletter' %}
+                          {{ form.errors | default_errors }}
+                          {% if form.posted_successfully? %}
+                          <p class="form--success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+                          {% else %}
+                          <div class="input-group-newsletter">
+                            <input type="hidden" name="contact[tags]" value="newsletter">
+                            <input type="email"
+                                   name="contact[email]"
+                                   id="Email-Footer"
+                                   class="mc-email field-no-label"
+                                   value="{% if customer %}{{ customer.email }}{% endif %}"
+                                   placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                                   autocorrect="off"
+                                   autocapitalize="off">
+                            <span class="input-group__btn">
+                              <button type="submit" class="mc-submit-button btn btn-primary" name="commit" id="Subscribe-Footer">
+                                <span class="mailchimp-submit-button-span-text">{{ 'general.newsletter_form.submitpopup' | t }}</span>
+                              </button>
+                            </span>
+                          </div>
+                          {% endif %}
+                          {% endform %}
+                        </div>
+                      	{% when 'social' %}
+                          <div class="padding-top-20 text-right font-size-16 widget widget_text">
+                            <div class="textwidget">
+                              <div class="social-media-link style-default">
+                                {% if settings.social_facebook_link != blank %}
+                                	<a href="{{ settings.social_facebook_link | escape }}" class="facebook" title="Facebook" target="_blank" rel="nofollow"><i class="fa fa-facebook"></i></a>
+                                {% endif %}
+                                {% if settings.social_twitter_link != blank %}
+                                	<a href="{{ settings.social_twitter_link | escape }}" class="twitter" title="Twitter" target="_blank" rel="nofollow"><i class="fa fa-twitter"></i></a>
+                                {% endif %}
+                                {% if settings.social_pinterest_link != blank %}
+                                	<a href="{{ settings.social_pinterest_link | escape }}" class="pinterest" title="Pinterest" target="_blank" rel="nofollow"><i class="fa fa-pinterest-p"></i></a>
+                                {% endif %}
+                                {% if settings.social_instagram_link != blank %}
+                                	<a href="{{ settings.social_instagram_link | escape }}" class="instagram" title="Instagram" target="_blank" rel="nofollow"><i class="fa fa-instagram"></i></a>
+                                {% endif %}
+                                {% if settings.social_behance_link != blank %}
+                                	<a href="{{ settings.social_behance_link | escape }}" class="behance" title="Behance" target="_blank" rel="nofollow"><i class="fa fa-behance"></i></a>
+                              	{% endif %}
+                                {% if settings.social_tumblr_link != blank %}
+									<a href="{{ settings.social_tumblr_link | escape }}" class="tumblr" title="Tumblr" target="_blank" rel="nofollow"><i class="fa fa-tumblr"></i></a>
+                                {% endif %}
+                                {% if settings.social_snapchat_link != blank %}
+									<a href="{{ settings.social_snapchat_link | escape }}" class="snapchat" title="Snapchat" target="_blank" rel="nofollow"><i class="fa fa-snapchat"></i></a>
+                                {% endif %}
+                                {% if settings.social_youtube_link != blank %}
+									<a href="{{ settings.social_youtube_link | escape }}" class="youtube" title="Youtube" target="_blank" rel="nofollow"><i class="fa fa-youtube"></i></a>
+                                {% endif %}
+                                {% if settings.social_vimeo_link != blank %}
+									<a href="{{ settings.social_vimeo_link | escape }}" class="vimeo" title="Vimeo" target="_blank" rel="nofollow"><i class="fa fa-vimeo"></i></a>
+                                {% endif %}
+                              </div>
+                            </div>
+                          </div>
+                      	{% endcase %}
+                    </div>
+                </div>
+              	{%- endfor -%}
+            </div>
+        </div>
+    </div>
+    {%- case section.settings.footer_bottom_layout -%}
+    {%- when '1' -%}
+    <div class="footer-bottom">
+        <div class="{% if section.settings.use_container %}container{% else %}container-full{% endif %}">
+            <div class="footer-bottom-inner">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-8 xs-text-center">
+                      	{% if linklists[section.settings.footer_linklist].links.size > 0 %}
+                        <ul id="menu-menu-legal" class="menu">
+                          	{% for link in linklists[section.settings.footer_linklist].links %}
+                            	<li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{{ link.url }}">{{ link.title }}</a></li>
+                          	{% endfor %}
+                        </ul>
+                      	{% endif %}
+                    </div>
+                  	{% if section.settings.copyright != blank %}
+                    <div class="col-xs-12 col-sm-4 text-right xs-text-center">
+                        {{ section.settings.copyright }}
+                    </div>
+                  	{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {%- when '2' -%}
+    <div class="footer-bottom">
+         <div class="{% if section.settings.use_container %}container{% else %}container-full{% endif %}">
+            <div class="footer-bottom-inner">
+                <div class="row">
+                    <div class="col-xs-12 {% if section.settings.image_payments != blank %}col-sm-4{% else %}col-sm-6{% endif %} xs-text-center">
+                      <div class="social-media-link style-default">
+                        {% if settings.social_facebook_link != blank %}
+                        <a href="{{ settings.social_facebook_link | escape }}" class="facebook" title="Facebook" target="_blank" rel="nofollow"><i class="fa fa-facebook"></i></a>
+                        {% endif %}
+                        {% if settings.social_twitter_link != blank %}
+                        <a href="{{ settings.social_twitter_link | escape }}" class="twitter" title="Twitter" target="_blank" rel="nofollow"><i class="fa fa-twitter"></i></a>
+                        {% endif %}
+                        {% if settings.social_pinterest_link != blank %}
+                        <a href="{{ settings.social_pinterest_link | escape }}" class="pinterest" title="Pinterest" target="_blank" rel="nofollow"><i class="fa fa-pinterest-p"></i></a>
+                        {% endif %}
+                        {% if settings.social_instagram_link != blank %}
+                        <a href="{{ settings.social_instagram_link | escape }}" class="instagram" title="Instagram" target="_blank" rel="nofollow"><i class="fa fa-instagram"></i></a>
+                        {% endif %}
+                        {% if settings.social_behance_link != blank %}
+                        <a href="{{ settings.social_behance_link | escape }}" class="behance" title="Behance" target="_blank" rel="nofollow"><i class="fa fa-behance"></i></a>
+                        {% endif %}
+                        {% if settings.social_tumblr_link != blank %}
+                        <a href="{{ settings.social_tumblr_link | escape }}" class="tumblr" title="Tumblr" target="_blank" rel="nofollow"><i class="fa fa-tumblr"></i></a>
+                        {% endif %}
+                        {% if settings.social_snapchat_link != blank %}
+                        <a href="{{ settings.social_snapchat_link | escape }}" class="snapchat" title="Snapchat" target="_blank" rel="nofollow"><i class="fa fa-snapchat"></i></a>
+                        {% endif %}
+                        {% if settings.social_youtube_link != blank %}
+                        <a href="{{ settings.social_youtube_link | escape }}" class="youtube" title="Youtube" target="_blank" rel="nofollow"><i class="fa fa-youtube"></i></a>
+                        {% endif %}
+                        {% if settings.social_vimeo_link != blank %}
+                        <a href="{{ settings.social_vimeo_link | escape }}" class="vimeo" title="Vimeo" target="_blank" rel="nofollow"><i class="fa fa-vimeo"></i></a>
+                        {% endif %}
+                      </div>						
+                    </div>
+                    <div class="col-xs-12 {% if section.settings.image_payments != blank %}col-sm-4 text-center{% else %}col-sm-6 text-right{% endif %}">
+                        {% if section.settings.copyright != blank %}{{ section.settings.copyright }}{% endif %}
+                    </div>
+                  	{% if section.settings.image_payments != blank %}
+                    <div class="col-xs-12 col-sm-4 text-right xs-text-center">
+                        <img src="{{ section.settings.image_payments | img_url: 'master' | split:'?' | first }}" alt="{{ section.settings.image_payments.alt }}">
+                    </div>
+                  	{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {%- endcase -%}
+</footer>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_footer",
+        "label": "Show footer?",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_container",
+        "label": "Use container?",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "style",
+        "label": "Footer top style",
+        "default": "1",
+        "options": [
+          {
+            "value": "1",
+            "label": "Footer top style 1"
+          },
+          {
+            "value": "2",
+            "label": "Footer top style 2"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "footer_bottom_layout",
+        "label": "Footer bottom layout",
+        "default": "1",
+        "options": [
+          {
+            "value": "1",
+            "label": "Layout 1"
+          },
+          {
+            "value": "2",
+            "label": "Layout 2"
+          }
+        ]
+      },
+      {
+        "type": "link_list",
+        "id": "footer_linklist",
+        "label": "Bottom menu",
+        "default": "footer",
+        "info": "This menu won't show dropdown items"
+      },
+      {
+        "type": "textarea",
+        "id": "copyright",
+        "label": "Copyright",
+        "default": "© 2018 Mantis All rights reserved"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_payments",
+        "label": "Image payments"
+      }
+    ],
+    "max_blocks": 9,
+    "blocks": [
+      {
+        "type": "logo",
+        "name": "Add Logo",
+        "settings": [
+         {
+           "type": "image_picker",
+           "id": "logo_footer",
+           "label": "Custom logo",
+           "info": "136px wide .png recommended"
+         },
+         {
+            "type": "select",
+            "id": "width",
+            "label": "Container width",
+            "default": "33.33333%",
+            "options": [
+              {
+                "value": "calc((100%-(180px*4))/2)",
+                "label": "calc((100%-(180px*4))/2)"
+              },
+              {
+                "value": "180px",
+                "label": "180px"
+              },
+              {
+                "value": "16.66667%",
+                "label": "16.66667%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33.33333%",
+                "label": "33.33333%"
+              },
+              {
+                "value": "41.66667%",
+                "label": "41.66667%"
+              },
+              {
+                "value": "50%",
+                "label": "50%"
+              },
+              {
+                "value": "100%",
+                "label": "100%"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "name": "Footer Text",
+        "settings": [
+           {
+              "type": "textarea",
+              "id": "text",
+              "label": "Text",
+              "default": "<a href=\"tel:+61225315600\">(+612) 2531 5600</a><br><a href=\"mailto:info@la-studioweb.com\">info@la-studioweb.com</a><br> PO Box 1622 Colins Street West"
+           },
+           {
+              "type": "select",
+              "id": "width",
+              "label": "Container width",
+              "default": "33.33333%",
+              "options": [
+                {
+                  "value": "calc((100%-(180px*4))/2)",
+                  "label": "calc((100%-(180px*4))/2)"
+                },
+                {
+                  "value": "180px",
+                  "label": "180px"
+                },
+                {
+                  "value": "16.66667%",
+                  "label": "16.66667%"
+                },
+                {
+                  "value": "25%",
+                  "label": "25%"
+                },
+                {
+                  "value": "33.33333%",
+                  "label": "33.33333%"
+                },
+                {
+                  "value": "41.66667%",
+                  "label": "41.66667%"
+                },
+                {
+                  "value": "50%",
+                  "label": "50%"
+                },
+                {
+                  "value": "100%",
+                  "label": "100%"
+                }
+              ]
+            }
+        ]
+      },
+      {
+        "type": "menu",
+        "name": "Add Menu",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Quick links"
+          },
+          {
+            "type": "link_list",
+            "id": "menu",
+            "label": "Add menu"
+          },
+          {
+            "type": "select",
+            "id": "width",
+            "label": "Container width",
+            "default": "25%",
+            "options": [
+              {
+                "value": "calc((100%-(180px*4))/2)",
+                "label": "calc((100%-(180px*4))/2)"
+              },
+              {
+                "value": "180px",
+                "label": "180px"
+              },
+              {
+                "value": "16.66667%",
+                "label": "16.66667%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33.33333%",
+                "label": "33.33333%"
+              },
+              {
+                "value": "41.66667%",
+                "label": "41.66667%"
+              },
+              {
+                "value": "50%",
+                "label": "50%"
+              },
+              {
+                "value": "100%",
+                "label": "100%"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "newsletter",
+        "name": "Add Newsletter",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "JOIN OUR NEWSLETTER & GET 20% OFF"
+          },
+          {
+            "type": "select",
+            "id": "width",
+            "label": "Container width",
+            "default": "25%",
+            "options": [
+              {
+                "value": "calc((100%-(180px*4))/2)",
+                "label": "calc((100%-(180px*4))/2)"
+              },
+              {
+                "value": "180px",
+                "label": "180px"
+              },
+              {
+                "value": "16.66667%",
+                "label": "16.66667%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33.33333%",
+                "label": "33.33333%"
+              },
+              {
+                "value": "41.66667%",
+                "label": "41.66667%"
+              },
+              {
+                "value": "50%",
+                "label": "50%"
+              },
+              {
+                "value": "100%",
+                "label": "100%"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "social",
+        "name": "Add Social",
+        "settings": [
+           {
+              "type": "select",
+              "id": "width",
+              "label": "Container width",
+              "default": "33.33333%",
+              "options": [
+                {
+                  "value": "calc((100%-(180px*4))/2)",
+                  "label": "calc((100%-(180px*4))/2)"
+                },
+                {
+                  "value": "180px",
+                  "label": "180px"
+                },
+                {
+                  "value": "16.66667%",
+                  "label": "16.66667%"
+                },
+                {
+                  "value": "25%",
+                  "label": "25%"
+                },
+                {
+                  "value": "33.33333%",
+                  "label": "33.33333%"
+                },
+                {
+                  "value": "41.66667%",
+                  "label": "41.66667%"
+                },
+                {
+                  "value": "50%",
+                  "label": "50%"
+                },
+                {
+                  "value": "100%",
+                  "label": "100%"
+                }
+              ]
+            }
+        ]
+      }
+	]
+  }
+{% endschema %}

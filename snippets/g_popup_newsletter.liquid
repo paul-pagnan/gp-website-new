@@ -1,0 +1,37 @@
+{% if settings.show_newsletter_popup %}
+<div class="la-newsletter-popup" data-back-time="1" data-show-mobile="0" id="la_newsletter_popup" data-delay="{{ settings.popup_show_ms }}">
+  <a href="#" class="btn-close-newsletter-popup"><i class="dl-icon-close"></i></a>
+  <div class="newsletter-popup-content">
+    {% if settings.newsletter_popup_title != blank %}
+    <div class="heading-large-normal">{{ settings.newsletter_popup_title }}</div>
+    {% endif %}
+    {% if settings.newsletter_popup_subtitle != blank %}
+    	{{ settings.newsletter_popup_subtitle }}
+    {% endif %}
+    {% form 'customer',  class:'globo-easy-mc-form' %}
+    {{ form.errors | default_errors }}
+    {% if form.posted_successfully? %}
+    <p class="form--success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+    {% else %}
+    <div class="input-group password__input-group">
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <input type="email"
+             name="contact[email]"
+             id="email-popup"
+             class="globo-easy-mc-email field-no-label"
+             value="{% if customer %}{{ customer.email }}{% endif %}"
+             placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+             autocorrect="off"
+             autocapitalize="off">
+      <span class="input-group__btn">
+        <button type="submit" class="globo-easy-mc-submit-button btn" name="commit" id="submit-popup">
+          <span>{{ 'general.newsletter_form.submitpopup' | t }}</span>
+        </button>
+      </span>
+    </div>
+    {% endif %}
+    {% endform %}
+  </div>
+  <label class="lbl-dont-show-popup"><input type="checkbox" id="dont_show_popup" /><label class="style-checkbox-newsletter" for="dont_show_popup">{{ 'general.newsletter_form.dont_show_popup' | t }}</label></label>
+</div>
+{% endif %}

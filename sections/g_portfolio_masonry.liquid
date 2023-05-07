@@ -1,0 +1,154 @@
+<div class="g--portfolio_masonry" {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+  <div class="la-portfolio-masonry">
+    <div class="la-loop portfolios-loop pf-style-3 pf-masonry pf-default grid-space-10 la-isotope-container masonry__column-type-custom" data-portfolionumber="2" data-item_selector=".portfolio__item" data-item_margin="0" data-container-width="1920" data-item-width="960" data-item-height="600" data-md-col="3" data-sm-col="2" data-xs-col="2" data-mb-col="1">
+      {% for block in section.blocks %}
+      {%- case block.settings.data_width -%}
+      {% when '1' %}
+      	{%- assign data_width_portfolio = '0.5' -%}
+      {% when '2' %}
+      	{%- assign data_width_portfolio = '1' -%}
+      {%- endcase -%}
+      {%- case block.settings.data_height -%}
+      {% when '1' %}
+      	{%- assign data_height_portfolio = '1' -%}
+      {% when '2' %}
+      	{%- assign data_height_portfolio = '2' -%}
+      {%- endcase -%}
+      <div class="loop__item grid-item portfolio__item la_portfolio type-la_portfolio has-post-thumbnail" data-width="{{ data_width_portfolio }}" data-height="{{ data_height_portfolio }}">
+        <div class="loop__item__inner">
+          <div class="loop__item__inner2">
+            <div class="loop__item__thumbnail">
+              <div class="loop__item__thumbnail--bkg la-lazyload-image gitem-zone-height-mode-original" {% if block.settings.image != blank %}style="background-image: url({{ block.settings.image | img_url: 'master', format: 'pjpg' | split:'?' | first }}); padding-bottom: 64.03%;"{% endif %}>
+                {% if block.settings.link != blank %}
+                <a href="{{ block.settings.link }}" title="{{ block.settings.title }}" class="loop__item__thumbnail--linkoverlay"><span class="hidden">{{ block.settings.title }}</span></a>
+                {% endif %}
+                {% if block.settings.image != blank %}
+                <img data-src="{{ block.settings.image | img_url: 'master', format: 'pjpg' | split:'?' | first }}" alt="{{ block.settings.image.alt }}" class="wp-post-image lazy" /> 
+                {% endif %}
+              </div>
+            </div>
+            <div class="loop__item__info">
+              <div class="loop__item__info2">
+                <div class="loop__item__title">
+                  {% if block.settings.title != blank %}
+                  <h3 class="entry-title"><a href="{{ block.settings.link }}" title="{{ block.settings.title }}">{{ block.settings.title }}</a></h3>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Block portfolio masonry",
+    "class": "globo_portfolio_masonry",
+  	"presets": [
+      {
+        "name": "Block portfolio masonry",
+        "category": "Categories portfolio masonry",
+        "blocks": [
+          {
+            "type": "block_portfolio_masonry"
+          },
+          {
+            "type": "block_portfolio_masonry"
+          },
+          {
+            "type": "block_portfolio_masonry"
+          },
+          {
+            "type": "block_portfolio_masonry"
+          },
+          {
+            "type": "block_portfolio_masonry"
+          },
+          {
+            "type": "block_portfolio_masonry"
+          },
+          {
+            "type": "block_portfolio_masonry"
+          },
+          {
+            "type": "block_portfolio_masonry"
+          },
+          {
+            "type": "block_portfolio_masonry"
+          },
+          {
+            "type": "block_portfolio_masonry"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      }
+    ],
+  	"blocks": [
+      {
+        "type": "block_portfolio_masonry",
+        "name": "Block portfolio masonry",
+        "settings": [
+            {
+              "type": "select",
+              "id": "data_width",
+              "label": "Width",
+              "options": [
+                {
+                  "value": "1",
+                  "label": "1xWidth"
+                },
+                {
+                  "value": "2",
+                  "label": "2xWidth"
+                }
+              ],
+              "default": "2"
+           },
+           {
+              "type": "select",
+              "id": "data_height",
+              "label": "Height",
+              "options": [
+                {
+                  "value": "1",
+                  "label": "1xHeight"
+                },
+                {
+                  "value": "2",
+                  "label": "2xHeight"
+                }
+              ],
+              "default": "1"
+           },
+           {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+           },
+           {
+              "type": "text",
+              "id": "title",
+              "label": "Title",
+              "default": "Men for man"
+           },
+           {
+              "type": "url",
+              "id": "link",
+              "label": "Link"
+           }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+

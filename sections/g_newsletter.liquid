@@ -1,0 +1,70 @@
+<div class="g--newsletter" {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+  <div class="container">
+    <div class="globo-heading text-center">
+      {% if section.settings.title != blank %}
+      <h2>{{ section.settings.title }}</h2>
+      {% endif %}	
+      {% if section.settings.subtitle != blank %}
+      <p>{{ section.settings.subtitle }}</p>
+      {% endif %}  	
+    </div>
+    <div id="globo-mailchimp-container" class="globo-mailchimp-container">
+      {% form 'customer',  class:'globo-easy-mc-form' %}
+      {{ form.errors | default_errors }}
+      {% if form.posted_successfully? %}
+      <p class="form--success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+      {% else %}
+      <div class="input-group password__input-group">
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input type="email"
+               name="contact[email]"
+               id="Email"
+               class="globo-easy-mc-email field-no-label"
+               value="{% if customer %}{{ customer.email }}{% endif %}"
+               placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+               autocorrect="off"
+               autocapitalize="off">
+        <span class="input-group__btn">
+          <button type="submit" class="globo-easy-mc-submit-button btn btn-primary" name="commit" id="Subscribe">
+            <span>{{ 'general.newsletter_form.submit' | t }}</span>
+          </button>
+        </span>
+      </div>
+      {% endif %}
+      {% endform %}
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Newsletter default",
+    "class": "globo_newsletter_default",
+    "settings": [
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Sign up for our newsletter and get 10% off"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Sub title"
+      },
+      {
+        "type": "paragraph",
+        "content": "Any customers who sign up will have an account created for them in Shopify. [View customers](/admin/customers?query=&accepts_marketing=1)"
+      }
+    ],
+    "presets": [{
+      "name": "Newsletter",
+      "category": "Promotional"
+    }]
+  }
+{% endschema %}

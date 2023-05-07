@@ -1,0 +1,228 @@
+<div class="g-banner-masonry-fullwidth" {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+    <div class="row">
+      {% for block in section.blocks %}
+      {% if block.type == 'banner1' %}
+      <div class="col-sm-7 col-xs-12 col-banner-hover margin-bottom-10">
+        <div class="col-relative">
+          <div class="banner--image">
+            {% if block.settings.image != blank %}
+            <img data-src="{{ block.settings.image | img_url: 'master', format: 'pjpg' | split:'?' | first }}" alt="{{ block.settings.image.alt }}" src="{{ 'pixel.gif' | asset_url }}" class="lazy">
+            {% else %}
+            {% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+          </div>
+          <div class="banner--info">
+            <div class="table-banner">
+              <div class="table-cell-banner text-center">
+                {% if block.settings.title != blank %}
+                <div class="title">{{ block.settings.title }}</div>
+                {% endif %}
+                {% if block.settings.heading != blank %}
+                <div class="heading">{{ block.settings.heading }}</div>
+                {% endif %}
+                {% if block.settings.button_name != blank %}
+                	<a href="{{ block.settings.link }}" class="btn btn-bg-white">{{ block.settings.button_name }}</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% if block.settings.link != blank %}
+          <a href="{{ block.settings.link }}" class="overflow-link"></a>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+      {% if block.type == 'banner2' %}
+      <div class="col-sm-5 col-xs-12 col-banner-hover">
+        <div class="col-relative col-banner-child margin-bottom-10">
+          <div class="banner--image">
+            {% if block.settings.image1 != blank %}
+            <img data-src="{{ block.settings.image1 | img_url: 'master', format: 'pjpg' | split:'?' | first }}" src="{{ 'pixel.gif' | asset_url }}" alt="{{ block.settings.image1.alt }}" class="lazy">
+            {% else %}
+            {% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+          </div>
+          <div class="banner--info banner--info-bottom">
+            {% if block.settings.title1 != blank %}
+            <div class="title">{{ block.settings.title1 }}</div>
+            {% endif %}
+            {% if block.settings.heading1 != blank %}
+            <div class="heading">{{ block.settings.heading1 }}</div>
+            {% endif %}
+            {% if block.settings.button_name_1 != blank %}
+            <a href="{{ block.settings.link1 }}" class="btn btn-bg-white">{{ block.settings.button_name_1 }}</a>
+            {% endif %}
+          </div>
+          {% if block.settings.link1 != blank %}
+          <a href="{{ block.settings.link1 }}" class="overflow-link"></a>
+          {% endif %}
+        </div>
+        <div class="col-relative col-banner-child margin-bottom-10">
+          <div class="banner--image">
+            {% if block.settings.image2 != blank %}
+            <img data-src="{{ block.settings.image2 | img_url: 'master', format: 'pjpg' | split:'?' | first }}" src="{{ 'pixel.gif' | asset_url }}" alt="{{ block.settings.image2.alt }}" class="lazy">
+            {% else %}
+            {% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+          </div>
+          <div class="banner--info banner--info-bottom">
+            {% if block.settings.title2 != blank %}
+            <div class="title">{{ block.settings.title2 }}</div>
+            {% endif %}
+            {% if block.settings.heading2 != blank %}
+            <div class="heading">{{ block.settings.heading2 }}</div>
+            {% endif %}
+            {% if block.settings.button_name_2 != blank %}
+            <a href="{{ block.settings.link1 }}" class="btn btn-bg-white">{{ block.settings.button_name_2 }}</a>
+            {% endif %}
+          </div>
+          {% if block.settings.link2 != blank %}
+          <a href="{{ block.settings.link2 }}" class="overflow-link"></a>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Banner masonry full width",
+    "class": "globo_banner_masonry_full_width",
+    "max_blocks": 4,
+    "presets": [
+      {
+        "name": "Banner masonry full width",
+        "category": "Categories & Banner",
+        "blocks" : [
+          {
+            "type": "banner1"
+          },
+          {
+            "type": "banner2"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      }
+    ],
+    "blocks": [
+    {
+      "type": "banner1",
+      "name": "Banner Column 1",
+      "settings": [
+         {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+         },
+         {
+             "type":"url",
+             "id":"link",
+             "label":"Link",
+             "info": "Optional"
+         },
+         {
+             "type": "text",
+             "id": "title",
+             "label": "Title",
+			 "default": "#woman #hello summer"
+         },
+         {
+             "type": "text",
+             "id": "heading",
+             "label": "Heading",
+			 "default": "HELLO SUMMER"
+         },
+         {
+             "type": "text",
+             "id": "button_name",
+             "label": "Button name",
+			 "default": "SHOP NOW"
+         }
+      ]
+    },
+    {
+      "type": "banner2",
+      "name": "Banner Column 2",
+      "settings": [
+         {
+          "type": "header",
+          "content": "Col banner 1"
+         },
+         {
+          "type": "image_picker",
+          "id": "image1",
+          "label": "Image"
+         },
+         {
+             "type":"url",
+             "id":"link1",
+             "label":"Link",
+             "info": "Optional"
+         },
+         {
+             "type": "text",
+             "id": "title1",
+             "label": "Title",
+			 "default": "#man style"
+         },
+         {
+             "type": "text",
+             "id": "heading1",
+             "label": "Heading",
+			 "default": "ITALIAN 2018"
+         },
+         {
+             "type": "text",
+             "id": "button_name_1",
+             "label": "Button name",
+			 "default": "SHOP NOW"
+         },
+         {
+          "type": "header",
+          "content": "Col banner 2"
+         },
+         {
+          "type": "image_picker",
+          "id": "image2",
+          "label": "Image"
+         },
+         {
+          "type":"url",
+          "id":"link2",
+          "label":"Link",
+          "info": "Optional"
+         },
+         {
+             "type": "text",
+             "id": "title2",
+             "label": "Title",
+			 "default": "#kids fashion"
+         },
+         {
+             "type": "text",
+             "id": "heading2",
+             "label": "Heading",
+			 "default": "NEW KIDS"
+         },
+         {
+             "type": "text",
+             "id": "button_name_2",
+             "label": "Button name",
+			 "default": "SHOP NOW"
+         }
+      ]
+     }
+   ]
+  }
+{% endschema %}

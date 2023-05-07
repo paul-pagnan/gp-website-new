@@ -1,0 +1,50 @@
+{% if settings.use_product_limited %}
+{% if settings.product_limited_init != blank and settings.product_limited_stopped != blank and settings.product_limited_interval != blank %}
+<div class="product-limited-group">
+  <div class="product_limited_wrapper">
+    <span>{{ 'products.product.hurry_only' | t }}</span>
+    <span class="product_limited_quantity" id="product_limited_quantity">SOME</span>
+    <span>{{ 'products.product.left_in_stock' | t }}.</span>
+  </div>
+  <div class="product_limited_progress">
+    <div id="product_limited_bar" class="progress-bar progress-bar-danger" role="progressbar" g-valuenow="100" g-valuemin="0" g-valuemax="100" style="width:100%;"></div>
+  </div>
+
+  <script type="text/javascript">
+    var limited_edition_interval;
+    jQuery( document ).ready(function($){
+
+      setTimeout(function() {
+        var quantity = $.cookie('product_limited_quantity_{{product.id}}'); 
+
+          if(quantity == null) {
+          quantity = {{settings.product_limited_init}};
+          $.cookie('product_limited_quantity_{{product.id}}', quantity, { expires: 1 });
+          }
+
+          var percent = Math.floor(parseInt(quantity, 10) * 100 /  (quantity*2));
+          $('#product_limited_quantity').html(quantity);
+          $('#product_limited_bar').attr('g-valuenow', percent).css('width', percent + '%');
+
+          limited_edition_interval = setInterval(function(){
+            var current_quantity = $('#product_limited_quantity').html();
+
+            if(parseInt(current_quantity, 10) === parseInt({{settings.product_limited_stopped}}, 10)) {
+              clearInterval(limited_edition_interval);
+            } else {
+              current_quantity = parseInt(current_quantity, 10) - 1;
+              $.cookie('product_limited_quantity{{product.id}}', current_quantity, { expires: 1 });
+              var current_percent = Math.floor(parseInt(current_quantity, 10) * 100 /  (quantity*2));
+              $('#product_limited_quantity').html(current_quantity);
+              $('#product_limited_bar').attr('g-valuenow', current_percent).css('width', current_percent + '%');
+              $('#product_limited_bar').addClass('progress-bar-striped').addClass('active');      
+              setTimeout(function(){$('#product_limited_bar').removeClass('progress-bar-striped').removeClass('active');}, 500);
+            }
+          }, {{settings.product_limited_interval}});
+         }, 3000);
+
+        });
+  </script>
+  {% endif %}
+  {% endif %}
+</div>

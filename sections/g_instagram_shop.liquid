@@ -1,0 +1,55 @@
+<div class="g-instagram-shop" {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+  <div class="title-instagram-shop text-center">
+      {% if section.settings.title != blank %}
+      	<h2>{{ section.settings.title }}</h2>
+      {% endif %}
+      {% if section.settings.text != blank %}
+      <p>{{ section.settings.text }}</p>
+      {% endif %}
+  </div>
+  {% if section.settings.code_snapppt != blank %}
+  <div class="content-instagram-shop">
+    {{ section.settings.code_snapppt }}
+  </div>
+  {% endif %}
+</div>
+
+{% schema %}
+  {
+    "name": "Instagram Shop",
+    "class": "globo_instagram_shop",
+    "presets": [
+      {
+        "name": "Instagram Shop",
+        "category": "Instagram Shop"
+      }
+    ],
+    "settings": [
+        {
+          "type": "text",
+          "id": "margin",
+          "label": "Margin: (top-right-bottom-left)",
+          "info": "Ex: 10px 0 30px 0"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+		  "default": "Shop Instagram"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+		  "default": "Praesent non suscipit diam, eget tincidunt erat. Mauris tincidunt orci vel purus eleifend sagittis. Cras condimentum scelerisque sapien, quis eleifend eros volutpat sodales. Nam pulvinar lorem ac nibh vestibulum mattis. Integer feugiat sem eget dolor consequat, et egestas enim feugiat. Donec gravida vitae purus in tempus."
+        },
+        {
+          "type": "textarea",
+          "id": "code_snapppt",
+          "label": "Code from snapppt",
+          "default": "<script src=\"https:\/\/snapppt.com\/widgets\/widget_loader\/b2fcb240-703b-412a-9060-a0caac7bf469\/grid.js\" defer class=\"snapppt-widget\"><\/script>",
+		  "info": "Use app Instagram shop by Snapppt"
+        }
+    ]
+  }
+{% endschema %}

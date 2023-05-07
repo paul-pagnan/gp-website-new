@@ -1,0 +1,269 @@
+<header class="main-section-header site-header">
+  <div class="header-content {% if settings.use_header_sticky %}header-sticky{% endif %}">
+    <div class="container-full">
+      {% if settings.show_header_top %}
+      <div class="header-top">
+        <div class="row">
+          <div class="col-sm-6 col-xs-12 left-top-header">
+            {% if settings.header_top_content != blank %}
+            	{{ settings.header_top_content }}
+            {% endif %}
+          </div>
+          <div class="col-sm-6 col-xs-12 right-top-header">
+            {% if settings.show_multiple_currencies %}
+            <div class="pull-right top-dropdown currency">
+              {% include 'currency-picker' %}
+              <i class="fa fa-angle-down"></i>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div> 
+      {% endif %}
+      <div class="header-bottom">
+        <div class="header-main">
+          <div class="row">
+            <div class="col-sm-3 col-xs-6 header-left">
+              <div class="logo">
+                {% if settings.logo %}
+                <a href="/" itemprop="url" rel="home">
+                  {% if settings.logo_image_sticky %}
+                  <figure class="logo--transparency"><img src="{{ settings.logo_sticky | img_url: 'master' | split:'?' | first }}" alt="{{ settings.logo.alt | default: shop.name }}" itemprop="logo"></figure>
+                  <figure class="logo--normal"><img src="{{ settings.logo | img_url: 'master' | split:'?' | first }}" alt="{{ settings.logo.alt | default: shop.name }}" itemprop="logo"></figure>
+                  {% else%}
+                  <figure class="logo--normal"><img src="{{ settings.logo | img_url: 'master' | split:'?' | first }}" alt="{{ settings.logo.alt | default: shop.name }}" itemprop="logo"></figure>
+                  <figure class="logo--transparency"><img src="{{ settings.logo | img_url: 'master' | split:'?' | first }}" alt="{{ settings.logo.alt | default: shop.name }}" itemprop="logo"></figure>
+                  {% endif %}
+                </a>
+                {% else %}
+                <a href="/" itemprop="url">{{ shop.name }}</a>
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-6 header-middle">
+              <div class="header-component-inner clearfix">
+                <form method="get" class="search-form" action="/search" role="search">
+                  <input type="search" class="search-field" placeholder="{{ 'general.search.placeholder' | t }}" value="{{ search.terms | escape }}" name="q" aria-label="{{ 'general.search.placeholder' | t }}">
+                  <button class="search-button" type="submit"><i class="fa fa-search"></i></button>
+                </form>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xs-6 header-right">
+              <div class="header-component-inner clearfix">
+                <div class="header_component header_component--linktext la_compt_iem la_com_action--linktext">
+                  {% if shop.customer_accounts_enabled %}
+                  {% if customer %}
+                  <a rel="nofollow" class="component-target" href="/account">
+                    <i class="dl-icon-user12"></i><span class="component-target-text">{{ 'customer.account.title' | t }}</span>
+                  </a>
+                  {{ 'Logout' | customer_logout_link }}
+                  {% else %}
+                  <a rel="nofollow" class="component-target" href="/account/login"><i class="dl-icon-user12"></i><span class="component-target-text">{{ 'customer.login.sign_in' | t }}</span></a>
+                  {% endif %}
+                  {% endif %}
+                </div>
+                <div class="header_component header_component--cart la_compt_iem la_com_action--cart ">
+                  <a rel="nofollow" class="component-target" href="/cart">
+                    <i class="dl-icon-cart1"></i><span class="component-target-badget la-cart-count">{{ cart.item_count }}</span>
+                  </a>
+                </div>
+                <div class="header_component header_component--link la_compt_iem la_com_action--aside_header">
+                  <a rel="nofollow" class="component-target" href="javascript:;"><i class="dl-icon-menu1"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="header-menu">
+          <ul class="main-menu">
+            {% for link in linklists[settings.main_linklist].links %}
+            {%- assign child_list_handle = link.title | handleize -%}
+            {% assign cat = link.title | downcase %}
+            {% if linklists[link.handle] != empty %}
+            {% assign sub_menu_col = '' %}
+            {% for sublinks in linklists[link.handle].links %}
+            {% if linklists[sublinks.handle].links.size > 0 %}
+            {% if linklists[link.handle].links.size > 4 %}
+            {% assign sub_menu_col = 4 %}
+            {% else %}
+            {% assign sub_menu_col = linklists[link.handle].links.size %}
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% if items_list_1 contains cat %}
+            <li class="menu-item {% if sub_menu_col != blank %} mm-popup-has-image mm-popup-column mm-popup-column-{{ sub_menu_col }}{% else %} mmenu-relative{% endif %}{% if link.active %} active{% endif %}{% if items_list_1 contains cat or items_list_2 contains cat or linklists[link.handle] != empty %} menu-columns-parent{% endif %}" >
+              <a href="{{ link.url }}">
+                <span class="mm-text">{{ link.title }}</span>
+                {% if items_list_new contains cat %}
+                <span class="cat-label cat-label-label1 pin-bottom">New</span>
+                {% elsif items_list_hot contains cat %}
+                <span class="cat-label cat-label-label2 pin-bottom">Hot</span>
+                {% endif %}
+              </a>
+              {% if linklists[child_list_handle].links != blank %}
+              <div class="popup">
+                <div class="inner">
+                  <ul class="sub-menu">
+                    {% for sublink in linklists[link.handle].links %}
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom {% if sub_menu_col != blank %}column-1{% endif %}">
+                      <a href="{{ sublink.url }}"><span class="mm-text">{{ sublink.title }}</span></a>
+                      {% if linklists[sublink.handle] != empty %}
+                      <ul class="sub-menu">
+                        {% for subsublink in linklists[sublink.handle].links %}
+                        <li class="menu-item menu-item-type-post_type menu-item-object-page {% if forloop.first %} first{% endif %}{% if forloop.last %} last{% endif %}">
+                          <a href="{{ subsublink.url }}"><span class="mm-text">{{ subsublink.title }}</span></a>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                      {% endif %}
+                    </li>
+                    {% endfor %}
+                    <li class="menu-item-image menu-item menu-item-type-custom menu-item-object-custom {% if sub_menu_col == 4 %}column-2{% endif %}">
+                      {% capture mega_image %}megamenuimage{{ megamenu_image_index }}.png{% endcapture %}
+                      {% capture mega_links_image %}megamenulinksimage{{ megamenu_links_image_index }}{% endcapture %}
+                      {% assign megalinksimage = settings[mega_links_image] %}
+                      <a href="{{ megalinksimage }}"><img src="{{ mega_image | asset_url }}" alt="" /></a>
+                      {% assign megamenu_image_index = megamenu_image_index | plus:1 %}
+                      {% assign megamenu_links_image_index = megamenu_links_image_index | plus:1 %}
+                    </li>
+                  </ul>
+                </div>
+              </div>	 	
+              {% endif %}
+            </li>
+            {% elsif items_list_2 contains cat %}
+            <li class="menu-item menu-columns-parent menu-from-page">
+              <a href="{{ link.url }}">
+                <span class="mm-text">{{ link.title }}</span>
+                {% if items_list_new contains cat %}
+                <span class="cat-label cat-label-label1 pin-bottom">New</span>
+                {% elsif items_list_hot contains cat %}
+                <span class="cat-label cat-label-label2 pin-bottom">Hot</span>
+                {% endif %}
+              </a>
+              <div class="popup">
+                <div class="inner">
+                  {% if megamenu_content_index == 1 %}
+                  {{ pages[settings.megamenupage1].content }}
+                  {% endif %}
+                  {% if megamenu_content_index == 2 %}
+                  {{ pages[settings.megamenupage2].content }}
+                  {% endif %}
+                  {% if megamenu_content_index == 3 %}
+                  {{ pages[settings.megamenupage3].content }}
+                  {% endif %}
+                  {% assign megamenu_content_index = megamenu_content_index | plus:1 %}
+                </div>
+              </div>
+            </li>
+            {% else %}
+            <li class="menu-item {% if sub_menu_col == 4 %}column-not-image{% endif %} {% if sub_menu_col != blank %} mm-popup-column mm-popup-column-{{ sub_menu_col }}{% else %} mmenu-relative{% endif %}{% if link.active %} active{% endif %}{% if items_list_1 contains cat or items_list_2 contains cat or linklists[link.handle] != empty %} menu-columns-parent{% endif %}">
+              <a href="{{ link.url }}">
+                <span class="mm-text">{{ link.title }}</span>
+                {% if items_list_new contains cat %}
+                <span class="cat-label cat-label-label1 pin-bottom">New</span>
+                {% elsif items_list_hot contains cat %}
+                <span class="cat-label cat-label-label2 pin-bottom">Hot</span>
+                {% endif %}
+              </a>
+              {% if linklists[child_list_handle].links != blank %}
+              <div class="popup">
+                <div class="inner">
+                  <ul class="sub-menu">
+                    {% for sublink in linklists[link.handle].links %}
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom {% if sub_menu_col != blank %}column-1{% endif %}">
+                      <a href="{{ sublink.url }}"><span class="mm-text">{{ sublink.title }}</span></a>
+                      {% if linklists[sublink.handle] != empty %}
+                      <ul class="sub-menu">
+                        {% for subsublink in linklists[sublink.handle].links %}
+                        <li class="menu-item menu-item-type-post_type menu-item-object-page {% if forloop.first %} first{% endif %}{% if forloop.last %} last{% endif %}">
+                          <a href="{{ subsublink.url }}"><span class="mm-text">{{ subsublink.title }}</span></a>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                      {% endif %}
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>	 	
+              {% endif %}
+            </li>
+            {% endif %}
+            {% endfor %} 
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<aside id="header_aside" class="header--aside">
+    <div class="header-aside-wrapper">
+        <a class="btn-aside-toggle" href="#"><i class="dl-icon-close"></i></a>
+        <div class="header-aside-inner">
+            <div class="header-widget-bottom">
+              	{% if settings.logo_header_aside != blank %}
+                <div class="widget widget_text">
+                    <div class="textwidget">
+                        <p>
+                            <a href="/"><img src="{{ settings.logo_header_aside | img_url: 'master' | split:'?' | first }}" alt="{{ settings.logo_header_aside.alt | default: shop.name }}"></a>
+                        </p>
+                    </div>
+                </div>
+              	{% endif %}
+              	{% if settings.text_header_aside != blank %}
+                <div class="widget widget_text">
+                    <div class="textwidget">
+                      	{{ settings.text_header_aside }}
+                    </div>
+                </div>
+              	{% endif %}
+              	{% if settings.img_header_aside != blank %}
+                <div class="padding-top-30 widget widget_media_image">
+                    <a href="/"><img src="{{ settings.img_header_aside | img_url: '360x360' | split:'?' | first }}" class="size-full" alt="{{ settings.img_header_aside.alt }}"></a>
+                </div>
+              	{% endif %}
+                <div class="padding-top-30 widget widget_text">
+                    <div class="textwidget">
+                      	{% if settings.contact_info_header_aside != blank %}
+                        	{{ settings.contact_info_header_aside }}
+                        {% endif %}
+                      	{% if settings.show_social_header_aside  %}
+                      	<div class="social-media-link style-default">
+                          {% if settings.social_facebook_link != blank %}
+                          	<a href="{{ settings.social_facebook_link | escape }}" class="facebook" title="Facebook" target="_blank" rel="nofollow"><i class="fa fa-facebook"></i></a>
+                          {% endif %}
+                          {% if settings.social_twitter_link != blank %}
+                          	<a href="{{ settings.social_twitter_link | escape }}" class="twitter" title="Twitter" target="_blank" rel="nofollow"><i class="fa fa-twitter"></i></a>
+                          {% endif %}
+                          {% if settings.social_pinterest_link != blank %}
+                          	<a href="{{ settings.social_pinterest_link | escape }}" class="pinterest" title="Pinterest" target="_blank" rel="nofollow"><i class="fa fa-pinterest-p"></i></a>
+                          {% endif %}
+                          {% if settings.social_instagram_link != blank %}
+                          	<a href="{{ settings.social_instagram_link | escape }}" class="instagram" title="Instagram" target="_blank" rel="nofollow"><i class="fa fa-instagram"></i></a>
+                          {% endif %}
+                          {% if settings.social_behance_link != blank %}
+                          	<a href="{{ settings.social_behance_link | escape }}" class="behance" title="Behance" target="_blank" rel="nofollow"><i class="fa fa-behance"></i></a>
+                          {% endif %}
+                          {% if settings.social_tumblr_link != blank %}
+                          	<a href="{{ settings.social_tumblr_link | escape }}" class="tumblr" title="Tumblr" target="_blank" rel="nofollow"><i class="fa fa-tumblr"></i></a>
+                          {% endif %}
+                          {% if settings.social_snapchat_link != blank %}
+                          	<a href="{{ settings.social_snapchat_link | escape }}" class="snapchat" title="Snapchat" target="_blank" rel="nofollow"><i class="fa fa-snapchat"></i></a>
+                          {% endif %}
+                          {% if settings.social_youtube_link != blank %}
+                          	<a href="{{ settings.social_youtube_link | escape }}" class="youtube" title="Youtube" target="_blank" rel="nofollow"><i class="fa fa-youtube"></i></a>
+                          {% endif %}
+                          {% if settings.social_vimeo_link != blank %}
+                          	<a href="{{ settings.social_vimeo_link | escape }}" class="vimeo" title="Vimeo" target="_blank" rel="nofollow"><i class="fa fa-vimeo"></i></a>
+                          {% endif %}
+                        </div>
+                      	{% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>

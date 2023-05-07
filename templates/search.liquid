@@ -1,0 +1,92 @@
+{% paginate search.results by 9 %}
+
+<div class="page-width">
+  {% if search.results_count == 0 or search.performed == false %}
+    <div class="empty-page-content text-center">
+      <h1 class="h2">{{ 'general.search.title' | t }}</h1>
+  {% else %}
+    <div class="section-header text-center">
+      <h1 class="h2">{{ 'general.search.results_with_count' | t: terms: search.terms, count: search.results_count }}</h1>
+  {% endif %}
+        <div class="grid">
+          <div class="grid__item medium-up--two-fifths medium-up--push-three-tenths">
+            <form action="/search" method="get" role="search" class="search">
+              <div class="input-group">
+                <input type="search"
+                  id="SearchInput"
+                  class="input-group__field search__input"
+                  name="q"
+                  value="{{ search.terms | escape }}"
+                  placeholder="{{ 'general.search.placeholder' | t }}"
+                  aria-label="{{ 'general.search.placeholder' | t }}"
+                  autofocus>
+                <span class="input-group__btn">
+                  <button class="btn search__submit" type="submit">{{ 'general.search.submit' | t }}</button>
+                </span>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        {% if search.performed and search.results_count == 0 %}
+          <hr class="hr--small hr--invisible">
+          <p>{{ 'general.search.no_results_html' | t: terms: search.terms }}</p>
+        {% endif %}
+  </div>
+</div>
+
+
+{% if search.performed %}
+
+  <div class="page-width list-view-items">
+    <div class="grid-items xlg-grid-3-items lg-grid-3-items md-grid-3-itemssm-grid-3-items xs-grid-2-items mb-grid-1-items">
+      {% for item in search.results %}
+        {% if item.object_type == 'product' %}
+        	{% include 'g_product_grid', product: item %}
+        {% else %}
+          <div class="grid-item">
+            <div class="loop__item__inner">
+              <div class="loop__item__inner2">
+                {% if item.image %}
+                <div class="loop__item__thumbnail">
+                  <div class="loop__item__thumbnail--bkg lazy" style="padding-bottom: 80%; display: block; background-image: url({{ item.image | img_url: 'master' }});">
+                    <a href="{{ item.url }}" class="loop__item__thumbnail--linkoverlay"><span class="hidden">{{ item.title }}</span></a>
+                  </div>
+                </div>
+                {% endif %}
+                <div class="loop__item__info">
+                  <div class="loop__item__info2">
+                    <div class="loop__item__meta">
+                      <span class="article__author">{{ 'blogs.article.by_author' | t: author: item.author }}</span>
+                      <span class="article__date">
+                        {{ item.published_at | time_tag: format: 'month_day_year' }}
+                      </span>                
+                    </div>
+                    <div class="loop__item__title">
+                      <h2 class="entry-title"><a href="{{ item.url }}" title="{{ item.title }}">{{ item.title }}</a></h2>
+                    </div>
+                    <div class="loop__item__desc">
+                      {% if item.excerpt.size > 0 %}
+                      {{ item.excerpt }}
+                      {% else %}
+                      {{ item.content | strip_html | truncate: 150 }}
+                      {% endif %}
+                    </div>
+                    <div class="loop__item__meta--footer"><a class="btn-readmore" href="{{ item.url }}">{{ 'blogs.article.read_more' | t }}</a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    
+    {% if paginate.pages > 1 %}
+    	{% include 'pagination' %}
+    {% endif %}
+  </div>
+
+{% endif %}
+
+{% endpaginate %}

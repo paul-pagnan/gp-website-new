@@ -1,0 +1,10 @@
+{% if settings.type_base_family contains 'Google' %}
+  {%- assign type_base_parts = settings.type_base_family | split: '_' -%}
+  {% capture baseGoogleUrl %}{{ type_base_parts[1] }}:300,300i,400,400i,600,600i,700,700i,900,900i{% endcapture %}
+  {{ '//fonts.googleapis.com/css?family=' | append: baseGoogleUrl | stylesheet_tag }}
+{% endif %}
+{% if settings.type_header_family contains 'Google' %}
+  {%- assign type_header_parts = settings.type_header_family | split: '_' -%}
+  {% capture headerGoogleUrl %}{{ type_header_parts[1] }}:400,400i,600,600i,700,700i,900,900i{% endcapture %}
+  {{ '//fonts.googleapis.com/css?family=' | append: headerGoogleUrl | stylesheet_tag }}
+{% endif %}

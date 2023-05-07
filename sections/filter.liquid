@@ -1,0 +1,385 @@
+{%- assign g_has_current_tags = false -%}
+{%- if current_tags != blank -%}
+   {%- assign g_has_current_tags = true -%} 
+{%- endif -%}
+
+{%- if collection.products_count > 1000 -%}
+   {% assign g_tag_array =  collection.all_tags | downcase | json %}
+{%- else -%}
+   {% assign g_tag_array =  collection.tags | downcase | json %}
+{%- endif -%}
+{%- assign globo_current_tags = current_tags | json | downcase  -%}
+{%- assign collection_handle = collection.handle -%}
+{%- assign g_secure_url = shop.secure_url -%}
+{%- if canonical_url contains '?page' -%}
+{%- assign _g_canonical_url_remove = canonical_url | split:g_secure_url | last -%}
+{%- assign g_canonical_url_remove = _g_canonical_url_remove | split:'?page' | first -%}
+{%- else -%}
+{%- assign g_canonical_url_remove = canonical_url | split:g_secure_url | last -%}
+{%- endif -%}
+{%- if template.suffix != blank -%}
+   {%- assign g_check_template = true -%} 
+{%- else -%}
+   {%- assign g_check_template = false -%} 
+{%- endif -%}
+
+{% comment %} ----- Product Collections ----- {% endcomment %}
+{% if section.settings.allcollections_show %}
+<div class="widget widget_nav_menu">
+  {% if section.settings.allcollections_heading != blank %}
+  <h4 class="h3 widget-title"><span>{{ section.settings.allcollections_heading }}</span></h4>
+  {% endif %}
+  <div class="menu-shop-category-menu-container">
+    <ul id="menu-shop-category-menu" class="menu">
+      {% for coll in collections %}
+      {% unless coll.handle == 'frontpage' or coll.handle == 'all' %}
+      <li class="menu-item {% if collection.handle == coll.handle %} active{% endif %}">
+        <a href="{{ coll.url }}">{{ coll.title | escape }} <span class="count">({{ coll.all_products_count }})</span></a>
+      </li>
+      {% endunless %}
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+{%- for block in section.blocks -%}
+{% case block.type %}
+  {% when 'brand' %}
+  <div id="Filter-Brands" class="widget widget_layered_nav">
+    {% assign tags = block.settings.g_shop_by_tags  | replace: ' ,', ',' | replace: ', ', ',' | split: ',' %}
+    {%- if tags.size > 0 or collection.all_vendors > 0 -%}
+    <h4 class="h3 widget-title"><span>{{ block.settings.title }}</span></h4>
+    <ul>
+      {%- assign g_check_tag_hide = true -%}
+      {%- if tags.size > 0 -%}
+      {%- assign array_tags = tags -%}
+      {%- else -%}
+      {%- assign array_tags = collection.all_vendors | downcase | json -%}
+      {%- endif -%}
+
+      {%- for gt in array_tags -%}
+      {%- assign tag = gt | strip -%}
+      {%- assign g_tag_downcase = tag | downcase | prepend:'"' | append:'"' -%}
+      {%- assign g_tag_val = tag | handleize -%} 
+      {%- if g_has_current_tags -%}
+      {%- if globo_current_tags contains g_tag_downcase -%}
+      {%- assign g_check_tag_hide = false -%}
+      {%- if current_tags.size > 1 -%}
+      {%- assign g_split = collection_handle | append:"/" -%}
+      {%- assign g_tag_value_append = g_tag_val | append:"+" -%}
+      {%- assign g_tag_value_prepend = g_tag_val | prepend:"+" -%}
+      {%- assign g_def_url = canonical_url | split:g_split | last  | split:'?page' | first -%}
+      <li>
+        <a class="chosen" href="/collections/{{collection_handle}}/{{g_def_url | replace: g_tag_value_prepend, '' | replace: g_tag_value_append, '' }}{%- if g_check_template -%}??&view=list{%- endif-%}">{{ tag | capitalize }}</a>
+      </li>
+      {%- elsif current_tags.size == 1 -%}
+      <li>
+        <a class="chosen" href="/collections/{{collection_handle}}{%- if g_check_template -%}?&view={{template.suffix}}{%- endif -%}">{{ tag | capitalize }}</a>
+      </li>
+      {%- endif -%}
+      {%- else -%}
+      {%- assign g_in_tag = tag | downcase | prepend: '\"' | append: '\"' -%}
+      {%- if g_tag_array contains g_in_tag -%} 
+      {%- assign g_check_tag_hide = false -%} 
+      <li>
+        <a href="{{g_canonical_url_remove}}+{{ g_tag_val | handleize }}{%- if g_check_template -%}?&view={{template.suffix}}{%- endif -%}">{{ tag | capitalize }}</a>
+      </li>
+      {%- endif -%}
+      {%- endif -%}
+      {%- else -%}
+      {%- assign g_in_tag = tag | downcase | prepend: '\"' | append: '\"' -%} 
+      {%- if g_tag_array contains g_in_tag -%}
+      {%- assign g_check_tag_hide = false -%} 
+      <li>
+        <a href="{{g_canonical_url_remove}}/{{ g_tag_val | handleize }}{%- if g_check_template -%}?&view={{template.suffix}}{%- endif -%}">{{ tag | capitalize }}</a>
+      </li>
+      {%- endif -%}
+      {%- endif -%}
+      {%- endfor -%}
+    </ul>
+    {%- endif -%}
+    {%- if g_check_tag_hide or tags.size == 0 or collection.all_vendors == 0 -%}<style type="text/css">#Filter-Brands{display: none}</style>{%- endif -%}
+  </div>
+  {% when 'color' %}
+    <div id="color_filter_{{block.id}}" class="widget widget_layered_nav widget_layered_nav--color">
+      {% assign tags = block.settings.g_shop_by_tags_color  | replace: ' ,', ',' | replace: ', ', ',' | split: ',' %}
+      <h4 class="h3 widget-title"><span>{{ block.settings.title }}</span></h4>
+     {%- if tags.size > 0 -%}
+    <ul class="la-swatches-widget-opts">
+      {%- assign g_check_tag_hide = true -%}
+      {%- for gt in tags -%}
+         {%- assign tag = gt | strip -%}
+         {%- assign g_tag_downcase = tag | downcase | prepend:'"' | append:'"' -%}
+         {%- assign g_tag_val = tag | handleize -%} 
+         {%- if g_has_current_tags -%}
+            {%- if globo_current_tags contains g_tag_downcase -%}
+               {%- assign g_check_tag_hide = false -%}
+               {%- if current_tags.size > 1 -%}
+                  {%- assign g_split = collection_handle | append:"/" -%}
+                  {%- assign g_tag_value_append = g_tag_val | append:"+" -%}
+                  {%- assign g_tag_value_prepend = g_tag_val | prepend:"+" -%}
+                  {%- assign g_def_url = canonical_url | split:g_split | last  | split:'?page' | first -%}
+                  <li class="active wc-layered-nav-term">
+                    <a href="/collections/{{collection_handle}}/{{g_def_url | replace: g_tag_value_prepend, '' | replace: g_tag_value_append, '' }}{%- if g_check_template -%}?&view={{template.suffix}}{%- endif -%}">
+                       <div class="select-option swatch-wrapper la-swatch-item-style-default" data-attribute="pa_color" data-value="{{ g_tag_val }}"><span class="swatch-anchor g-bg-color-{{ g_tag_val }}" style="text-indent:-9999px;width:30px;height:30px;background-color:{{tag}};" title="{{tag}}">{{tag}}</span><span class="swatch-anchor-label">{{tag}}</span></div>
+                    </a>
+                  </li>
+               {%- elsif current_tags.size == 1 -%}
+                   <li class="active wc-layered-nav-term">
+                    <a href="/collections/{{collection.handle}}{%- if g_check_template -%}?&view={{template.suffix}}{%- endif -%}">
+                    	<div class="select-option swatch-wrapper la-swatch-item-style-default" data-attribute="pa_color" data-value="{{ g_tag_val }}"><span class="swatch-anchor g-bg-color-{{ g_tag_val }}" style="text-indent:-9999px;width:30px;height:30px;background-color:{{tag}};" title="{{tag}}">{{tag}}</span><span class="swatch-anchor-label">{{tag}}</span></div>
+                    </a>
+                  </li>
+               {%- endif -%}
+            {%- else -%}
+               {%- assign g_in_tag = tag | downcase | prepend: '\"' | append: '\"' -%}
+               {%- if g_tag_array contains g_in_tag -%}
+                  {%- assign g_check_tag_hide = false -%}  
+                  <li>
+                    <a href="{{g_canonical_url_remove}}+{{ g_tag_val | handleize }}{%- if g_check_template -%}?&view={{template.suffix}}{%- endif -%}">
+                      <div class="select-option swatch-wrapper la-swatch-item-style-default" data-attribute="pa_color" data-value="{{ g_tag_val }}"><span class="swatch-anchor g-bg-color-{{ g_tag_val }} " style="text-indent:-9999px;width:30px;height:30px;background-color:{{tag}};" title="{{tag}}">{{tag}}</span><span class="swatch-anchor-label">{{tag}}</span></div>
+                    </a>
+                  </li>
+               {%- endif -%}
+            {%- endif -%}
+         {%- else -%}
+            {%- assign g_in_tag = tag | downcase | prepend: '\"' | append: '\"' -%} 
+            {%- if g_tag_array contains g_in_tag -%}
+               {%- assign g_check_tag_hide = false -%} 
+               <li class="wc-layered-nav-term">
+                 <a href="{{g_canonical_url_remove}}/{{ g_tag_val | handleize }}{%- if g_check_template -%}?&view={{template.suffix}}{%- endif -%}">
+                   <div class="select-option swatch-wrapper la-swatch-item-style-default" data-attribute="pa_color" data-value="{{ g_tag_val }}"><span class="swatch-anchor g-bg-color-{{ g_tag_val }} " style="text-indent:-9999px;width:30px;height:30px;background-color:{{tag}};" title="{{tag}}">{{tag}}</span><span class="swatch-anchor-label">{{tag}}</span></div>
+                 </a>
+               </li>
+            {%- endif -%}
+         {%- endif -%}
+      {%- endfor -%}
+     </ul>
+    {%- endif -%}
+     {%- if g_check_tag_hide or tags.size == 0 -%}<style type="text/css">#color_filter_{{block.id}}{display: none}</style>{%- endif -%}
+  </div>
+  {% when 'other' %}
+  <div id="Filter-other-{{block.id}}" class="widget widget_layered_nav">
+    {% assign tags = block.settings.g_shop_by_tags  | replace: ' ,', ',' | replace: ', ', ',' | split: ',' %}
+    <h4 class="h3 widget-title"><span>{{ block.settings.title }}</span></h4> 
+     {%- assign g_check_tag_hide = true -%}
+    {%- if tags.size > 0 -%}
+    <ul>
+        {%- for gt in tags -%}
+         {%- assign tag = gt | strip -%}
+         {%- assign g_tag_downcase = tag | downcase | prepend:'"' | append:'"' -%}
+         {%- assign g_tag_val = tag | handleize -%} 
+         {%- if g_has_current_tags -%}
+            {%- if globo_current_tags contains g_tag_downcase -%}
+               {%- assign g_check_tag_hide = false -%}
+               {%- if current_tags.size > 1 -%}
+                  {%- assign g_split = collection_handle | append:"/" -%}
+                  {%- assign g_tag_value_append = g_tag_val | append:"+" -%}
+                  {%- assign g_tag_value_prepend = g_tag_val | prepend:"+" -%}
+                  {%- assign g_def_url = canonical_url | split:g_split | last  | split:'?page' | first -%}
+                  <li class="chosen">
+                     <a title="{{tag}}" href="/collections/{{collection_handle}}/{{g_def_url | replace: g_tag_value_prepend, '' | replace: g_tag_value_append, '' }}{%- if check_template_list -%}?&view={{template.suffix}}{%- endif -%}">{{ tag | capitalize }}</a>
+                  </li>
+               {%- elsif current_tags.size == 1 -%}
+                   <li class="chosen">
+                     <a title="{{tag}}" href="/collections/{{collection.handle}}{%- if g_check_template -%}?&view={{template.suffix}}{%- endif -%}">
+                     {{ tag | capitalize }}
+                     </a>
+                  </li>
+               {%- endif -%}
+            {%- else -%}
+               {%- assign g_in_tag = tag | downcase | prepend: '\"' | append: '\"' -%}
+               {%- if g_tag_array contains g_in_tag -%}
+                  {%- assign g_check_tag_hide = false -%}  
+                  <li>
+                     <a title="{{tag}}" href="{{g_canonical_url_remove}}+{{ g_tag_val | handleize }}{%- if g_check_template -%}?&view={{template.suffix}}{%- endif -%}">{{ tag | capitalize }}</a>
+                  </li>
+               {%- endif -%}
+            {%- endif -%}
+         {%- else -%}
+            {%- assign g_in_tag = tag | downcase | prepend: '\"' | append: '\"' -%} 
+            {%- if g_tag_array contains g_in_tag -%}
+               {%- assign g_check_tag_hide = false -%} 
+               <li>
+                  <a title="{{tag}}" href="{{g_canonical_url_remove}}/{{ g_tag_val | handleize }}{%- if g_check_template -%}?&view={{template.suffix}}{%- endif -%}">{{ tag | capitalize }}</a>
+               </li>
+            {%- endif -%}
+         {%- endif -%}
+      {%- endfor -%}
+     </ul>
+    {%- endif -%}
+    {%- if g_check_tag_hide or tags.size == 0 -%}<style type="text/css">#Filter-other-{{block.id}}{display: none}</style>{%- endif -%}
+  </div>
+  {% when 'text' %}
+  <div class="widget widget_text">
+    <h4 class="h3 widget-title"><span>{{ block.settings.title }}</span></h4> 
+    {% if block.settings.content_block_text != blank %}
+    <div class="textwidget">{{ block.settings.content_block_text }}</div>
+    {% endif %}
+  </div>
+  {% when 'image' %}
+  <div class="widget widget_banner">
+    <div class="col-banner-hover banner-type-shop">
+      <div class="col-relative">
+        <div class="banner--image">
+          {% if block.settings.image != blank %}
+          <img data-src="{{ block.settings.image | img_url: 'master', format: 'pjpg' | split:'?' | first }}" alt="{{ block.settings.image.alt }}" class="lazy">
+          {% else %}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+        <div class="banner--info">
+          {% if block.settings.title != blank %}
+          <div class="b-title1">{{ block.settings.title }}</div>
+          {% endif %}
+          {% if block.settings.heading != blank %}
+          <div class="b-title2">{{ block.settings.heading }}</div>
+          {% endif %}
+        </div>
+        {% if block.settings.link != blank %}
+        <a href="{{ block.settings.link }}" class="overflow-link"></a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{%- endcase -%}
+{%- endfor -%}
+{%- if g_has_current_tags -%}
+<div class="la-advanced-product-filters-result">
+  <a class="reset-all-shop-filter text-color-primary" href="/collections/{{collection.handle}}{%- if g_check_template -%}?&view={{template.suffix}}{%- endif -%}">
+   <i class="dl-icon-close"></i><span>Clear All Filter</span>
+  </a>
+</div>
+{%- endif -%}
+
+
+{% schema %}
+  {
+    "name": "Filter Sidebar",
+    "class": "g_filter",
+    "max_blocks": 9,
+	"settings": [
+	  {
+        "type": "header",
+        "content": "Product Categories"
+      },
+      {
+        "type": "checkbox",
+        "id": "allcollections_show",
+        "label": "Show?",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "allcollections_heading",
+        "label": "Heading",
+        "default": "Categories"
+      }
+	],
+    "blocks": [
+      {
+        "type": "brand",
+        "name": "Filter By Brand",
+        "limit": 1,
+        "settings": [
+          { 
+          "type":"text",
+          "id":"title",
+          "label":"Filter by categories title",
+          "default":"Filter By Brand"
+          },
+          {
+           "type": "textarea",
+           "id": "g_shop_by_tags",
+           "label": "Shop by tags list",
+           "info": "Ex: \"Tag1, Tag2, Tag3\"."
+         }
+        ]
+      },
+      {
+        "type": "color",
+        "name": "Filter By Color",
+        "limit": 1,
+        "settings": [
+          { 
+          "type":"text",
+          "id":"title",
+          "label":"Filter by categories title",
+          "default":"By Color"
+          },
+          {
+           "type": "textarea",
+           "id": "g_shop_by_tags_color",
+           "label": "Shop by tags list",
+           "info": "Ex: \"Tag1, Tag2, Tag3\"."
+         }
+        ]
+      },
+      {
+        "type": "other",
+        "name": "Filter By Other",
+        "settings": [
+          { 
+          "type":"text",
+          "id":"title",
+          "label":"Filter by categories title",
+          "default":"Filter by other"
+          },
+           {
+              "type": "textarea",
+              "id": "g_shop_by_tags",
+              "label": "Shop by tags list",
+              "info": "Ex: \"Tag1, Tag2, Tag3\"."
+            }
+        ]
+      },
+      {
+        "type": "text",
+        "name": "Block Text Content",
+        "settings": [
+          { 
+            "type":"text",
+            "id":"title",
+            "label":"Title block text",
+            "default":"Title Text Content"
+          },
+          {
+            "type": "textarea",
+            "id": "content_block_text",
+            "label": "Content block",
+            "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean pharetra, ligula non mollis pretium, lectus libero sodales augue, interdum auctor mauris dui non risus. Nulla facilisi."
+          }
+        ]
+      },
+      {
+        "type": "image",
+        "name": "Banner",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type":"url",
+            "id":"link",
+            "label":"Link",
+            "info": "Optional"
+          },
+          { 
+            "type":"text",
+            "id":"title",
+            "label":"Title",
+            "default":"#Sport new"
+          },
+          { 
+            "type":"text",
+            "id":"heading",
+            "label":"Heading",
+            "default":"Off 20%"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

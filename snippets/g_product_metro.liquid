@@ -1,0 +1,90 @@
+{%- assign g_sale = false -%}
+{%- if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price -%}
+{%- assign g_sale = true -%}
+{%- endif -%}
+{%- assign g_current_variant = product.selected_or_first_available_variant -%}
+{%- if template contains 'collection' and current_tags.size > 0 and product.has_only_default_variant == false -%}
+   {%- assign url_gl = g_current_variant.url -%}
+   {%- assign url_gl_tr = true -%}
+{%- else -%}
+  {%- assign url_gl_tr = false -%}
+  {%- assign url_gl = product.url -%}
+{%- endif -%}
+
+{%- assign g_sold_out = true -%}
+{%- if product.available  -%}
+{%- assign g_sold_out = false -%}
+{%- endif -%}
+
+{%- assign g_new = false -%}
+{%- for tag in product.tags -%}
+{%- assign g_tag_handle = tag | handle -%}
+{%- if g_tag_handle == 'new' -%}
+{%- assign g_new = true -%}
+{%- endif -%}
+{%- endfor -%}
+
+{%- assign g_hot = false -%}
+{%- for tag in product.tags -%}
+{%- assign g_tag_handle = tag | handle -%}
+{%- if g_tag_handle == 'hot' -%}
+{%- assign g_hot = true -%}
+{%- endif -%}
+{%- endfor -%}
+
+{%- assign forloopmodulo = forloop.index0 | modulo: 2  -%}
+
+<div class="grid-item product_item" {% if forloop.first or forloop.index == 6 or forloop.index == 11 %}data-width="2"{% else %}data-height="1"{% endif %} data-height="1" >
+  <div class="product_item--inner">
+    <div class="product_item--thumbnail">
+      <div class="product_item--thumbnail-holder">
+        <a href="{{ product.url | within: collection }}" class="product__link" tabindex="0">
+          <div class="la-lazyload-image pic-m-fallback pic-m-fallback-first" style="padding-bottom: 111.5%; {% if product.images.size >= 1%}background-image: url({{ product.featured_image | product_img_url: '1000x1000' }});"{% else %}{{ 'No_Image_2.png' | asset_url }}{% endif %}></div>
+          {%- if product.images.size > 1 and settings.show_img_second -%}
+          <div class="la-lazyload-image pic-m-fallback pic-m-fallback-second" style="padding-bottom: 111.5%; background-image: url({{ product.images.last | img_url: '1000x1000' }});"></div>
+          {%- endif -%}
+          {% if g_sale  %}
+              <span class="label-product sale">{{ 'products.product.on_sale' | t }}</span>
+          {% elsif g_hot %}
+              <span class="label-product hot">{{ 'products.product.hot' | t }}</span>
+          {% elsif g_sold_out  %}
+              <span class="label-product sold-out">{{ 'products.product.sold_out' | t }}</span>
+          {% elsif g_new  %}
+              <span class="label-product new">{{ 'products.product.new' | t }}</span>
+          {% endif %}
+        </a>
+      </div>
+      <div class="product_item_thumbnail_action product_item--action">
+        <div class="wrap-addto">
+          <a href="{{ url_gl | within: collection }}{%- if url_gl_tr -%}&{%- else %}/?{%- endif -%}view=quick_view" data-href="{{ url_gl | within: collection }}{%- if url_gl_tr -%}&{%- else %}/?{%- endif -%}view=quick_view" class="globo-quick-view-button quickview button la-quickview-button" data-toggle="tooltip" data-placement="top" title="Quick view" tabindex="0"><span>{{ 'products.product.quick_view' | t }}</span></a>
+          <a href="/?add-to-cart={{ product.variants.first.id }}" class="globo-add-to-cart" rel="nofollow" tabindex="0" data-toggle="tooltip" data-placement="top" title="Add to cart" onclick=" Shopify.addItem('{{ product.variants.first.id}}', 1); return false"><span>{{ 'products.product.add_to_cart' | t }}</span></a>
+          {% if settings.show_wishlist %}
+          {% include 'swym-product-view', product: product %}
+          <a class="add_wishlist button la-core-wishlist product_{{product.id}}" href="#" data-toggle="tooltip" data-placement="top" title="Add to wishlist" rel="nofollow" data-swaction="addToWishlist" data-swnostyle="true" data-product-id="{{product.id}}">
+            <span>{{ 'products.product.add_to_wishlist' | t }}</span>
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="product_item--info">
+      <div class="product_item--info-inner text-left">
+        <h2 class="product_item--title">
+          <a href="{{ product.url | within: collection }}" tabindex="0">{{ product.title }}</a>
+        </h2>
+        <span class="price">
+          {%- if linklists[product.handle].links.size > 0 -%}
+          {{ product.price | money }}{%- if product.compare_at_price != blank -%}–{{ product.compare_at_price | money }}{%- endif -%}
+          {%- else -%}
+          {%- if product.price_varies -%}
+          {{ product.price_min | money }}–{{ product.price_max | money }}
+          {%- elsif g_sale -%}<del><span class="amount">{{ product.compare_at_price  | money }}</span></del>  <ins><span class="amount">{{ product.price | money }}</span></ins>
+          {%- else -%}
+          {{ product.price | money }}
+          {%- endif -%}
+          {%- endif -%}
+        </span>
+      </div>
+    </div>
+  </div>  
+</div>

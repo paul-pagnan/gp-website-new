@@ -1,0 +1,331 @@
+{%- if template.suffix != blank -%}
+{%- assign g_check_template = true -%} 
+{%- else -%}
+{%- assign g_check_template = false -%} 
+{%- endif -%}
+
+{%- assign g_secure_url = '/collections' -%}
+{%- if canonical_url contains '?page' -%}
+{%- assign _g_canonical_url_remove = canonical_url | split:g_secure_url | last -%}
+{%- assign g_canonical_url_remove = _g_canonical_url_remove | split:'?page' | first -%}
+{%- else -%}
+{%- assign g_canonical_url_remove = canonical_url | split:g_secure_url | last -%}
+{%- endif -%}
+{%- case settings.layout -%}
+{% when 'grid' %}
+  <div class="wc-toolbar-container {% if settings.use_no_gutter %}container{% endif %}">
+    <div class="wc-toolbar wc-toolbar-top clearfix">
+      <div class="wc-toolbar-left">
+        <p class="woocommerce-result-count">
+          Showing 1&ndash;{{ limit }} of {{ collection.products_count }} results
+        </p>
+      </div>
+      <div class="wc-toolbar-right">
+        <div class="wc-view-toggle">
+          <span data-view_mode="grid" class="active"><i title="Grid view" class="fa fa-th"></i></span>
+          <span data-view_mode="list"><i title="List view" class="fa fa-list"></i></span>
+        </div>
+      </div>
+      <div class="btn-advanced-shop-filter">
+        <span>Filter</span><i></i>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="la-advanced-product-filters clearfix">
+      <div class="sidebar-inner clearfix">
+        {% if settings.sort_enable %}
+        {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+        <div id="product-sort-by" class="widget woocommerce product-sort-by">
+          <h4 class="widget-title"><span>{{ 'collections.sorting.title' | t }}</span></h4>
+          <div class="wc-ordering">
+            <ul>
+              {% if sort_by == collection.default_sort_by %}
+              {% if collection.default_sort_by != 'manual' %}
+              <li class="{% if sort_by == "manual" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=manual{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.featured' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'best-selling' %}
+              <li class="{% if sort_by == "best-selling" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=best-selling{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.best_selling' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'title-ascending' %}
+              <li class="{% if sort_by == "title-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.az' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'title-descending' %}
+              <li class="{% if sort_by == "title-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.za' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'price-ascending' %}
+              <li class="{% if sort_by == "price-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_ascending' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'price-descending' %}
+              <li class="{% if sort_by == "price-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_descending' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'created-descending' %}
+              <li class="{% if sort_by == "created-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_descending' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'created-ascending' %}
+              <li class="{% if sort_by == "created-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_ascending' | t }}</a></li>
+              {% endif %}
+              {% else %}
+              <li class="{% if sort_by == "manual" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=manual{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.featured' | t }}</a></li>
+              <li class="{% if sort_by == "best-selling" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=best-selling{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.best_selling' | t }}</a></li>
+              <li class="{% if sort_by == "title-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.az' | t }}</a></li>
+              <li class="{% if sort_by == "title-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.za' | t }}</a></li>
+              <li class="{% if sort_by == "price-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_ascending' | t }}</a></li>
+              <li class="{% if sort_by == "price-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_descending' | t }}</a></li>
+              <li class="{% if sort_by == "created-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_descending' | t }}</a></li>
+              <li class="{% if sort_by == "created-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_ascending' | t }}</a></li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+        {% endif %}
+        {% section 'filter' %}
+      </div>
+    </div>
+  </div>
+{% when 'left-sidebar' %}
+  <div class="wc-toolbar-container">
+    <div class="wc-toolbar wc-toolbar-top clearfix">
+      <div class="wc-toolbar-left">
+        <p class="woocommerce-result-count">
+          Showing 1&ndash;{{ limit }} of {{ collection.products_count }} results
+        </p>
+      </div>
+      <div class="wc-toolbar-right">
+        <div class="wc-view-toggle">
+          <span data-view_mode="grid" class="active"><i title="Grid view" class="fa fa-th"></i></span>
+          <span data-view_mode="list"><i title="List view" class="fa fa-list"></i></span>
+        </div>
+        {% if settings.sort_enable %}
+        {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+        <div class="wc-ordering">
+          <p>Sort by</p>
+            <ul>
+              {% if sort_by == collection.default_sort_by %}
+              {% if collection.default_sort_by != 'manual' %}
+              <li class="{% if sort_by == "manual" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=manual{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.featured' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'best-selling' %}
+              <li class="{% if sort_by == "best-selling" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=best-selling{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.best_selling' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'title-ascending' %}
+              <li class="{% if sort_by == "title-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.az' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'title-descending' %}
+              <li class="{% if sort_by == "title-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.za' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'price-ascending' %}
+              <li class="{% if sort_by == "price-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_ascending' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'price-descending' %}
+              <li class="{% if sort_by == "price-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_descending' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'created-descending' %}
+              <li class="{% if sort_by == "created-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_descending' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'created-ascending' %}
+              <li class="{% if sort_by == "created-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_ascending' | t }}</a></li>
+              {% endif %}
+              {% else %}
+              <li class="{% if sort_by == "manual" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=manual{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.featured' | t }}</a></li>
+              <li class="{% if sort_by == "best-selling" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=best-selling{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.best_selling' | t }}</a></li>
+              <li class="{% if sort_by == "title-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.az' | t }}</a></li>
+              <li class="{% if sort_by == "title-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.za' | t }}</a></li>
+              <li class="{% if sort_by == "price-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_ascending' | t }}</a></li>
+              <li class="{% if sort_by == "price-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_descending' | t }}</a></li>
+              <li class="{% if sort_by == "created-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_descending' | t }}</a></li>
+              <li class="{% if sort_by == "created-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_ascending' | t }}</a></li>
+              {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% when 'right-sidebar' %}
+  <div class="wc-toolbar-container">
+    <div class="wc-toolbar wc-toolbar-top clearfix">
+      <div class="wc-toolbar-left">
+        <p class="woocommerce-result-count">
+          Showing 1&ndash;{{ limit }} of {{ collection.products_count }} results
+        </p>
+      </div>
+      <div class="wc-toolbar-right">
+        <div class="wc-view-toggle">
+          <span data-view_mode="grid" class="active"><i title="Grid view" class="fa fa-th"></i></span>
+          <span data-view_mode="list"><i title="List view" class="fa fa-list"></i></span>
+        </div>
+        {% if settings.sort_enable %}
+        {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+        <div class="wc-ordering">
+          <p>Sort by</p>
+            <ul>
+              {% if sort_by == collection.default_sort_by %}
+              {% if collection.default_sort_by != 'manual' %}
+              <li class="{% if sort_by == "manual" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=manual{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.featured' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'best-selling' %}
+              <li class="{% if sort_by == "best-selling" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=best-selling{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.best_selling' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'title-ascending' %}
+              <li class="{% if sort_by == "title-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.az' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'title-descending' %}
+              <li class="{% if sort_by == "title-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.za' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'price-ascending' %}
+              <li class="{% if sort_by == "price-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_ascending' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'price-descending' %}
+              <li class="{% if sort_by == "price-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_descending' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'created-descending' %}
+              <li class="{% if sort_by == "created-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_descending' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'created-ascending' %}
+              <li class="{% if sort_by == "created-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_ascending' | t }}</a></li>
+              {% endif %}
+              {% else %}
+              <li class="{% if sort_by == "manual" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=manual{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.featured' | t }}</a></li>
+              <li class="{% if sort_by == "best-selling" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=best-selling{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.best_selling' | t }}</a></li>
+              <li class="{% if sort_by == "title-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.az' | t }}</a></li>
+              <li class="{% if sort_by == "title-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.za' | t }}</a></li>
+              <li class="{% if sort_by == "price-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_ascending' | t }}</a></li>
+              <li class="{% if sort_by == "price-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_descending' | t }}</a></li>
+              <li class="{% if sort_by == "created-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_descending' | t }}</a></li>
+              <li class="{% if sort_by == "created-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_ascending' | t }}</a></li>
+              {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% when 'masonry' %}
+  <div class="wc-toolbar-container">
+    <div class="wc-toolbar wc-toolbar-top clearfix">
+      <div class="wc-toolbar-left">
+        <p class="woocommerce-result-count">
+          Showing 1&ndash;{{ limit }} of {{ collection.products_count }} results
+        </p>
+      </div>
+      <div class="btn-advanced-shop-filter">
+        <span>Filter</span><i></i>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="la-advanced-product-filters clearfix">
+      <div class="sidebar-inner clearfix">
+        {% if settings.sort_enable %}
+        {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+        <div id="product-sort-by" class="widget woocommerce product-sort-by">
+          <h4 class="widget-title"><span>{{ 'collections.sorting.title' | t }}</span></h4>
+          <div class="wc-ordering">
+            <ul>
+              {% if sort_by == collection.default_sort_by %}
+              {% if collection.default_sort_by != 'manual' %}
+              <li class="{% if sort_by == "manual" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=manual{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.featured' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'best-selling' %}
+              <li class="{% if sort_by == "best-selling" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=best-selling{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.best_selling' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'title-ascending' %}
+              <li class="{% if sort_by == "title-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.az' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'title-descending' %}
+              <li class="{% if sort_by == "title-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.za' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'price-ascending' %}
+              <li class="{% if sort_by == "price-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_ascending' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'price-descending' %}
+              <li class="{% if sort_by == "price-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_descending' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'created-descending' %}
+              <li class="{% if sort_by == "created-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_descending' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'created-ascending' %}
+              <li class="{% if sort_by == "created-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_ascending' | t }}</a></li>
+              {% endif %}
+              {% else %}
+              <li class="{% if sort_by == "manual" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=manual{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.featured' | t }}</a></li>
+              <li class="{% if sort_by == "best-selling" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=best-selling{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.best_selling' | t }}</a></li>
+              <li class="{% if sort_by == "title-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.az' | t }}</a></li>
+              <li class="{% if sort_by == "title-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.za' | t }}</a></li>
+              <li class="{% if sort_by == "price-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_ascending' | t }}</a></li>
+              <li class="{% if sort_by == "price-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_descending' | t }}</a></li>
+              <li class="{% if sort_by == "created-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_descending' | t }}</a></li>
+              <li class="{% if sort_by == "created-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_ascending' | t }}</a></li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+        {% endif %}
+		{% section 'filter' %}
+      </div>
+    </div>
+  </div>
+{% when 'metro' %}
+  <div class="wc-toolbar-container">
+    <div class="wc-toolbar wc-toolbar-top clearfix">
+      <div class="wc-toolbar-left">
+        <p class="woocommerce-result-count">
+          Showing 1&ndash;{{ limit }} of {{ collection.products_count }} results
+        </p>
+      </div>
+      <div class="btn-advanced-shop-filter">
+        <span>Filter</span><i></i>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="la-advanced-product-filters clearfix">
+      <div class="sidebar-inner clearfix">
+        {% if settings.sort_enable %}
+        {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+        <div id="product-sort-by" class="widget woocommerce product-sort-by">
+          <h4 class="widget-title"><span>{{ 'collections.sorting.title' | t }}</span></h4>
+          <div class="wc-ordering">
+            <ul>
+              {% if sort_by == collection.default_sort_by %}
+              {% if collection.default_sort_by != 'manual' %}
+              <li class="{% if sort_by == "manual" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=manual{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.featured' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'best-selling' %}
+              <li class="{% if sort_by == "best-selling" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=best-selling{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.best_selling' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'title-ascending' %}
+              <li class="{% if sort_by == "title-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.az' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'title-descending' %}
+              <li class="{% if sort_by == "title-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.za' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'price-ascending' %}
+              <li class="{% if sort_by == "price-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_ascending' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'price-descending' %}
+              <li class="{% if sort_by == "price-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_descending' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'created-descending' %}
+              <li class="{% if sort_by == "created-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_descending' | t }}</a></li>
+              {% endif %}
+              {% if collection.default_sort_by != 'created-ascending' %}
+              <li class="{% if sort_by == "created-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_ascending' | t }}</a></li>
+              {% endif %}
+              {% else %}
+              <li class="{% if sort_by == "manual" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=manual{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.featured' | t }}</a></li>
+              <li class="{% if sort_by == "best-selling" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=best-selling{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.best_selling' | t }}</a></li>
+              <li class="{% if sort_by == "title-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.az' | t }}</a></li>
+              <li class="{% if sort_by == "title-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=title-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.za' | t }}</a></li>
+              <li class="{% if sort_by == "price-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_ascending' | t }}</a></li>
+              <li class="{% if sort_by == "price-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=price-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.price_descending' | t }}</a></li>
+              <li class="{% if sort_by == "created-descending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-descending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_descending' | t }}</a></li>
+              <li class="{% if sort_by == "created-ascending" %}active{% endif %}"><a href="/collections{{g_canonical_url_remove}}?sort_by=created-ascending{%- if g_check_template -%}&view={{template.suffix}}{%- endif -%}">{{ 'collections.sorting.date_ascending' | t }}</a></li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+        {% endif %}
+		{% section 'filter' %}
+      </div>
+    </div>
+  </div>
+{%- endcase -%}

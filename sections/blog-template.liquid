@@ -1,0 +1,697 @@
+{% paginate blog.articles by 9 %}
+
+<section id="section_page_header" class="wpb_row section-page-header" {% if section.settings.image != blank %}style="background-image: url({{ section.settings.image | img_url: '1920x', format: 'pjpg' | split:'?' | first }}); background-repeat: no-repeat; background-position: center center; background-size: cover; background-color: transparent;"{% endif %}>
+    <div class="container">
+        <div class="page-header-inner" {% if section.settings.padding != blank %}style="padding: {{ section.settings.padding }};"{% endif %}>
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1 class="page-title" {% if section.settings.color_text_banner != blank %}style="color: {{ section.settings.color_text_banner }};"{% endif %}>{{ page_title }}</h1>
+                    <div class="la-breadcrumbs hidden-xs">
+                      <div class="la-breadcrumb-content">
+                        <div class="la-breadcrumb-wrap">
+                          <div class="la-breadcrumb-item"><a href="{{ shop.url }}" class="la-breadcrumb-item-link is-home" rel="home" title="{{ shop.name | escape }}" {% if section.settings.color_text_banner != blank %}style="color: {{ section.settings.color_text_banner }};"{% endif %}>{{ 'general.breadcrumbs.home' | t }}</a></div>
+                          <div class="la-breadcrumb-item">
+                            <div class="la-breadcrumb-item-sep" {% if section.settings.color_text_banner != blank %}style="color: {{ section.settings.color_text_banner }};"{% endif %}>/</div>
+                          </div>
+                          <div class="la-breadcrumb-item" {% if section.settings.color_text_banner != blank %}style="color: {{ section.settings.color_text_banner }};"{% endif %}><span class="la-breadcrumb-item-target">{{ page_title }}</span></div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="content-page-blog">
+  <div class="container">
+    <div class="row">
+      {% case section.settings.layout %}
+      {% when 'blog_no_sidebar' %}
+        {% for article in blog.articles %}
+        {%- assign forloopmodulo = forloop.index0 | modulo: 3  -%}
+        <div class="{% if forloop.first or forloopmodulo == 0  %}col-sm-12 col-one-column{% else %}col-sm-6{% endif %} col-xs-12">
+          <div class="loop__item__inner">
+            <div class="loop__item__inner2">
+              <div class="loop__item__thumbnail">
+                <div class="loop__item__thumbnail--bkg lazy" style="{% if forloop.first or forloopmodulo == 0  %}padding-bottom: 48%;{% else %}padding-bottom: 78%;{% endif %} display: block; background-image: url({{ article.image | img_url: 'master' }});">
+                  <a href="{{ article.url }}" class="loop__item__thumbnail--linkoverlay"><span class="hidden">{{ article.title }}</span></a>
+                </div>
+              </div>
+              <div class="loop__item__info">
+                <div class="loop__item__info2">
+                  <div class="loop__item__meta">
+                    {% if section.settings.blog_show_author %}
+                    <span class="article__author">{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+                    {% endif %}
+
+                    {% if section.settings.blog_show_date %}
+                    <span class="article__date">
+                      {{ article.published_at | time_tag: format: 'month_day_year' }}
+                    </span>
+                    {% endif %}                  
+                  </div>
+                  <div class="loop__item__title">
+                    <h2 class="entry-title"><a href="{{ article.url }}" title="{{ article.title }}">{{ article.title }}</a></h2>
+                  </div>
+                  <div class="loop__item__desc">
+                    {% if article.excerpt.size > 0 %}
+                    {{ article.excerpt }}
+                    {% else %}
+                    {{ article.content | strip_html | truncate: 150 }}
+                    {% endif %}
+                  </div>
+                  <div class="loop__item__meta--footer"><a class="btn-readmore" href="{{ article.url }}">{{ 'blogs.article.read_more' | t }}</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% if paginate.pages > 1 %}
+        {% include 'pagination' %}
+        {% endif %}
+      {% when 'blog_left_sidebar' %}
+      	<div class="col-md-3 col-xs-12">
+          {% if section.settings.show_blog_categories %}
+          <div class="box-child-sidebar">
+            {% if section.settings.title_blog_categories != blank %}
+            <h4>{{ section.settings.title_blog_categories }}</h4>
+            {% endif %}
+            <ul class="list-categories-blog">
+              {% for link in linklists[section.settings.category_sidebar_linklist].links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+          {% if section.settings.show_lastest_post_blog %}
+          <div class="box-child-sidebar">
+            {% if section.settings.title_lastest_post != blank %}
+            <h4>{{ section.settings.title_lastest_post }}</h4>
+            {% endif %}
+            <ul class="list-lastest-post">
+              {% for article in blog.articles limit:section.settings.lastest_post_number %}
+              <li>
+                {% if article.image %}
+                <div class="pr-item-image">
+                  <a href="{{ article.url }}" class="lazy" data-src="{{ article | img_url: 'small' }}"></a>
+                </div>
+                {% endif %}
+                <div class="pr-item-text">
+                  <a href="{{ article.url }}">{{ article.title }}</a>
+                  <div class="post-date">{{ article.published_at | time_tag: format: 'month_day_year' }}</div>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+          {% if section.settings.show_instagram_blog %}
+          <div class="box-child-sidebar">
+            {% if section.settings.title_instagram_blog != blank %}
+            <h4>{{ section.settings.title_instagram_blog }}</h4>
+            {% endif %}
+            <div id="la_instagram_blog" class="la-instagram-feeds instagram-grayscale">
+              <div class="instagram-feed-inner">
+                <input type="hidden" id="g-token-{{ section.id }}" value="{{ section.settings.accessToken_blog }}" />
+                <div class="globo-instagram clearfix" data-id="{{ section.id }}">
+                  <div id="g-instafeed-{{ section.id }}" class="instagram--with-padding" data-limit="{{ section.settings.limit_instagram_blog }}" data-sort-by="none">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+          {% endif %}
+          {% if section.settings.show_tags_blog %}
+          {% if blog.all_tags.size > 0 %}
+          <div class="box-child-sidebar">
+            {% if section.settings.title_tags_blog != blank %}
+            <h4>{{ section.settings.title_tags_blog }}</h4>
+            {% endif %}
+            <ul class="tag-blogs">
+              {% for tag in blog.all_tags %}
+              {% if current_tags contains tag %}
+              <li><a class="chosen" href="{{ tag.title }}">{{ tag.title }}</a></li>
+              {% else %}
+              <li>{{ tag | link_to_tag: tag }}</li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+          {% endif %} 
+          {% if section.settings.show_blog_about_author %}
+          <div class="box-child-sidebar">
+            {% if section.settings.title_blog_author != blank %}
+            <h4>{{ section.settings.title_blog_author }}</h4>
+            {% endif %}
+            <div class="about-author-sidebar">
+              {% if section.settings.blog_image_author != blank %}
+              <img data-src="{{ section.settings.blog_image_author | img_url: 'large' }}" class="lazy" alt="{{ section.settings.blog_image_author.alt }}" />
+              {% endif %}
+              {% if section.settings.blog_name_author != blank %}
+              <div class="name">{{ section.settings.blog_name_author }}</div>
+              {% endif %}
+              {% if section.settings.blog_text_author != blank %}
+              <p>{{ section.settings.blog_text_author }}</p>
+              {% endif %}
+              <ul>
+                {% if section.settings.link_author_facebook != blank %}
+                <li><a href="{{ section.settings.link_author_facebook }}" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                {% endif %}
+                {% if section.settings.link_author_twitter != blank %}
+                <li><a href="{{ section.settings.link_author_twitter }}" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                {% endif %}
+                {% if section.settings.link_author_google != blank %}
+                <li><a href="{{ section.settings.link_author_google }}" title="Google Plus"><i class="fa fa-google-plus"></i></a></li>
+                {% endif %}
+                {% if section.settings.link_author_instagram != blank %}
+                <li><a href="{{ section.settings.link_author_instagram }}" title="Instagram"><i class="fa fa-instagram"></i></a></li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+          {% endif %}
+      	</div>
+      
+      	<div class="col-md-9 col-xs-12 site-content-blog">
+          {% for article in blog.articles %}
+          <div class="blog-item">
+            <div class="loop__item__inner">
+              <div class="loop__item__inner2">
+                <div class="loop__item__thumbnail">
+                  <div class="loop__item__thumbnail--bkg lazy" style="padding-bottom: 54%; display: block; background-image: url({{ article.image | img_url: 'master' }});">
+                    <a href="{{ article.url }}" class="loop__item__thumbnail--linkoverlay"><span class="hidden">{{ article.title }}</span></a>
+                  </div>
+                </div>
+                <div class="loop__item__info text-center">
+                  <div class="loop__item__info2">
+                    <div class="loop__item__meta">
+                      {% if section.settings.blog_show_author %}
+                      <span class="article__author">{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+                      {% endif %}
+
+                      {% if section.settings.blog_show_date %}
+                      <span class="article__date">
+                        {{ article.published_at | time_tag: format: 'month_day_year' }}
+                      </span>
+                      {% endif %}                  
+                    </div>
+                    <div class="loop__item__title">
+                      <h2 class="entry-title"><a href="{{ article.url }}" title="{{ article.title }}">{{ article.title }}</a></h2>
+                    </div>
+                    <div class="loop__item__desc">
+                      {% if article.excerpt.size > 0 %}
+                      {{ article.excerpt }}
+                      {% else %}
+                      {{ article.content | strip_html | truncate: 150 }}
+                      {% endif %}
+                    </div>
+                    <div class="loop__item__meta--footer"><a class="btn-readmore" href="{{ article.url }}">{{ 'blogs.article.read_more' | t }}</a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          {% if paginate.pages > 1 %}
+          {% include 'pagination' %}
+          {% endif %}      		
+      	</div>
+      {% when 'blog_right_sidebar' %}
+      	<div class="col-md-9 col-xs-12 site-content-blog" style="padding-left: 15px; padding-right: 45px;">
+          {% for article in blog.articles %}
+          <div class="blog-item">
+            <div class="loop__item__inner">
+              <div class="loop__item__inner2">
+                <div class="loop__item__thumbnail">
+                  <div class="loop__item__thumbnail--bkg lazy" style="padding-bottom: 54%; display: block; background-image: url({{ article.image | img_url: 'master' }});">
+                    <a href="{{ article.url }}" class="loop__item__thumbnail--linkoverlay"><span class="hidden">{{ article.title }}</span></a>
+                  </div>
+                </div>
+                <div class="loop__item__info text-center">
+                  <div class="loop__item__info2">
+                    <div class="loop__item__meta">
+                      {% if section.settings.blog_show_author %}
+                      <span class="article__author">{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+                      {% endif %}
+
+                      {% if section.settings.blog_show_date %}
+                      <span class="article__date">
+                        {{ article.published_at | time_tag: format: 'month_day_year' }}
+                      </span>
+                      {% endif %}                  
+                    </div>
+                    <div class="loop__item__title">
+                      <h2 class="entry-title"><a href="{{ article.url }}" title="{{ article.title }}">{{ article.title }}</a></h2>
+                    </div>
+                    <div class="loop__item__desc">
+                      {% if article.excerpt.size > 0 %}
+                      {{ article.excerpt }}
+                      {% else %}
+                      {{ article.content | strip_html | truncate: 150 }}
+                      {% endif %}
+                    </div>
+                    <div class="loop__item__meta--footer"><a class="btn-readmore" href="{{ article.url }}">{{ 'blogs.article.read_more' | t }}</a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          {% if paginate.pages > 1 %}
+          {% include 'pagination' %}
+          {% endif %}      		
+      	</div>
+        <div class="col-md-3 col-xs-12">
+          {% if section.settings.show_blog_categories %}
+          <div class="box-child-sidebar">
+            {% if section.settings.title_blog_categories != blank %}
+            <h4>{{ section.settings.title_blog_categories }}</h4>
+            {% endif %}
+            <ul class="list-categories-blog">
+              {% for link in linklists[section.settings.category_sidebar_linklist].links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+          {% if section.settings.show_lastest_post_blog %}
+          <div class="box-child-sidebar">
+            {% if section.settings.title_lastest_post != blank %}
+            <h4>{{ section.settings.title_lastest_post }}</h4>
+            {% endif %}
+            <ul class="list-lastest-post">
+              {% for article in blog.articles limit:section.settings.lastest_post_number %}
+              <li>
+                {% if article.image %}
+                <div class="pr-item-image">
+                  <a href="{{ article.url }}" class="lazy" data-src="{{ article | img_url: 'small' }}"></a>
+                </div>
+                {% endif %}
+                <div class="pr-item-text">
+                  <a href="{{ article.url }}">{{ article.title }}</a>
+                  <div class="post-date">{{ article.published_at | time_tag: format: 'month_day_year' }}</div>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+          {% if section.settings.show_instagram_blog %}
+          <div class="box-child-sidebar">
+            {% if section.settings.title_instagram_blog != blank %}
+            <h4>{{ section.settings.title_instagram_blog }}</h4>
+            {% endif %}
+            <div id="la_instagram_blog" class="la-instagram-feeds instagram-grayscale">
+              <div class="instagram-feed-inner">
+                <input type="hidden" id="g-token-{{ section.id }}" value="{{ section.settings.accessToken_blog }}" />
+                <div class="globo-instagram clearfix" data-id="{{ section.id }}">
+                  <div id="g-instafeed-{{ section.id }}" class="instagram--with-padding" data-limit="{{ section.settings.limit_instagram_blog }}" data-sort-by="none">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+          {% endif %}
+          {% if section.settings.show_tags_blog %}
+          {% if blog.all_tags.size > 0 %}
+          <div class="box-child-sidebar">
+            {% if section.settings.title_tags_blog != blank %}
+            <h4>{{ section.settings.title_tags_blog }}</h4>
+            {% endif %}
+            <ul class="tag-blogs">
+              {% for tag in blog.all_tags %}
+              {% if current_tags contains tag %}
+              <li><a class="chosen" href="{{ tag.title }}">{{ tag.title }}</a></li>
+              {% else %}
+              <li>{{ tag | link_to_tag: tag }}</li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+          {% endif %} 
+          {% if section.settings.show_blog_about_author %}
+          <div class="box-child-sidebar">
+            {% if section.settings.title_blog_author != blank %}
+            <h4>{{ section.settings.title_blog_author }}</h4>
+            {% endif %}
+            <div class="about-author-sidebar">
+              {% if section.settings.blog_image_author != blank %}
+              <img data-src="{{ section.settings.blog_image_author | img_url: 'large' }}" class="lazy" alt="{{ section.settings.blog_image_author.alt }}" />
+              {% endif %}
+              {% if section.settings.blog_name_author != blank %}
+              <div class="name">{{ section.settings.blog_name_author }}</div>
+              {% endif %}
+              {% if section.settings.blog_text_author != blank %}
+              <p>{{ section.settings.blog_text_author }}</p>
+              {% endif %}
+              <ul>
+                {% if section.settings.link_author_facebook != blank %}
+                <li><a href="{{ section.settings.link_author_facebook }}" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                {% endif %}
+                {% if section.settings.link_author_twitter != blank %}
+                <li><a href="{{ section.settings.link_author_twitter }}" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                {% endif %}
+                {% if section.settings.link_author_google != blank %}
+                <li><a href="{{ section.settings.link_author_google }}" title="Google Plus"><i class="fa fa-google-plus"></i></a></li>
+                {% endif %}
+                {% if section.settings.link_author_instagram != blank %}
+                <li><a href="{{ section.settings.link_author_instagram }}" title="Instagram"><i class="fa fa-instagram"></i></a></li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+          {% endif %}
+      	</div>
+      {% when 'blog_grid' %}
+        {% for article in blog.articles %}
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="loop__item__inner">
+            <div class="loop__item__inner2">
+              <div class="loop__item__thumbnail">
+                <div class="loop__item__thumbnail--bkg lazy" style="padding-bottom: 80%; display: block; background-image: url({{ article.image | img_url: 'master' }});">
+                  <a href="{{ article.url }}" class="loop__item__thumbnail--linkoverlay"><span class="hidden">{{ article.title }}</span></a>
+                </div>
+              </div>
+              <div class="loop__item__info">
+                <div class="loop__item__info2">
+                  <div class="loop__item__meta">
+                    {% if section.settings.blog_show_author %}
+                    <span class="article__author">{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+                    {% endif %}
+
+                    {% if section.settings.blog_show_date %}
+                    <span class="article__date">
+                      {{ article.published_at | time_tag: format: 'month_day_year' }}
+                    </span>
+                    {% endif %}                  
+                  </div>
+                  <div class="loop__item__title">
+                    <h2 class="entry-title"><a href="{{ article.url }}" title="{{ article.title }}">{{ article.title }}</a></h2>
+                  </div>
+                  <div class="loop__item__desc">
+                    {% if article.excerpt.size > 0 %}
+                    {{ article.excerpt }}
+                    {% else %}
+                    {{ article.content | strip_html | truncate: 150 }}
+                    {% endif %}
+                  </div>
+                  <div class="loop__item__meta--footer"><a class="btn-readmore" href="{{ article.url }}">{{ 'blogs.article.read_more' | t }}</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% if paginate.pages > 1 %}
+        {% include 'pagination' %}
+        {% endif %}
+      {% when 'blog_masonry' %}
+      	<div class="pf-masonry la-isotope-container masonry__column-type-custom" data-portfolionumber="3" data-item_selector=".blog__item" data-item_margin="0" data-container-width="{{ section.settings.data_container_width }}" data-item-width="{{ section.settings.data_item_width }}" data-item-height="{{ section.settings.data_item_height }}" data-md-col="3" data-sm-col="2" data-xs-col="2" data-mb-col="1">
+        {% for article in blog.articles %}
+        {%- assign forloopmodulo = forloop.index0 | modulo: 2  -%}
+        <div class="col-md-4 col-sm-6 col-xs-12 blog__item" data-width="1" {% if forloop.first or forloopmodulo == 0  %}data-height="1"{% else %}data-height="1.28"{% endif %}>
+          <div class="loop__item__inner">
+            <div class="loop__item__inner2">
+              <div class="loop__item__thumbnail">
+                <div class="loop__item__thumbnail--bkg lazy" style="{% if forloop.first or forloopmodulo == 0  %}padding-bottom: 60%;{% else %}padding-bottom: 96%;{% endif %} display: block; background-image: url({{ article.image | img_url: 'master' }});">
+                  <a href="{{ article.url }}" class="loop__item__thumbnail--linkoverlay"><span class="hidden">{{ article.title }}</span></a>
+                </div>
+              </div>
+              <div class="loop__item__info">
+                <div class="loop__item__info2">
+                  <div class="loop__item__meta">
+                    {% if section.settings.blog_show_author %}
+                    <span class="article__author">{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+                    {% endif %}
+
+                    {% if section.settings.blog_show_date %}
+                    <span class="article__date">
+                      {{ article.published_at | time_tag: format: 'month_day_year' }}
+                    </span>
+                    {% endif %}                  
+                  </div>
+                  <div class="loop__item__title">
+                    <h2 class="entry-title"><a href="{{ article.url }}" title="{{ article.title }}">{{ article.title }}</a></h2>
+                  </div>
+                  <div class="loop__item__desc">
+                    {% if article.excerpt.size > 0 %}
+                    {{ article.excerpt }}
+                    {% else %}
+                    {{ article.content | strip_html | truncate: 150 }}
+                    {% endif %}
+                  </div>
+                  <div class="loop__item__meta--footer"><a class="btn-readmore" href="{{ article.url }}">{{ 'blogs.article.read_more' | t }}</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      	</div>
+        {% if paginate.pages > 1 %}
+        {% include 'pagination' %}
+        {% endif %}
+      {% endcase %}
+    </div>
+  </div>
+</div>
+
+{% endpaginate %}
+
+{% schema %}
+  {
+    "name": "Blog pages",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Banner image"
+      },
+      {
+        "type": "text",
+        "id": "padding",
+        "label": "Padding banner: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      },
+      {
+        "type": "color",
+        "id": "color_text_banner",
+        "label": "Color banner text"
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "default": "blog_no_sidebar",
+        "options": [
+          {
+            "value": "blog_no_sidebar",
+            "label": "Blog no sidebar"
+          },
+          {
+            "value": "blog_left_sidebar",
+            "label": "Blog left sidebar"
+          },
+          {
+            "value": "blog_right_sidebar",
+            "label": "Blog right sidebar"
+          },
+          {
+            "value": "blog_grid",
+            "label": "Blog grid"
+          },
+          {
+            "value": "blog_masonry",
+            "label": "Blog masonry"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Settings Blog masonry"
+      },
+      {
+        "type": "text",
+        "id": "data_container_width",
+        "label": "Container width",
+        "default": "1170"
+      },
+      {
+        "type": "text",
+        "id": "data_item_width",
+        "label": "Item width",
+        "default": "400"
+      },
+      {
+        "type": "text",
+        "id": "data_item_height",
+        "label": "Item height",
+        "default": "500"
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_author",
+        "label": "Show author",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_date",
+        "label": "Show date",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Blog sidebar settings"
+      },
+      {
+         "type": "paragraph",
+         "content": "Blog Categories"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_blog_categories",
+        "label": "Show blog categories",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "title_blog_categories",
+        "label": "Title categories",
+        "default": "Categories"
+      },
+      {
+        "type": "link_list",
+        "id": "category_sidebar_linklist",
+        "label": "List categories"
+      },
+      {
+         "type": "paragraph",
+         "content": "Recent Posts"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_lastest_post_blog",
+        "label": "Show lastest post",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "title_lastest_post",
+        "label": "Title list post",
+        "default": "Lastest Post"
+      },
+      {
+        "type": "text",
+        "id": "lastest_post_number",
+        "label": "Number post(integer)",
+        "default": "4"
+      },
+      {
+         "type": "paragraph",
+         "content": "Instagram"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_instagram_blog",
+        "label": "Show instagram",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "title_instagram_blog",
+        "label": "Title instagram",
+        "default": "Instagram"
+      },
+      {
+        "type": "text",
+        "id": "accessToken_blog",
+        "label": "Access token",
+        "default": "4056544068.d1a3d85.9d2eba44616b4f4c9ec2e4a9c6d89d27"
+      },
+      {
+        "type": "text",
+        "id": "limit_instagram_blog",
+        "label": "Limit(integer)",
+        "default": "4"
+      },
+      {
+         "type": "paragraph",
+         "content": "Tag"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_tags_blog",
+        "label": "Show tags",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "title_tags_blog",
+        "label": "Title tags",
+        "default": "Tag Cloud"
+      },
+      {
+         "type": "paragraph",
+         "content": "About Author"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_blog_about_author",
+        "label": "Show about author",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "title_blog_author",
+        "label": "Title about author",
+        "default": "About Author"
+      },
+      {
+        "type": "image_picker",
+        "id": "blog_image_author",
+        "label": "Image author"
+      },
+      {
+        "type": "text",
+        "id": "blog_name_author",
+        "label": "Name author",
+        "default": "Nataila Portman – Blogger/Designer"
+      },
+      {
+        "type": "textarea",
+        "id": "blog_text_author",
+        "label": "Text author",
+        "default": "Praesent sed ex vel mauris eleifend mollis. Vestibulum dictum sodales ante, ac pulvinar urna sollicitudin in"
+      },
+      {
+        "type": "text",
+        "id": "link_author_facebook",
+        "label": "Link facebook",
+        "default": "http://facebook.com"
+      },
+      {
+        "type": "text",
+        "id": "link_author_twitter",
+        "label": "Link twitter",
+        "default": "https://twitter.com"
+      },
+      {
+        "type": "text",
+        "id": "link_author_google",
+        "label": "Link google plus",
+        "default": "https://plus.google.com"
+      },
+      {
+        "type": "text",
+        "id": "link_author_instagram",
+        "label": "Link instagram",
+        "default": "https://www.instagram.com"
+      }
+    ]
+  }
+{% endschema %}

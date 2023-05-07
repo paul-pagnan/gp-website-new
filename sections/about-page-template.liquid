@@ -1,0 +1,334 @@
+<section id="section_page_header" class="wpb_row section-page-header" {% if section.settings.image != blank %}style="background-image: url({{ section.settings.image | img_url: '1920x', format: 'pjpg' | split:'?' | first }}); background-repeat: no-repeat; background-position: center center; background-size: cover; background-color: transparent;"{% endif %}>
+    <div class="container">
+        <div class="page-header-inner" {% if section.settings.padding != blank %}style="padding: {{ section.settings.padding }};"{% endif %}>
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1 class="page-title" {% if section.settings.color_text_banner != blank %}style="color: {{ section.settings.color_text_banner }};"{% endif %}>{{ page.title }}</h1>
+                    <div class="la-breadcrumbs hidden-xs">
+                      <div class="la-breadcrumb-content">
+                        <div class="la-breadcrumb-wrap">
+                          <div class="la-breadcrumb-item"><a href="{{ shop.url }}" class="la-breadcrumb-item-link is-home" rel="home" title="{{ shop.name | escape }}" {% if section.settings.color_text_banner != blank %}style="color: {{ section.settings.color_text_banner }};"{% endif %}>{{ 'general.breadcrumbs.home' | t }}</a></div>
+                          <div class="la-breadcrumb-item">
+                            <div class="la-breadcrumb-item-sep" {% if section.settings.color_text_banner != blank %}style="color: {{ section.settings.color_text_banner }};"{% endif %}>/</div>
+                          </div>
+                          <div class="la-breadcrumb-item" {% if section.settings.color_text_banner != blank %}style="color: {{ section.settings.color_text_banner }};"{% endif %}><span class="la-breadcrumb-item-target">{{ page.title }}</span></div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="pages-content-main">
+  <div class="container">
+    <div class="row">
+      	<div class="col-sm-6 col-xs-12 text-left">
+            {% if section.settings.image_row_1 != blank %}
+            <img src="{{ section.settings.image_row_1 | img_url: '470x' }}" alt="{{ section.settings.image_row_1.alt }}" />
+            {% else %}
+          	{{ 'image' | placeholder_svg_tag }}
+            {% endif %}
+      	</div>
+      	<div class="col-sm-6 col-xs-12">
+          	{% if section.settings.heading_row_1 != blank %}
+          		<h2 class="heading-font-size-30">{{ section.settings.heading_row_1 }}</h2>
+          	{% endif %}
+          	{{ section.settings.text_row_1 }}
+      	</div>
+    </div>
+    <div class="row">
+      	<div class="col-sm-6 col-xs-12">
+          	{% if section.settings.heading_row_2 != blank %}
+          	<h2 class="heading-font-size-30">{{ section.settings.heading_row_2 }}</h2>
+          	{% endif %}
+          	{{ section.settings.text_row_2 }}
+            <div class="vc_progress_bar wpb_content_element">
+              {% if section.settings.title_progress_bar_1 != blank %}
+              <div class="vc_single_bar--outer" style="color:#4a4141;">
+                <div class="vc_label">{{ section.settings.title_progress_bar_1 }}</div>
+                <div class="vc_general vc_single_bar"><span data-text="{{ section.settings.percent_progress_bar_1 }}" class="vc_bar" style="background-color: {{ section.settings.color_progress_bar }}; width: {{ section.settings.percent_progress_bar_1 }};"></span></div>
+              </div>
+              {% endif %}
+              {% if section.settings.title_progress_bar_2 != blank %}
+              <div class="vc_single_bar--outer" style="color:#4a4141;">
+                <div class="vc_label">{{ section.settings.title_progress_bar_2}}</div>
+                <div class="vc_general vc_single_bar"><span data-text="{{ section.settings.percent_progress_bar_2 }}" class="vc_bar" style="background-color: {{ section.settings.color_progress_bar }}; width: {{ section.settings.percent_progress_bar_2 }};"></span></div>
+              </div>
+              {% endif %}
+              {% if section.settings.title_progress_bar_3 != blank %}
+              <div class="vc_single_bar--outer" style="color:#4a4141;">
+                <div class="vc_label">{{ section.settings.title_progress_bar_3}}</div>
+                <div class="vc_general vc_single_bar"><span data-text="{{ section.settings.percent_progress_bar_3 }}" class="vc_bar" style="background-color: {{ section.settings.color_progress_bar }}; width: {{ section.settings.percent_progress_bar_3 }};"></span></div>
+              </div>
+              {% endif %}
+              {% if section.settings.title_progress_bar_4 != blank %}
+              <div class="vc_single_bar--outer" style="color:#4a4141;">
+                <div class="vc_label">{{ section.settings.title_progress_bar_4 }}</div>
+                <div class="vc_general vc_single_bar"><span data-text="{{ section.settings.percent_progress_bar_4 }}" class="vc_bar" style="background-color: {{ section.settings.color_progress_bar }}; width: {{ section.settings.percent_progress_bar_4 }};"></span></div>
+              </div>
+              {% endif %}
+            </div>
+      	</div>
+      	<div class="col-sm-6 col-xs-12 text-right">
+          {% if section.settings.image_row_2 != blank %}
+          <img src="{{ section.settings.image_row_2 | img_url: '470x' }}" alt="{{ section.settings.image_row_2.alt }}" />
+          {% else %}
+          {{ 'image' | placeholder_svg_tag }}
+          {% endif %}
+      	</div>    	
+    </div>
+    <div style="display: none;">{% include 'dlicon-arrow-left2' %}{% include 'dlicon-arrow-right2' %}</div>
+    <div class="g-testimonial">
+      <div class="container text-center">
+        {% if section.settings.title_testimonial != blank %}
+        <h2 class="heading-font-size-30">{{ section.settings.title_testimonial }}</h2>
+        {% endif %}
+        <div class="g-stick-testimonial g-slick-slider" data-slick='{"infinite":{% if section.settings.use_loop %}true{% else %}false{% endif %},"dots":{% if section.settings.use_dots %}true{% else %}false{% endif %},"slidesToShow":1,"slidesToScroll":1,"autoplay":{% if section.settings.use_autoplay %}true{% else %}false{% endif %},"arrows":{% if section.settings.use_arrows %}true{% else %}false{% endif %},"speed":"1000","autoplaySpeed":3000,"centerMode":false,"variableWidth":false,"nextArrow":"<button type=\"button\" style=\"font-size:24px;width:24px;height:24px;line-height:24px;\" class=\"slick-next default\"><svg><use xlink:href=\"#dlicon-arrow-right2\"><\/use><\/svg><\/button>","prevArrow":"<button type=\"button\" style=\"font-size:24px;width:24px;height:24px;line-height:24px;\" class=\"slick-prev default\"><svg><use xlink:href=\"#dlicon-arrow-left2\"><\/use><\/svg><\/button>","responsive":[{"breakpoint":1824,"settings":{"slidesToShow":1,"slidesToScroll":1}},{"breakpoint":1200,"settings":{"slidesToShow":1,"slidesToScroll":1}},{"breakpoint":992,"settings":{"slidesToShow":1,"slidesToScroll":1}},{"breakpoint":768,"settings":{"slidesToShow":1,"slidesToScroll":1}},{"breakpoint":480,"settings":{"slidesToShow":1,"slidesToScroll":1}}]}'>
+          {% for block in section.blocks %}
+          <div class="testimonial_item">
+            <div class="testimonial_item--image">
+              {% if block.settings.image != blank %}
+              <img src="{{ block.settings.image | img_url: '65x65' }}" alt="{{ block.settings.image.alt }}" />
+              {% else %}
+              {{ 'image' | placeholder_svg_tag }}
+              {% endif %}
+            </div>
+            {% if block.settings.quote != blank %}
+            <div class="testimonial_item--info">
+              {{ block.settings.quote }}
+            </div>
+            {% endif %}
+            {% if block.settings.author != blank %}
+            <div class="testimonial_item--bottom">
+              {{ block.settings.author }}
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>    
+    </div>
+  </div>
+  {% if section.settings.button_name != blank %}
+  <div class="btn--biggest"><a href="{{ section.settings.button_link }}">{{ section.settings.button_name }}</a></div>
+  {% endif %}
+</div>
+{% schema %}
+  {
+    "name": "About page",
+    "max_blocks": 9,
+    "settings": [
+      {
+        "type": "header",
+        "content": "Settings page"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Banner image"
+      },
+      {
+        "type": "text",
+        "id": "padding",
+        "label": "Padding banner: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      },
+      {
+        "type": "color",
+        "id": "color_text_banner",
+        "label": "Color banner text"
+      },
+      {
+        "type": "header",
+        "content": "Content row 1"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_row_1",
+        "label": "Image"
+      },
+      {
+        "type": "text",
+        "id": "heading_row_1",
+        "label": "Heading",
+		"default": "Welcome to Mantis Fashion"
+      },
+      {
+        "type": "html",
+        "id": "text_row_1",
+        "label": "Text",
+		"default": "<p>London is a real world city – with some of the most famous buildings, museums and galleries in the world and 2000 years of history to go with them.<\/p><p>But it’s not just looking backwards, there’s always a new bar, play or concert to see. London is also one of the most international cities, with people from all around the world making their home here, so it’s just as easy to get Indian street food as it is a roast dinne.<\/p><ul class=\"list-icon-dots2\"><li>Praesent sed ex vel mauris eleifend mollis. Vestibulum dictum sodales ante, ac pulvinar urna sollicitudin in. Suspendisse sodales dolor nec mattis conva.<\/li><li>Cras porta posuere lectus, vitae consectetur dolor elementum id. Ut interdum, sem eget varius eleifend, ex risus gravida purus, sed<\/li><\/ul><p>Morbi aliquam hendrerit felis, eu cursus orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et ante a felis egestas varius quis eget urna. Mauris blandit, sem venenatis blandit vehicula, neque leo eleifend ant<\/p>"
+      },
+      {
+        "type": "header",
+        "content": "Content row 2"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_row_2",
+        "label": "Image"
+      },
+      {
+        "type": "text",
+        "id": "heading_row_2",
+        "label": "Heading",
+		"default": "Welcome to Mantis Fashion"
+      },
+      {
+        "type": "textarea",
+        "id": "text_row_2",
+        "label": "Text",
+		"default": "<p>Morbi aliquam hendrerit felis, eu cursus orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et ante a felis egestas varius quis eget urna. Mauris blandit, sem venenatis blandit vehicula, neque leo eleifend ant<\/p>"
+      },
+      {
+        "type": "paragraph",
+        "content": "Progress bar"
+      },
+      {
+        "type": "color",
+        "id": "color_progress_bar",
+        "label": "Background progress bar active",
+		"default": "#a38b5e"
+      },
+      {
+        "type": "paragraph",
+        "content": "Progress bar 1"
+      },
+      {
+        "type": "text",
+        "id": "title_progress_bar_1",
+        "label": "Title",
+		"default": "Fashion Design"
+      },
+      {
+        "type": "text",
+        "id": "percent_progress_bar_1",
+        "label": "Percent",
+		"default": "95%"
+      },
+      {
+        "type": "paragraph",
+        "content": "Progress bar 2"
+      },
+      {
+        "type": "text",
+        "id": "title_progress_bar_2",
+        "label": "Title",
+		"default": "Web Design"
+      },
+      {
+        "type": "text",
+        "id": "percent_progress_bar_2",
+        "label": "Percent",
+		"default": "85%"
+      },
+      {
+        "type": "paragraph",
+        "content": "Progress bar 3"
+      },
+      {
+        "type": "text",
+        "id": "title_progress_bar_3",
+        "label": "Title",
+		"default": "Branding Design"
+      },
+      {
+        "type": "text",
+        "id": "percent_progress_bar_3",
+        "label": "Percent",
+		"default": "80%"
+      },
+      {
+        "type": "paragraph",
+        "content": "Progress bar 4"
+      },
+      {
+        "type": "text",
+        "id": "title_progress_bar_4",
+        "label": "Title",
+		"default": "WordPress Development"
+      },
+      {
+        "type": "text",
+        "id": "percent_progress_bar_4",
+        "label": "Percent",
+		"default": "99%"
+      },
+      {
+        "type": "header",
+        "content": "Settings testimonial"
+      },
+      {
+        "type": "text",
+        "id": "title_testimonial",
+        "label": "Title",
+        "default": "What Clients Say ?"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_arrows",
+        "label": "Use Arrows?",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "use_dots",
+        "label": "Use Dots?",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "use_autoplay",
+        "label": "Use autoplay?",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "use_loop",
+        "label": "Use Infinite loop sliding?",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Button bottom"
+      },
+      {
+        "type": "text",
+        "id": "button_name",
+        "label": "Button name",
+        "default": "LET'S TALK"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "quote",
+        "name": "Testimonial",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "textarea",
+            "id": "quote",
+            "label": "Text",
+            "default": "&quot;Phasellus ut felis odio. Fusce hendrerit, ex ac finibus pulvinar, tortor felis egestas turpis, id pellentesque ligula risus vel sem. Nullam ut nunc a magna varius varius.&quot;"
+          },
+          {
+            "type": "text",
+            "id": "author",
+            "label": "Author",
+            "default": "Ophelia Conner<br>Customer"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

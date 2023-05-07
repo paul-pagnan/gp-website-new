@@ -1,0 +1,63 @@
+<div class="g-bg-button-video cover-background lazy" {% if section.settings.image != blank %}data-src="{{ section.settings.image | img_url: '1920x', format: 'pjpg' | split:'?' | first }}"{% endif %} style="{% if section.settings.margin != blank %}margin: {{ section.settings.margin }};{% endif %}{% if section.settings.use_extral_large_bg %}padding-top: 18%; padding-bottom: 18%;{% endif %}">
+  <div class="container text-center">
+      {% if section.settings.title != blank %}
+      <h2>{{ section.settings.title }}</h2>
+      {% endif %}
+      {% if section.settings.show_video_popup %}
+      <figure class="vc_figure-popup">
+        <a href="{{ section.settings.link_video_popup }}" class="video_popup_bg"><img src="{{ 'play-btn-white.png' | asset_url }}" alt=""></a>
+      </figure>
+      {% endif %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Background button video",
+    "class": "globo_bg_button_video",
+    "presets": [
+      {
+        "name": "Background button video",
+        "category": "Categories & Banner"
+      }
+    ],
+    "settings": [
+        {
+          "type": "text",
+          "id": "margin",
+          "label": "Margin: (top-right-bottom-left)",
+          "info": "Ex: 10px 0 30px 0"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_extral_large_bg",
+          "label": "Use extral large background",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+		  "default": "COLOUR CANYON"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_video_popup",
+          "label": "Show button video popup",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "link_video_popup",
+          "label": "Link video",
+          "default": "https:\/\/player.vimeo.com\/video\/172601404?autoplay=1",
+          "info": "Ex: https:\/\/www.youtube.com\/embed\/2df62ekI9UY?autoplay=1, https:\/\/player.vimeo.com/\video\/172601404?autoplay=1"
+        }
+    ]
+  }
+{% endschema %}

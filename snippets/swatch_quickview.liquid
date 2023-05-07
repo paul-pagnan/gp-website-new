@@ -1,0 +1,75 @@
+{% comment %}
+  Set the extension of your color files below. Use 'png', 'jpeg', 'jpg' or 'gif'.
+{% endcomment %}
+
+
+{% if swatch_quickview == blank %}
+<div class="swatch-quickview error">
+  <p>You must include the snippet swatch_quickview.liquid with the name of a product option.</p> 
+  <p>Use: <code>{% raw %}{% include 'swatch_quickview' with 'name of your product option here' %}{% endraw %}</code></p>
+  <p>Example: <code>{% raw %}{% include 'swatch_quickview' with 'Color' %}{% endraw %}</code></p>
+</div>
+{% else %}
+
+{% assign found_option = false %}
+{% assign is_color = false %}
+{% assign option_index = 0 %}
+
+{% for option in product.options %}
+  {% if option == swatch_quickview %}
+    {% assign found_option = true %}
+    {% assign option_index = forloop.index0 %}
+    <style>
+      label[for="product-select-option-{{ option_index }}"] { display: none; }
+      #product-select-option-{{ option_index }} { display: none; }
+      .selector-wrapper { display: none; }
+    </style>
+    <script>jQuery(window).load(function() { jQuery('.selector-wrapper:eq({{ option_index }})').hide(); });</script>
+    {% assign downcased_option = swatch_quickview | downcase %}
+    {% if downcased_option contains 'color' or downcased_option contains 'colour' %}
+      {% assign is_color = true %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% unless found_option %}
+<div class="swatch-quickview error">
+  <p>You included the snippet swatch_quickview.liquid with the name of a product option — <code>'{{ swatch_quickview }}'</code> — that does not belong to your product.</p>
+  <p>Use <code>{% raw %}{% include 'swatch_quickview' with 'name of your product option here' %}{% endraw %}</code></p>
+  <p>Example: <code>{% raw %}{% include 'swatch_quickview' with 'Color' %}{% endraw %}</code></p>
+  <p><strong>This is case-sensitive!</strong> Do not put in <code>'color'</code> if your product option name is <code>'Color'</code>.</p>
+</div>
+{% else %}
+<div class="swatch-quickview clearfix" data-option-index="{{ option_index }}">
+  <label for="pa_{{ swatch_quickview | handleize }}">{{ swatch_quickview }}</label>
+  {% assign downcased_option = swatch_quickview | downcase %}
+  <ul class="value {% if downcased_option contains 'color' or downcased_option contains 'colour' %}g-variant-color{% endif %}">
+  {% assign values = '' %}
+  {% for variant in product.variants %}
+    {% assign value = variant.options[option_index] %}
+    {% unless values contains value %}
+      {% assign values = values | join: ',' %}
+      {% assign values = values | append: ',' | append: value %} 
+      {% assign values = values | split: ',' %}
+      <li class="select-option {% if variant.available %}available{% else %}soldout{% endif %}" data-attribute="pa_{{ value | handleize }}" data-value="{{ value | escape }}">
+        <input id="swatch-quickview-{{ option_index }}-{{ value | handle }}" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}"{% if forloop.first %} checked{% endif %} />
+        {% if is_color %}
+        <div class="swatch-wrapper g-swatch-item-style-circle">
+          <label title="{{ value }}" for="swatch-quickview-{{ option_index }}-{{ value | handle }}" style="text-indent:-9999px;width:30px;height:30px;background-color:{{ value | handle }};" title="{{ value | escape }}" class="swatch-anchor g-bg-color-{{ value | handleize }}">
+              <span class="swatch-anchor-label">{{ value | escape }}</span>
+          </label>  
+        </div>
+        {% else %}
+        <div class="swatch-wrapper la-swatch-item-style-circle">
+          <label title="{{ value }}" for="swatch-quickview-{{ option_index }}-{{ value | handle }}" class="swatch-anchor swatch-other">
+            {{ value }}
+          </label>
+        </div>
+        {% endif %}
+      </li>
+    {% endunless %}
+  {% endfor %}
+  </ul>
+</div>
+{% endunless %}
+{% endif %}

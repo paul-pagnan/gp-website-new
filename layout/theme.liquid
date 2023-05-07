@@ -1,0 +1,136 @@
+<!doctype html>
+<!--[if IE 9]> <html class="ie9 no-js" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_button }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {% if settings.favicon != blank %}
+    <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {% endif %}
+
+  {% capture seo_title %}
+    {{ page_title }}
+    {% if current_tags %}
+      {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+    {% endif %}
+    {% if current_page != 1 %}
+      &ndash; {{ 'general.meta.page' | t: page: current_page }}
+    {% endif %}
+    {% unless page_title contains shop.name %}
+      &ndash; {{ shop.name }}
+    {% endunless %}
+  {% endcapture %}
+  <title>{{ seo_title }}</title>
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  {% include 'social-meta-tags' %}
+  {{ 'animate.css' | asset_url | stylesheet_tag }}	
+  {{ 'bootstrap.min.css' | asset_url | stylesheet_tag }}
+  {{ 'font-awesome.min.css' | asset_url | stylesheet_tag }}
+  {{ 'fancybox.min.css' | asset_url | stylesheet_tag }}
+  {{ 'dl-icon.css' | asset_url | stylesheet_tag }}
+  {{ 'lightcase.css' | asset_url | stylesheet_tag }}
+  {{ 'owl.carousel.min.css' | asset_url | stylesheet_tag }}
+  {{ 'main-section.css' | asset_url | stylesheet_tag }}
+  {{ 'styles.css' | asset_url | stylesheet_tag }}
+  {% include 'google-fonts' %}
+  
+  {{ 'jquery.js' | asset_url | split:'?' | first | script_tag }}
+  <script>
+    var theme = {
+      strings: {
+        addToCart: {{ 'products.product.add_to_cart' | t | json }},
+        soldOut: {{ 'products.product.sold_out' | t | json }},
+        unavailable: {{ 'products.product.unavailable' | t | json }},
+        showMore: {{ 'general.filters.show_more' | t | json }},
+        showLess: {{ 'general.filters.show_less' | t | json }},
+        addressError: {{ 'sections.map.address_error' | t | json }},
+        addressNoResults: {{ 'sections.map.address_no_results' | t | json }},
+        addressQueryLimit: {{ 'sections.map.address_query_limit_html' | t | json }},
+        authError: {{ 'sections.map.auth_error_html' | t | json }}
+      },
+      moneyFormat: {{ shop.money_format | json }}
+    }
+
+    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+  </script>
+
+
+  {% if template.directory == 'customers' %}
+    <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script><!--<![endif]-->
+    <!--[if lte IE 9]><script src="{{ 'shopify_common.js' | shopify_asset_url }}"></script><![endif]-->
+  	{{ 'account.js' | asset_url | script_tag }}
+  {% endif %}
+
+  {{ 'option_selection.js' | shopify_asset_url | script_tag }}
+  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+
+  {{ content_for_header }}
+  {%- capture CFH -%}{{ content_for_header }}{%- endcapture -%}
+  {%- if CFH contains 'DesignMode' -%}
+  {%- assign gAdmin = true -%}
+  {%- else -%}
+  {%- assign gAdmin = false -%}
+  {%- endif -%}
+  {%- if gAdmin -%}{{ 'admin-import.css' | asset_url | stylesheet_tag }}{%- endif -%}
+</head>
+
+<body class="template-{{ template | split: '.' | first }}{% if settings.header_imported == 'header_one' %} header-v1 {% endif %}{% if settings.header_imported == 'header_two' %} header-v2 {% endif %}{% if settings.header_imported == 'header_three' %} header-v3 {% endif %}{% if settings.header_imported == 'header_four' %} header-v4 {% endif %}{% if settings.header_imported == 'header_five' %} header-v5 {% endif %}{% if settings.header_imported == 'header_six' %} header-v6 {% endif %}{% if settings.header_imported == 'header_seven' %} header-v7 {% endif %}{% if settings.header_imported == 'header_eight' %} header-v8 {% endif %}{% if settings.use_header_transparency %} enable-header-transparency {% endif %}{% if settings.use_footer_bars %} enable-footer-bars {% endif %}{% if settings.use_body_boxed %} enable-body-boxed {% endif %}{% if settings.use_collection_full_width and template contains 'collection' %} enable-main-fullwidth {% endif %}">
+  <div class="wrapper-page">
+    {%- if gAdmin -%}<a href="#" class="g_update_theme ui-button ui-button--primary">Select home page layout</a>{%- endif -%}
+    <div class="page">
+    {% include 'g-header' %}
+     
+      <div class="page-container" id="PageContainer">
+
+        <main class="main-content" id="MainContent" role="main">
+          {{ content_for_layout }}
+        </main>
+
+      </div>
+    </div>
+    {% section 'footer' %}
+    {% section 'g_custom_color' %}
+    <div class="searchform-fly-overlay">
+      <a href="javascript:;" class="btn-close-search"><i class="dl-icon-close"></i></a>
+      <div class="searchform-fly">
+        <p>{{ 'general.search.title' | t }}</p>
+        <form method="get" class="search-form" action="/search" role="search">
+          <input type="search" class="search-field" placeholder="{{ 'general.search.placeholder' | t }}" value="{{ search.terms | escape }}" name="q" aria-label="{{ 'general.search.placeholder' | t }}" />
+          <button class="search-button" type="submit"><i class="dl-icon-search10"></i></button>
+        </form>
+      </div>
+    </div>
+    <!-- .search-form -->
+    {% include 'g_mini_cart' %}
+    {% include 'notify-product' %}
+    {% include 'g_popup_newsletter' %}
+    {% if settings.show_multiple_currencies %}
+    {% include 'currencies' %}
+    {% endif %}
+    {% if settings.show_age_verify %}
+    {% include 'g_age_verify' %}
+    {% endif %} 
+  </div>
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'plugin.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+  <!--[if lte IE 9]><script src="{{ 'plugin.js' | asset_url }}"></script><![endif]-->
+
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'g-addtocart.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+  <!--[if lte IE 9]><script src="{{ 'g-addtocart.js' | asset_url }}"></script><![endif]-->
+  
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'theme.min.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+  <!--[if lte IE 9]><script src="{{ 'theme.min.js' | asset_url }}"></script><![endif]-->
+  
+  {%- if gAdmin -%}
+  <!-- publish homepage demo -->
+  {%- include 'g_update_theme' -%}
+  {%- endif -%}
+</body>
+</html>

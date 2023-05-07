@@ -1,0 +1,296 @@
+{%- case settings.g_product_grid_style -%}
+    {% when '1' %}
+      	{%- assign product_grid_class = 'g_product_grid_style-1' -%}
+    {% when '2' %}
+    	{%- assign product_grid_class = 'g_product_grid_style-2' -%}
+    {% when '3' %}
+    	{%- assign product_grid_class = 'g_product_grid_style-3' -%}
+{%- endcase -%}
+
+{%- case section.settings.product_per_row -%}
+    {% when '3' %}
+      	{%- assign slider_class_width = 'xlg-grid-3-items lg-grid-3-items md-grid-3-items' -%}
+    {% when '4' %}
+    	{%- assign slider_class_width = 'xlg-grid-4-items lg-grid-4-items md-grid-4-items' -%}
+    {% when '5' %}
+    	{%- assign slider_class_width = 'xlg-grid-5-items lg-grid-5-items md-grid-4-items' -%}
+{%- endcase -%}
+
+{%- case section.settings.width -%}
+    {% when '1' %}
+      	{%- assign width_class = 'container-full' -%}
+    {% when '2' %}
+    	{%- assign width_class = 'container-full-no-padding' -%}
+    {% when '3' %}
+    	{%- assign width_class = 'container' -%}
+{%- endcase -%}
+
+{%- case section.settings.style -%}
+    {% when '1' %}
+      	{%- assign style_class = 'g-product-tabs-grid_style1' -%}
+    {% when '2' %}
+    	{%- assign style_class = 'g-product-tabs-grid_style2' -%}
+    {% when '3' %}
+    	{%- assign style_class = 'g-product-tabs-grid_style3' -%}
+{%- endcase -%}
+
+{%- case section.settings.button_position -%}
+    {% when '1' %}
+      	{%- assign button_position_class = 'button_position_top text-right' -%}
+    {% when '2' %}
+    	{%- assign button_position_class = 'button_position_bottom text-center' -%}
+{%- endcase -%}
+<div class="g-product-tabs-grid {{style_class}} {% if section.settings.use_hover_box_shadow %}g-hover-box-shadow{% endif %}" {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+  <div class="{{ width_class }}"> 
+    <div class="section-header-large">
+      {% if section.settings.title != blank %}
+      <h3>{{ section.settings.title }}</h3>
+      {% endif %}
+      {% if section.settings.subtitle != blank %}
+      <p>{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+    {% if section.settings.button_position == '1' %}
+    {% if section.settings.view_all_products != blank %}
+    <div class="button-view-all-products {{ button_position_class }}"><a href="{{ section.settings.link_view_all_products }}">{{ section.settings.view_all_products }}</a></div>
+    {% endif %}
+    {% endif %}
+    {% if section.blocks.size > 0 and section.blocks.size != 1 %}
+    <ul class="nav nav-tabs-products">
+      {%- for block in section.blocks -%}
+      {% assign collection = collections[block.settings.id_collection] %}
+      <li class="{% if forloop.first%}active{% endif %}">
+        <a href="#vc_tab_{{ block.id }}" data-toggle="tab" aria-expanded="false">
+          <span>{% if block.settings.title != blank %}{{ block.settings.title }}{% endif %}</span>
+        </a>
+      </li>
+      {%- endfor -%}
+    </ul>
+    {% endif %}
+    <div class="tab-content">
+      {%- for block in section.blocks -%}
+      {% assign collection = collections[block.settings.id_collection] %}
+      <div class="tab-pane{% if forloop.first%} active{% endif %}" id="vc_tab_{{ block.id }}">
+        <div class="grid-items grid-space-20 {{ slider_class_width }} sm-grid-3-items xs-grid-2-items mb-grid-1-items {{ product_grid_class }}">
+          {% if collection.empty? %}
+          {% for i in (1..20) limit:block.settings.items_show %}
+          	{% include 'no-products' %}
+          {% endfor %}
+          {% else %}
+          {% for product in collection.products limit:block.settings.items_show %}
+          {% include 'g_product_grid' %} 
+          {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      {%- endfor -%}
+    </div>
+    {% if section.settings.button_position == '2' %}
+    {% if section.settings.view_all_products != blank %}
+    <div class="button-view-all-products {{ button_position_class }}"><a href="{{ section.settings.link_view_all_products }}">{{ section.settings.view_all_products }}</a></div>
+    {% endif %}
+    {% endif %}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Product Tabs Grid",
+    "class": "globo_product_tabs_grid",
+    "presets": [
+      {
+        "name": "Product Tabs Grid",
+        "category": "Sections Products Home",
+        "blocks": [
+          {
+            "type": "collection_tab"
+          },
+          {
+            "type": "collection_tab"
+          },
+          {
+            "type": "collection_tab"
+          },
+          {
+            "type": "collection_tab"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "select",
+        "id": "width",
+        "label": "Width",
+        "options": [
+          {
+            "value": "1",
+            "label": "Use padding"
+          },
+          {
+            "value": "2",
+            "label": "Use full no padding"
+          },
+          {
+            "value": "3",
+            "label": "Use container"
+          }
+        ],
+        "default": "1"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      },
+      {
+        "type": "select",
+        "id": "style",
+        "label": "Style",
+        "options": [
+          {
+            "value": "1",
+            "label": "Style 1"
+          },
+          {
+            "value": "2",
+            "label": "Style 2"
+          },
+          {
+            "value": "3",
+            "label": "Style 3"
+          }
+        ],
+        "default": "1"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "New Arrival"
+      },
+      {
+        "type": "textarea",
+        "id": "subtitle",
+        "label": "Subtitle",
+        "default": "Our collection hover on a look you like to shop the items featured"
+      },
+      {
+        "type": "text",
+        "id": "view_all_products",
+        "label": "View products text",
+        "default": "View all products"
+      },
+        {
+        "type": "url",
+        "id": "link_view_all_products",
+        "label": "View products link"
+      },
+      {
+        "type": "select",
+        "id": "button_position",
+        "label": "Button position",
+        "options": [
+          {
+            "value": "1",
+            "label": "Top right"
+          },
+          {
+            "value": "2",
+            "label": "Bottom center"
+          }
+        ],
+        "default": "2"
+      },
+      {
+       "type": "header",
+       "content": "Product Grid"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_hover_box_shadow",
+        "label": "Use hover box shadow?",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "product_per_row",
+        "label": "Product per row",
+        "options": [
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          },
+          {
+            "value": "5",
+            "label": "5"
+          }
+        ],
+        "default": "4"
+      }
+    ],
+    "blocks": [
+      {
+        "type":"collection_tab",
+        "name":"Tabs",
+        "settings": [
+           {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Title Tabs"
+           },
+  		   {
+             "type":"collection",
+             "id":"id_collection",
+             "label":"Choose collection"
+           },
+           {
+              "type": "select",
+              "id": "items_show",
+              "label": "Number product to show",
+              "options": [
+                {
+                  "value": "6",
+                  "label": "6"
+                },
+                {
+                  "value": "8",
+                  "label": "8"
+                },
+                {
+                  "value": "9",
+                  "label": "9"
+                },
+                {
+                  "value": "10",
+                  "label": "10"
+                },
+                {
+                  "value": "12",
+                  "label": "12"
+                },
+                {
+                  "value": "16",
+                  "label": "16"
+                },
+                {
+                  "value": "18",
+                  "label": "18"
+                },
+                {
+                  "value": "20",
+                  "label": "20"
+                }
+              ],
+              "default": "8"
+           }
+        ]
+      }
+    ]
+  }
+{% endschema %}

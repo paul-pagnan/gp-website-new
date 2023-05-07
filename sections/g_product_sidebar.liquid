@@ -1,0 +1,223 @@
+<div class="g-product-sidebar" {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+  <div class="{% if section.settings.use_container %}container{% else %}container-full{% endif %}">
+    {% for block in section.blocks %}
+
+    {%- case block.settings.product_per_row -%}
+    {% when '2' %}
+    {%- assign product_class_width = 'xlg-grid-2-items lg-grid-2-items md-grid-2-items' -%}
+    {% when '3' %}
+    {%- assign product_class_width = 'xlg-grid-3-items lg-grid-3-items md-grid-3-items' -%}
+    {% when '4' %}
+    {%- assign product_class_width = 'xlg-grid-4-items lg-grid-4-items md-grid-4-items' -%}
+    {%- endcase -%}
+    <div class="row">
+      <div class="col-sm-3 col-xs-12">&nbsp;</div>
+      <div class="col-sm-9 col-xs-12">
+        <div class="top-product-sidebar">
+          {% if block.settings.title_product_sidebar != blank %}
+          <div class="pull-left"><h2>{{ block.settings.title_product_sidebar }}</h2></div>
+          {% endif %}
+          {% if block.settings.view_all_products != blank %}
+          <div class="button-view-all-products pull-right"><a href="{{ block.settings.link_view_all_products }}">{{ block.settings.view_all_products }}</a></div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 col-xs-12">
+        <div class="box-menu-sidebar">
+          {% if block.settings.title_menu_1 != blank %}
+          <h3>{{ block.settings.title_menu_1 }}</h3>
+          {% endif %}
+          <ul class="menu">
+            {% if block.settings.nav_sidebar_linklist_1 != blank %}
+              {% for link in linklists[block.settings.nav_sidebar_linklist_1].links %}
+              <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}
+            {% else %}
+              {% for i in (1..12) %}
+              <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="/">Menu name</a></li>
+              {% endfor %}
+            {% endif %}
+          </ul>
+        </div>
+        <div class="box-menu-sidebar">
+          {% if block.settings.title_menu_2 != blank %}
+          <h3>{{ block.settings.title_menu_2 }}</h3>
+          {% endif %}
+          <ul class="menu">
+            {% if block.settings.nav_sidebar_linklist_2 != blank %}
+              {% for link in linklists[block.settings.nav_sidebar_linklist_2].links %}
+              <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}
+            {% else %}
+              {% for i in (1..8) %}
+              <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="/">Menu name</a></li>
+              {% endfor %}
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-9 col-xs-12">
+        <div class="grid-items {{ product_class_width }} sm-grid-2-items xs-grid-2-items mb-grid-1-items">
+          {% assign collection = collections[block.settings.id_collection] %}
+          {% if collection.empty? %}
+          {% include 'no-products-6' %}
+          {% else %}
+          {% for product in collection.products limit:block.settings.items_show %}
+          {% include 'g_product_grid' %} 
+          {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Product Sidebar Menu List",
+    "class": "globo_product_sidebar",
+    "max_blocks": 6,
+    "presets": [
+      {
+        "name": "Product Sidebar Menu List",
+        "category": "Sections Products Home",
+        "blocks" : [
+          {
+            "type": "product_sidebar_menu_list"
+          },
+          {
+            "type": "product_sidebar_menu_list"
+          },
+          {
+            "type": "product_sidebar_menu_list"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "use_container",
+        "label": "Use container?",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      }
+    ],
+    "blocks": [
+    {
+      "type": "product_sidebar_menu_list",
+      "name": "Product Sidebar Menu List",
+      "settings": [
+          {
+            "type": "header",
+            "content": "Top content"
+          },
+          {
+            "type": "text",
+            "id": "title_product_sidebar",
+            "label": "Title",
+            "default": "Women"
+          },
+          {
+            "type": "text",
+            "id": "view_all_products",
+            "label": "View products text",
+            "default": "View all products"
+          },
+            {
+            "type": "url",
+            "id": "link_view_all_products",
+            "label": "View products link"
+          },
+          {
+            "type": "header",
+            "content": "Menu sidebar"
+          },
+          {
+            "type": "text",
+            "id": "title_menu_1",
+            "label": "Title 1",
+            "default": "CLOTHING"
+          },
+          {
+            "type": "link_list",
+            "id": "nav_sidebar_linklist_1",
+            "label": "Navigation link list 1"
+          },
+          {
+            "type": "text",
+            "id": "title_menu_2",
+            "label": "Title 2",
+            "default": "ACCESSORIES"
+          },
+          {
+            "type": "link_list",
+            "id": "nav_sidebar_linklist_2",
+            "label": "Navigation link list 2"
+          },
+          {
+            "type": "header",
+            "content": "Product Grid"
+          },
+          {
+            "type": "collection",
+            "id": "id_collection",
+            "label": "Collection to use"
+          },
+          {
+            "type": "select",
+            "id": "items_show",
+            "label": "Number of products to show",
+            "options": [
+              {
+                "value": "6",
+                "label": "6"
+              },
+              {
+                "value": "8",
+                "label": "8"
+              },
+              {
+                "value": "10",
+                "label": "10"
+              },
+              {
+                "value": "12",
+                "label": "12"
+              }
+            ],
+            "default": "6"
+           },
+           {
+              "type": "select",
+              "id": "product_per_row",
+              "label": "Product per row",
+              "options": [
+                {
+                  "value": "2",
+                  "label": "2"
+                },
+                {
+                  "value": "3",
+                  "label": "3"
+                },
+                {
+                  "value": "4",
+                  "label": "4"
+                }
+              ],
+              "default": "3"
+           }
+
+      	]
+    }
+  ]
+  }
+{% endschema %}

@@ -1,0 +1,194 @@
+<section id="section_page_header" class="wpb_row section-page-header" {% if section.settings.image != blank %}style="background-image: url({{ section.settings.image | img_url: '1920x', format: 'pjpg' | split:'?' | first }}); background-repeat: no-repeat; background-position: center center; background-size: cover; background-color: transparent;"{% endif %}>
+    <div class="container">
+        <div class="page-header-inner" {% if section.settings.padding != blank %}style="padding: {{ section.settings.padding }};"{% endif %}>
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1 class="page-title" {% if section.settings.color_text_banner != blank %}style="color: {{ section.settings.color_text_banner }};"{% endif %}>{{ page_title }}</h1>
+                    <div class="la-breadcrumbs hidden-xs">
+                      <div class="la-breadcrumb-content">
+                        <div class="la-breadcrumb-wrap">
+                          <div class="la-breadcrumb-item"><a href="{{ shop.url }}" class="la-breadcrumb-item-link is-home" rel="home" title="{{ shop.name | escape }}" {% if section.settings.color_text_banner != blank %}style="color: {{ section.settings.color_text_banner }};"{% endif %}>{{ 'general.breadcrumbs.home' | t }}</a></div>
+                          <div class="la-breadcrumb-item">
+                            <div class="la-breadcrumb-item-sep" {% if section.settings.color_text_banner != blank %}style="color: {{ section.settings.color_text_banner }};"{% endif %}>/</div>
+                          </div>
+                          <div class="la-breadcrumb-item" {% if section.settings.color_text_banner != blank %}style="color: {{ section.settings.color_text_banner }};"{% endif %}><span class="la-breadcrumb-item-target">{{ 'collections.general.shop_by_collections' | t }}</span></div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% if section.settings.text != blank %}
+<div class="text-collections-list">
+  <div class="container text-center">
+    <p>{{ section.settings.text }}</p>
+  </div>
+</div>
+{% endif %}
+<div class="list-collections-template">
+  <div class="container-full">
+    {%- assign blocks = section.blocks | sort: 'collection.all_products_count' -%}
+
+    {% case section.settings.grid %}
+    {% when '2' %}
+    {%- assign grid_item_width = 'col-sm-6 col-xs-12' -%}
+    {% when '3' %}
+    {%- assign grid_item_width = 'col-sm-4 col-xs-12' -%}
+    {% when '4' %}
+    {%- assign grid_item_width = 'col-sm-3 col-xs-12' -%}
+    {% endcase %}
+
+    <div class="row">
+      {% if section.settings.display_type == 'all' %}
+      {% case section.settings.sort %}
+      {% when 'products_high' or 'products_low' %}
+      {%- assign collections = collections | sort: 'all_products_count' -%}
+      {% when 'date' or 'date_reversed' %}
+      {%- assign collections = collections | sort: 'published_at' -%}
+      {% endcase %}
+      {% if section.settings.sort == 'products_low' or section.settings.sort == 'date' or section.settings.sort == 'alphabetical' %}
+      {% for collection in collections %}
+      <div class="grid__item {{ grid_item_width }}">
+        {% include 'collection-grid-item' %}
+      </div>
+      {% endfor %}
+      {% else %}
+      {% for collection in collections reversed %}
+      <div class="grid__item {{ grid_item_width }}">
+        {% include 'collection-grid-item' %}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% else %}
+      {% for block in section.blocks %}
+      <div class="grid__item {{ grid_item_width }}">
+        {%- assign collection = collections[block.settings.collection] -%}
+        {% include 'collection-grid-item' %}
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Collections list page",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Settings page"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Banner image"
+      },
+      {
+        "type": "text",
+        "id": "padding",
+        "label": "Padding banner: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      },
+      {
+        "type": "color",
+        "id": "color_text_banner",
+        "label": "Color banner text"
+      },
+      {
+        "type": "textarea",
+        "id": "text",
+        "label": "Text",
+		"default": "Donec venenatis tellus ut nisl rutrum luctus. Quisque euismod rutrum nibh, vel euismod augue iaculis eget. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce magna nunc, iaculis sit amet eros eu, accumsan accumsan lacus. Aliquam viverra tellus quis ligula rutrum, ac ornare lorem rutrum. Suspendisse sagitti"
+      },
+      {
+        "type": "paragraph",
+        "content": "All of your collections are listed by default. To customize your list, choose 'Selected' and add collections."
+      },
+      {
+        "type": "radio",
+        "id": "display_type",
+        "label": "Select collections to show",
+        "default": "all",
+        "options": [
+          {
+            "value": "all",
+            "label": "All"
+          },
+          {
+            "value": "selected",
+            "label": "Selected"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "sort",
+        "label": "Sort collections by:",
+        "info": "Sorting only applies when 'All' is selected",
+        "default": "alphabetical",
+        "options": [
+          {
+            "value": "products_high",
+            "label": "Product count, high to low"
+          },
+          {
+            "value": "products_low",
+            "label": "Product count, low to high"
+          },
+          {
+            "value": "alphabetical",
+            "label": "Alphabetically, A-Z"
+          },
+          {
+            "value": "alphabetical_reversed",
+            "label": "Alphabetically, Z-A"
+          },
+          {
+            "value": "date",
+            "label": "Date, old to new"
+          },
+          {
+            "value": "date_reversed",
+            "label": "Date, new to old"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "grid",
+        "label": "Collections per row",
+        "default": "3",
+        "options": [
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          }
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "type": "collection",
+        "name": "Collection",
+        "settings": [
+          {
+            "label": "Collection",
+            "id": "collection",
+            "type": "collection"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

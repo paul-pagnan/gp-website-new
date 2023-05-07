@@ -1,0 +1,211 @@
+{%- case section.settings.member_per_row -%}
+    {% when '3' %}
+      	{%- assign member_class_width = 'xlg-grid-3-items lg-grid-3-items md-grid-3-items' -%}
+    {% when '4' %}
+    	{%- assign member_class_width = 'xlg-grid-4-items lg-grid-4-items md-grid-4-items' -%}
+    {% when '5' %}
+    	{%- assign member_class_width = 'xlg-grid-5-items lg-grid-5-items md-grid-4-items' -%}
+{%- endcase -%}
+
+<section id="section_page_header" class="wpb_row section-page-header" {% if section.settings.image != blank %}style="background-image: url({{ section.settings.image | img_url: '1920x', format: 'pjpg' | split:'?' | first }}); background-repeat: no-repeat; background-position: center center; background-size: cover; background-color: transparent;"{% endif %}>
+    <div class="container">
+        <div class="page-header-inner" {% if section.settings.padding != blank %}style="padding: {{ section.settings.padding }};"{% endif %}>
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1 class="page-title" {% if section.settings.color_text_banner != blank %}style="color: {{ section.settings.color_text_banner }};"{% endif %}>{{ page.title }}</h1>
+                    <div class="la-breadcrumbs hidden-xs">
+                      <div class="la-breadcrumb-content">
+                        <div class="la-breadcrumb-wrap">
+                          <div class="la-breadcrumb-item"><a href="{{ shop.url }}" class="la-breadcrumb-item-link is-home" rel="home" title="{{ shop.name | escape }}" {% if section.settings.color_text_banner != blank %}style="color: {{ section.settings.color_text_banner }};"{% endif %}>{{ 'general.breadcrumbs.home' | t }}</a></div>
+                          <div class="la-breadcrumb-item">
+                            <div class="la-breadcrumb-item-sep" {% if section.settings.color_text_banner != blank %}style="color: {{ section.settings.color_text_banner }};"{% endif %}>/</div>
+                          </div>
+                          <div class="la-breadcrumb-item" {% if section.settings.color_text_banner != blank %}style="color: {{ section.settings.color_text_banner }};"{% endif %}><span class="la-breadcrumb-item-target">{{ page.title }}</span></div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% if section.settings.text != blank %}
+<div class="text-our-team">
+  <div class="container">
+    <p>{{ section.settings.text }}</p>
+  </div>
+</div>
+{% endif %}
+
+<div class="team__members">
+	<div class="grid-items grid-space-0 {{ member_class_width }} sm-grid-3-items xs-grid-2-items mb-grid-1-items">
+      {% for block in section.blocks %}
+      	<div class="grid-item item-member">
+          <div class="loop__item__inner">
+            <div class="loop__item__inner2">
+              <div class="loop__item__thumbnail">
+                {% if block.settings.image != blank %}
+                	<div class="loop__item__thumbnail--bkg lazy" data-src="{{ block.settings.image | img_url: 'master' }}" style="padding-bottom: 96%;">
+                      <a href="{{ block.settings.link_title }}" class="loop__item__thumbnail--linkoverlay"><span class="hidden">{{ block.settings.title }}</span></a>
+                	</div>
+                {% else %}
+                  {% capture current %}{% cycle 1, 2, 3, 4 %}{% endcapture %}
+                  {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                {% endif %}
+              </div>
+              <div class="loop__item__info">
+                <div class="loop__item__info2">
+                  {% if block.settings.title != blank %}
+                  <div class="loop__item__title">
+                    <h3 class="entry-title"><a href="{{ block.settings.link_title }}" title="{{ block.settings.title }}">{{ block.settings.title }}</a></h3>
+                  </div>
+                  {% endif %}
+                  {% if block.settings.subtitle != blank %}
+                  <div class="loop__item__meta">
+                    <p class="member__item__role">{{ block.settings.subtitle }}</p>
+                  </div>
+                  {% endif %}
+                  {% if block.settings.show_social %}
+                  <div class="item--social member-social">
+                    {% if block.settings.link_social_facebook != blank %}
+                    <a class="social-facebook facebook" href="{{ block.settings.link_social_facebook }}"><i class="fa fa-facebook"></i></a>
+                    {% endif %}
+                    {% if block.settings.link_social_twitter != blank %}
+                    <a class="social-twitter twitter" href="{{ block.settings.link_social_twitter }}"><i class="fa fa-twitter"></i></a>
+                    {% endif %}
+                    {% if block.settings.link_social_linkedin != blank %}
+                    <a class="social-linkedin linkedin" href="{{ block.settings.link_social_linkedin }}"><i class="fa fa-linkedin"></i></a>
+                    {% endif %}
+                    {% if block.settings.link_social_google_plus != blank %}
+                    <a class="social-google-plus google-plus" href="{{ block.settings.link_social_google_plus }}"><i class="fa fa-google-plus"></i></a>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+      	</div>
+      {% endfor %}
+  	</div>
+</div>
+
+{% schema %}
+  {
+    "name": "Our team page",
+    "max_blocks": 12,
+    "settings": [
+      {
+        "type": "header",
+        "content": "Settings page"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Banner image"
+      },
+      {
+        "type": "text",
+        "id": "padding",
+        "label": "Padding banner: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      },
+      {
+        "type": "color",
+        "id": "color_text_banner",
+        "label": "Color banner text"
+      },
+      {
+        "type": "textarea",
+        "id": "text",
+        "label": "Text below banner",
+		"default": "Cras porta posuere lectus, vitae consectetur dolor elementum id. Ut interdum, sem eget varius eleifend, ex risus gravida purus, sed finibus tortor nisi maximus orci. Etiam vel sollicitudin nisi. In ipsum tortor, vulputate nec est in, pharetra malesuada diam."
+      },
+      {
+        "type": "select",
+        "id": "member_per_row",
+        "label": "Member per row",
+        "default": "4",
+        "options": [
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          },
+          {
+            "value": "5",
+            "label": "5"
+          }
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "type": "member",
+        "name": "Member",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "James Mantis"
+          },
+          {
+            "type": "text",
+            "id": "link_title",
+            "label": "Link title",
+            "default": "#"
+          },
+          {
+            "type": "text",
+            "id": "subtitle",
+            "label": "Sub title",
+            "default": "Tech manager"
+          },
+          {
+            "type": "header",
+            "content": "Social link"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_social",
+            "label": "Show social?",
+            "default": true
+          },
+          {
+            "type": "text",
+            "id": "link_social_facebook",
+            "label": "Link facebook",
+            "default": "#"
+          },
+          {
+            "type": "text",
+            "id": "link_social_twitter",
+            "label": "Link twitter",
+            "default": "#"
+          },
+          {
+            "type": "text",
+            "id": "link_social_linkedin",
+            "label": "Link linkedin",
+            "default": "#"
+          },
+          {
+            "type": "text",
+            "id": "link_social_google_plus",
+            "label": "Link google plus",
+            "default": "#"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

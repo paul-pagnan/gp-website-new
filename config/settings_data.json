@@ -1,0 +1,854 @@
+{
+  "current": {
+    "color_body_text": "#4a4141",
+    "color_body_text_hover": "#a38b5e",
+    "color_text": "#989898",
+    "color_sale_text": "#a38b5e",
+    "color_new_text": "#1c1c1c",
+    "color_hot_text": "#d64343",
+    "color_header_tranparent": "#ffffff",
+    "color_body_bg": "#0D0D0D",
+    "background_footer_top": "#0D0D0D",
+    "background_footer_bottom": "#0D0D0D",
+    "color_footer": "#828282",
+    "color_footer_hover": "#a38b5e",
+    "footer_color_heading": "#4a4141",
+    "type_base_family": "Google_Montserrat_sans",
+    "type_base_size": "14px",
+    "type_header_family": "Google_Playfair+Display_sans",
+    "menu_header_tranparent_fontsize": "18px",
+    "type_bold_menu_header_tranparent": true,
+    "menu_header_tranparent_text_transform": "none",
+    "header_imported": "header_three",
+    "use_header_sticky": true,
+    "use_header_transparency": true,
+    "show_header_top": true,
+    "header_top_content": "<span>(800) +54.656.565</span><a href=\"mailto:contact@globosoftware.net\">contact@globosoftware.net</a>",
+    "header_middle_content": "New Season for this week : Texture Striped Sweatshirt",
+    "logo": "",
+    "logo_image_sticky": false,
+    "logo_sticky": "",
+    "main_linklist": "main-menu",
+    "logo_header_aside": "shopify://shop_images/home1-logo.png",
+    "text_header_aside": "<p>Nullam varius porttitor augue id rutrum. Duis vehicula magna at magna tempus rhoncus. Maecenas quis lobortis elit, nec faucibus augue.</p><p>Phasellus pellentesque mi ut mauris volutpat pellentesque. Donec id leo efficitur, bibendum enim ac, consectetur ex.</p>",
+    "img_header_aside": "shopify://shop_images/aside-image.jpg",
+    "contact_info_header_aside": "<p><a href=\"tel:+61225315600\">(+612) 2531 5600</a><br><a href=\"mailto:info@la-studioweb.com\">info@la-studioweb.com</a><br> PO Box 1622 Colins Street West</p><p><a href=\"https://www.google.com/maps\" target=\"_blank\" rel=\"noopener\"><u>Google maps</u></a></p>",
+    "show_social_header_aside": true,
+    "megamenu1": "Shop, Gallery",
+    "megamenulinksimage1": "",
+    "megamenulinksimage2": "",
+    "megamenulinksimage3": "",
+    "megamenu2": "Collections",
+    "megamenupage1": "menu-collections",
+    "megamenupage2": "",
+    "megamenupage3": "",
+    "megamenunew": "Blog",
+    "megamenuhot": "Gallery",
+    "use_collection_full_width": true,
+    "use_no_gutter": false,
+    "padding_collections": "",
+    "color_collections_text": "",
+    "product_per_row": "3",
+    "products_per_page": 12,
+    "layout": "left-sidebar",
+    "sort_enable": true,
+    "display_best_selling": true,
+    "layout_product": "1",
+    "style_products_variants": "1",
+    "enable_ajax": true,
+    "enable_zoom": true,
+    "display_product_popup": true,
+    "show_product_countdown_scroll": true,
+    "display_short_description": true,
+    "use_product_limited": true,
+    "product_limited_init": "25",
+    "product_limited_stopped": "5",
+    "product_limited_interval": "8000",
+    "product_description_title": "Description",
+    "display_additional_tab": true,
+    "additional_title": "Additional information",
+    "display_custom_tab": true,
+    "custom_tab_title": "Shipping & Returns",
+    "custom_tab_content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "display_size_chart": true,
+    "custom_size_chart_title": "Size Chart",
+    "display_product_reviews": true,
+    "product_review_title": "Reviews",
+    "display_sku": true,
+    "display_list_categories": true,
+    "display_list_tags": true,
+    "show_related_products": true,
+    "use_container_related": false,
+    "related_products_title": "Related Products",
+    "sidetoshow": "4",
+    "number_of_related_products": "8",
+    "share_image": "",
+    "share_facebook": true,
+    "share_twitter": true,
+    "share_google": true,
+    "share_pinterest": true,
+    "social_twitter_link": "#",
+    "social_facebook_link": "#",
+    "social_pinterest_link": "#",
+    "social_instagram_link": "#",
+    "social_behance_link": "#",
+    "social_tumblr_link": "",
+    "social_snapchat_link": "",
+    "social_youtube_link": "",
+    "social_vimeo_link": "",
+    "notification_product_use": true,
+    "notification_product_collection": "",
+    "notification_product_header": "Someone liked it:",
+    "notification_product_delay": "8000",
+    "notification_product_display": "5000",
+    "show_newsletter_popup": false,
+    "popup_show_ms": "3000",
+    "newsletter_popup_title": "Summer Sale",
+    "newsletter_popup_subtitle": "<p class=\"margin-bottom-0\"><strong>Join our fashion comunity and get 20% per sale</strong></p><p>Removable belt at the waist. Two patch pockets on the front. Button fastening on the front section.</p>",
+    "show_age_verify": false,
+    "bg_age_verify": "shopify://shop_images/coming-soon-bg1.jpg",
+    "title_age_verify": "Adults only (21+)",
+    "text_age_verify": "This website contains adult material and is only suitable for those 21 years or older. Click Enter only if you are at least 21 years of age.",
+    "link_exit": "https://www.google.com/",
+    "show_backtotop": true,
+    "show_img_second": true,
+    "show_wishlist": false,
+    "g_product_grid_style": "1",
+    "banner_page_general": "shopify://shop_images/about-bg.jpg",
+    "padding_page_default": "",
+    "color_text_banner_default": "",
+    "use_footer_bars": false,
+    "use_body_boxed": false,
+    "favicon": "shopify://shop_images/favicon.png",
+    "show_multiple_currencies": true,
+    "currency_format": "money_with_currency_format",
+    "supported_currencies": "INR GBP CAD USD AUD EUR JPY",
+    "default_currency": "USD",
+    "checkout_header_image": "shopify://shop_images/singlepost2-bg-1.jpg",
+    "checkout_logo_image": "shopify://shop_images/logo-white-header.png",
+    "checkout_logo_position": "left",
+    "checkout_logo_size": "medium",
+    "checkout_body_background_image": "",
+    "checkout_body_background_color": "#fff",
+    "checkout_input_background_color_mode": "white",
+    "checkout_sidebar_background_image": "",
+    "checkout_sidebar_background_color": "#fafafa",
+    "checkout_heading_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+    "checkout_body_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+    "checkout_accent_color": "#197bbd",
+    "checkout_button_color": "#197bbd",
+    "checkout_error_color": "#e32c2b",
+    "use_header_fullwidth": "true",
+    "type_header_base_size": "26px",
+    "type_bold_product_titles": "false",
+    "color_borders": "#e8e9eb",
+    "color_button": "#7796a8",
+    "color_button_text": "#fff",
+    "color_small_button": "#fff",
+    "color_small_button_text": "#3d4246",
+    "color_text_field": "#fff",
+    "color_text_field_text": "#000000",
+    "color_image_overlay_text": "#fff",
+    "color_image_overlay": "#3d4246",
+    "image_overlay_opacity": "25",
+    "grid": "4",
+    "use_body_full": "true",
+    "header_work_time": "<strong>WORK TIME</strong><span>Mon - Fri: <i>7:00 AM to 8:00 PM</i></span><span>Sunday: <i>7:00 AM to 5:00 PM</i></span>",
+    "header_phone": "034 2333 3444",
+    "sections": {
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "1531194065482": {
+            "type": "text",
+            "settings": {
+              "text": "<a href=\"tel:+61225315600\">(+612) 2531 5600</a><br><a href=\"mailto:info@la-studioweb.com\">info@la-studioweb.com</a><br> PO Box 1622 Colins Street West",
+              "width": "33.33333%"
+            }
+          },
+          "1531194085601": {
+            "type": "logo",
+            "settings": { "logo_footer": "", "width": "33.33333%" }
+          },
+          "1531194125968": {
+            "type": "social",
+            "settings": { "width": "33.33333%" }
+          }
+        },
+        "block_order": ["1531194065482", "1531194085601", "1531194125968"],
+        "settings": {
+          "show_footer": true,
+          "use_container": false,
+          "style": "1",
+          "footer_bottom_layout": "1",
+          "footer_linklist": "footer",
+          "copyright": "© 2018 Mantis All rights reserved",
+          "image_payments": ""
+        }
+      },
+      "filter": {
+        "type": "filter",
+        "blocks": {
+          "1531276876742": {
+            "type": "other",
+            "settings": {
+              "title": "Filter by price",
+              "g_shop_by_tags": "$20.00 - $40.00, $40.00 - $60.00,\n$60.00 - $80.00"
+            }
+          },
+          "1531211315533": {
+            "type": "color",
+            "settings": {
+              "title": "Shop By Color",
+              "g_shop_by_tags_color": "DarkSlateGray, Red, Orange, Gainsboro"
+            }
+          },
+          "1531211367403": {
+            "type": "other",
+            "settings": {
+              "title": "Shop By Size",
+              "g_shop_by_tags": "XXL, XL, S, M, L"
+            }
+          },
+          "1531211387434": {
+            "type": "text",
+            "settings": {
+              "title": "Free Shipping",
+              "content_block_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean pharetra, ligula non mollis pretium, lectus libero sodales augue, interdum auctor mauris dui non risus. Nulla facilisi."
+            }
+          },
+          "1531271886229": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/shop-left-banner.jpg",
+              "link": "#",
+              "title": "#Sport new",
+              "heading": "Off 20%"
+            }
+          }
+        },
+        "block_order": [
+          "1531276876742",
+          "1531211315533",
+          "1531211367403",
+          "1531211387434",
+          "1531271886229"
+        ],
+        "settings": {
+          "allcollections_show": true,
+          "allcollections_heading": "Categories"
+        }
+      },
+      "list-collections-template": {
+        "type": "list-collections-template",
+        "settings": {
+          "image": "shopify://shop_images/shop-by-collection.jpg",
+          "text": "Donec venenatis tellus ut nisl rutrum luctus. Quisque euismod rutrum nibh, vel euismod augue iaculis eget. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce magna nunc, iaculis sit amet eros eu, accumsan accumsan lacus. Aliquam viverra tellus quis ligula rutrum, ac ornare lorem rutrum. Suspendisse sagitti",
+          "display_type": "all",
+          "sort": "alphabetical",
+          "grid": "3"
+        }
+      },
+      "about-page-template": {
+        "type": "about-page-template",
+        "blocks": {
+          "1531465783616": {
+            "type": "quote",
+            "settings": {
+              "image": "shopify://shop_images/m7-client1.jpg",
+              "quote": "&quot;Phasellus ut felis odio. Fusce hendrerit, ex ac finibus pulvinar, tortor felis egestas turpis, id pellentesque ligula risus vel sem. Nullam ut nunc a magna varius varius.&quot;",
+              "author": "Ophelia Conner<br>Customer"
+            }
+          },
+          "1531465796389": {
+            "type": "quote",
+            "settings": {
+              "image": "shopify://shop_images/m7-client2.jpg",
+              "quote": "&quot;Phasellus ut felis odio. Fusce hendrerit, ex ac finibus pulvinar, tortor felis egestas turpis, id pellentesque ligula risus vel sem. Nullam ut nunc a magna varius varius.&quot;",
+              "author": "Ophelia Conner<br>Customer"
+            }
+          }
+        },
+        "block_order": ["1531465783616", "1531465796389"],
+        "settings": {
+          "image": "shopify://shop_images/about-bg.jpg",
+          "image_row_1": "shopify://shop_images/about-bg1.jpg",
+          "heading_row_1": "Welcome to Mantis Fashion",
+          "text_row_1": "<p>London is a real world city – with some of the most famous buildings, museums and galleries in the world and 2000 years of history to go with them.</p><p>But it’s not just looking backwards, there’s always a new bar, play or concert to see. London is also one of the most international cities, with people from all around the world making their home here, so it’s just as easy to get Indian street food as it is a roast dinne.</p><ul class=\"list-icon-dots2\">\n<li>Praesent sed ex vel mauris eleifend mollis. Vestibulum dictum sodales ante, ac pulvinar urna sollicitudin in. Suspendisse sodales dolor nec mattis conva.</li>\n<li>Cras porta posuere lectus, vitae consectetur dolor elementum id. Ut interdum, sem eget varius eleifend, ex risus gravida purus, sed</li>\n</ul><p>Morbi aliquam hendrerit felis, eu cursus orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et ante a felis egestas varius quis eget urna. Mauris blandit, sem venenatis blandit vehicula, neque leo eleifend ant</p>",
+          "image_row_2": "shopify://shop_images/about-bg2.jpg",
+          "heading_row_2": "Welcome to Mantis Fashion",
+          "text_row_2": "<p>Morbi aliquam hendrerit felis, eu cursus orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et ante a felis egestas varius quis eget urna. Mauris blandit, sem venenatis blandit vehicula, neque leo eleifend ant</p>",
+          "color_progress_bar": "#a38b5e",
+          "title_progress_bar_1": "Fashion Design",
+          "percent_progress_bar_1": "95%",
+          "title_progress_bar_2": "Web Design",
+          "percent_progress_bar_2": "85%",
+          "title_progress_bar_3": "Branding Design",
+          "percent_progress_bar_3": "80%",
+          "title_progress_bar_4": "WordPress Development",
+          "percent_progress_bar_4": "99%",
+          "title_testimonial": "What Clients Say ?",
+          "use_arrows": false,
+          "use_dots": false,
+          "use_autoplay": true,
+          "use_loop": true,
+          "button_name": "LET'S TALK",
+          "button_link": ""
+        }
+      },
+      "team-page-template": {
+        "type": "team-page-template",
+        "blocks": {
+          "1531883738551": {
+            "type": "member",
+            "settings": {
+              "image": "shopify://shop_images/member1.jpg",
+              "title": "James Mantis",
+              "link_title": "#",
+              "subtitle": "Tech manager",
+              "show_social": true,
+              "link_social_facebook": "#",
+              "link_social_twitter": "#",
+              "link_social_linkedin": "#",
+              "link_social_google_plus": "#"
+            }
+          },
+          "1531883741816": {
+            "type": "member",
+            "settings": {
+              "image": "shopify://shop_images/member2.jpg",
+              "title": "James Mantis",
+              "link_title": "#",
+              "subtitle": "Tech manager",
+              "show_social": true,
+              "link_social_facebook": "#",
+              "link_social_twitter": "#",
+              "link_social_linkedin": "#",
+              "link_social_google_plus": "#"
+            }
+          },
+          "1531883743823": {
+            "type": "member",
+            "settings": {
+              "image": "shopify://shop_images/member3.jpg",
+              "title": "James Mantis",
+              "link_title": "#",
+              "subtitle": "Tech manager",
+              "show_social": true,
+              "link_social_facebook": "#",
+              "link_social_twitter": "#",
+              "link_social_linkedin": "#",
+              "link_social_google_plus": "#"
+            }
+          },
+          "1531883745296": {
+            "type": "member",
+            "settings": {
+              "image": "shopify://shop_images/member4.jpg",
+              "title": "James Mantis",
+              "link_title": "#",
+              "subtitle": "Tech manager",
+              "show_social": true,
+              "link_social_facebook": "#",
+              "link_social_twitter": "#",
+              "link_social_linkedin": "#",
+              "link_social_google_plus": "#"
+            }
+          },
+          "1531883747752": {
+            "type": "member",
+            "settings": {
+              "image": "shopify://shop_images/member5.jpg",
+              "title": "James Mantis",
+              "link_title": "#",
+              "subtitle": "Tech manager",
+              "show_social": true,
+              "link_social_facebook": "#",
+              "link_social_twitter": "#",
+              "link_social_linkedin": "#",
+              "link_social_google_plus": "#"
+            }
+          },
+          "1531883749959": {
+            "type": "member",
+            "settings": {
+              "image": "shopify://shop_images/member6.jpg",
+              "title": "James Mantis",
+              "link_title": "#",
+              "subtitle": "Tech manager",
+              "show_social": true,
+              "link_social_facebook": "#",
+              "link_social_twitter": "#",
+              "link_social_linkedin": "#",
+              "link_social_google_plus": "#"
+            }
+          },
+          "1531883752128": {
+            "type": "member",
+            "settings": {
+              "image": "shopify://shop_images/member7.jpg",
+              "title": "James Mantis",
+              "link_title": "#",
+              "subtitle": "Tech manager",
+              "show_social": true,
+              "link_social_facebook": "#",
+              "link_social_twitter": "#",
+              "link_social_linkedin": "#",
+              "link_social_google_plus": "#"
+            }
+          },
+          "1531883753960": {
+            "type": "member",
+            "settings": {
+              "image": "shopify://shop_images/member8.jpg",
+              "title": "James Mantis",
+              "link_title": "#",
+              "subtitle": "Tech manager",
+              "show_social": true,
+              "link_social_facebook": "#",
+              "link_social_twitter": "#",
+              "link_social_linkedin": "#",
+              "link_social_google_plus": "#"
+            }
+          }
+        },
+        "block_order": [
+          "1531883738551",
+          "1531883741816",
+          "1531883743823",
+          "1531883745296",
+          "1531883747752",
+          "1531883749959",
+          "1531883752128",
+          "1531883753960"
+        ],
+        "settings": {
+          "image": "shopify://shop_images/about-bg.jpg",
+          "text": "Cras porta posuere lectus, vitae consectetur dolor elementum id. Ut interdum, sem eget varius eleifend, ex risus gravida purus, sed finibus tortor nisi maximus orci. Etiam vel sollicitudin nisi. In ipsum tortor, vulputate nec est in, pharetra malesuada diam.",
+          "member_per_row": "4"
+        }
+      },
+      "password-content": {
+        "type": "password-content",
+        "settings": {
+          "image": "",
+          "heading_password": "Our website is coming soon.",
+          "newsletter_enable": true,
+          "end_date_countdown": "2020/01/29",
+          "newsletter_placeholder": "Enter your email address...",
+          "newsletter_button_text": "Subscribe",
+          "show_share_buttons": true,
+          "social_message": "Spread the word"
+        }
+      },
+      "contact-page-template": {
+        "type": "contact-page-template",
+        "settings": {
+          "image": "shopify://shop_images/about-bg.jpg",
+          "title_form_contact": "Get in touch",
+          "iframe_map": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14896.227442070649!2d105.84616728633223!3d21.030410754413484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135abbf59d8f429%3A0x7830a3dfd6e566a1!2zSG_DoG4gS2nhur9tLCBIw6AgTuG7mWksIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1531898993501\" width=\"100%\" height=\"270\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>"
+        }
+      },
+      "blog-template": {
+        "type": "blog-template",
+        "settings": {
+          "image": "",
+          "layout": "blog_no_sidebar",
+          "data_container_width": "1170",
+          "data_item_width": "400",
+          "data_item_height": "500",
+          "blog_show_author": true,
+          "blog_show_date": true,
+          "show_blog_categories": true,
+          "title_blog_categories": "Categories",
+          "category_sidebar_linklist": "blog-sidebar",
+          "show_lastest_post_blog": true,
+          "title_lastest_post": "Recent Posts",
+          "lastest_post_number": "4",
+          "show_instagram_blog": true,
+          "title_instagram_blog": "Instagram",
+          "accessToken_blog": "4056544068.d1a3d85.9d2eba44616b4f4c9ec2e4a9c6d89d27",
+          "limit_instagram_blog": "4",
+          "show_tags_blog": true,
+          "title_tags_blog": "Tag Cloud",
+          "show_blog_about_author": true,
+          "title_blog_author": "About Author",
+          "blog_image_author": "shopify://shop_images/sidebar-author.jpg",
+          "blog_name_author": "Nataila Portman – Blogger/Designer",
+          "blog_text_author": "Praesent sed ex vel mauris eleifend mollis. Vestibulum dictum sodales ante, ac pulvinar urna sollicitudin in",
+          "link_author_facebook": "http://facebook.com",
+          "link_author_twitter": "https://twitter.com",
+          "link_author_google": "https://plus.google.com",
+          "link_author_instagram": "https://www.instagram.com"
+        }
+      },
+      "article-template": {
+        "type": "article-template",
+        "settings": {
+          "layout": "1",
+          "image": "shopify://shop_images/singlepost2-bg-1.jpg",
+          "blog_show_author": true,
+          "blog_show_date": true,
+          "show_share_buttons": true,
+          "show_blog_categories": true,
+          "title_blog_categories": "Categories",
+          "category_sidebar_linklist": "blog-sidebar",
+          "show_lastest_post_blog": true,
+          "title_lastest_post": "Lastest Post",
+          "lastest_post_number": "4",
+          "show_instagram_blog": true,
+          "title_instagram_blog": "Instagram",
+          "accessToken_blog": "4056544068.d1a3d85.9d2eba44616b4f4c9ec2e4a9c6d89d27",
+          "limit_instagram_blog": "4",
+          "show_tags_blog": true,
+          "title_tags_blog": "Tag Cloud",
+          "show_blog_about_author": true,
+          "title_blog_author": "About Author",
+          "blog_image_author": "shopify://shop_images/sidebar-author.jpg",
+          "blog_name_author": "Nataila Portman – Blogger/Designer",
+          "blog_text_author": "Praesent sed ex vel mauris eleifend mollis. Vestibulum dictum sodales ante, ac pulvinar urna sollicitudin in",
+          "link_author_facebook": "http://facebook.com",
+          "link_author_twitter": "https://twitter.com",
+          "link_author_google": "https://plus.google.com",
+          "link_author_instagram": "https://www.instagram.com",
+          "show_related_posts": true,
+          "title_related_posts": "Related Post",
+          "how_many_related_posts": "5"
+        }
+      },
+      "cart-template": {
+        "type": "cart-template",
+        "settings": { "cart_notes_enable": true }
+      },
+      "1532073778818": {
+        "type": "g_slideshow",
+        "blocks": {
+          "1532073778818-0": {
+            "type": "image",
+            "settings": {
+              "image": "",
+              "align_content": "3",
+              "title": "New Season",
+              "title_font_size": "50",
+              "title_color": "#ffffff",
+              "heading": "SALE OFF 50%",
+              "heading_font_size": "100",
+              "heading_color": "#ffffff",
+              "use_text_shadow": false,
+              "subheading": "Don’t miss this chance",
+              "subheading_font_size": "20",
+              "subheading_color": "#ffffff",
+              "button_link": "shopify://collections/all",
+              "button_name": "SHOP NOW",
+              "button_font_size": "12",
+              "button_color": "#4a4141"
+            }
+          },
+          "1532073778818-1": {
+            "type": "image",
+            "settings": {
+              "image": "",
+              "align_content": "1",
+              "title": "New Season",
+              "title_font_size": "50",
+              "title_color": "#ffffff",
+              "heading": "SALE OFF 50%",
+              "heading_font_size": "100",
+              "heading_color": "#ffffff",
+              "use_text_shadow": true,
+              "subheading": "Don’t miss this chance",
+              "subheading_font_size": "20",
+              "subheading_color": "#ffffff",
+              "button_link": "shopify://collections/all",
+              "button_name": "SHOP NOW",
+              "button_font_size": "12",
+              "button_color": "#4a4141"
+            }
+          }
+        },
+        "block_order": ["1532073778818-0", "1532073778818-1"],
+        "settings": {
+          "use_full_screen": false,
+          "use_center_with_loop": false,
+          "use_width": "2",
+          "show_left_menu_slider": false,
+          "link_left_menu_slider": "",
+          "height_slider": "800",
+          "margin": "0 0 26px 0",
+          "autoplay": false,
+          "use_dots_slideshow": false,
+          "use_nav_slideshow": true,
+          "nav_style": "1",
+          "transition": "slide",
+          "autoplay_speed": "5000"
+        }
+      },
+      "1532074995792": {
+        "type": "g_banner_columns",
+        "blocks": {
+          "1532074995792-0": {
+            "type": "banner1",
+            "settings": {
+              "width": "2",
+              "image": "",
+              "link": "shopify://collections/all",
+              "title": "Linen-blend midi dress"
+            }
+          },
+          "1532074995792-1": {
+            "type": "banner2",
+            "settings": {
+              "width": "2",
+              "image": "",
+              "link": "shopify://collections/all",
+              "title": "Polka dot midi dress",
+              "image2": "",
+              "link2": "shopify://collections/all",
+              "title2": "Men"
+            }
+          },
+          "1532074995792-2": {
+            "type": "banner1",
+            "settings": {
+              "width": "2",
+              "image": "",
+              "link": "shopify://collections/all",
+              "title": "Kids Summer"
+            }
+          }
+        },
+        "block_order": [
+          "1532074995792-0",
+          "1532074995792-1",
+          "1532074995792-2"
+        ],
+        "settings": {
+          "use_container": false,
+          "title": "",
+          "margin": "0 0 70px 0"
+        }
+      },
+      "1532075947189": {
+        "type": "g_product_carousel",
+        "settings": {
+          "use_container": false,
+          "margin": "0 0 80px 0",
+          "title": "TOP THIS WEEK",
+          "subtitle": "Our collection hover on a look you like to shop the items featured",
+          "view_all_products": "View all products",
+          "link_view_all_products": "shopify://collections/all",
+          "id_collection": "",
+          "items_show": "8",
+          "sidetoshow": "4",
+          "use_loop": false,
+          "use_autoplay": false,
+          "use_dots": true,
+          "use_arrow": false
+        }
+      },
+      "1532075995337": {
+        "type": "g_newsletter",
+        "settings": {
+          "margin": "0 0 120px 0",
+          "title": "Sign up for our newsletter and get 10% off",
+          "subtitle": ""
+        }
+      },
+      "1532076015287": {
+        "type": "g_instagram",
+        "settings": {
+          "accessToken": "7608181471.3a81a9f.7aa83c93a1e5412783f3a5cf5fa46b51",
+          "title": "Follow us on Instagram",
+          "limit": "20",
+          "sort": "none",
+          "speed": "300",
+          "sidetoshow": "5",
+          "use_container": false
+        }
+      }
+    },
+    "content_for_index": [
+      "1532073778818",
+      "1532074995792",
+      "1532075947189",
+      "1532075995337",
+      "1532076015287"
+    ]
+  },
+  "presets": {
+    "Default": {
+      "color_text": "#3d4246",
+      "color_body_text": "#788188",
+      "color_sale_text": "#7796A8",
+      "color_borders": "#e8e9eb",
+      "color_button": "#7796A8",
+      "color_button_text": "#fff",
+      "color_small_button": "#fff",
+      "color_small_button_text": "#3d4246",
+      "color_text_field": "#fff",
+      "color_text_field_text": "#000",
+      "color_image_overlay_text": "#fff",
+      "color_image_overlay": "#3d4246",
+      "image_overlay_opacity": 25,
+      "color_body_bg": "#fff",
+      "type_header_family": "Google_Work+Sans_600_sans",
+      "type_header_base_size": "26px",
+      "type_base_family": "Google_Work+Sans_400_sans",
+      "type_base_size": "16px",
+      "type_bold_product_titles": false,
+      "share_facebook": true,
+      "share_twitter": true,
+      "share_pinterest": true,
+      "sections": { "footer": { "type": "footer", "settings": {} } },
+      "content_for_index": []
+    },
+    "Light2": {
+      "color_text": "#162950",
+      "color_body_text": "#757575",
+      "color_sale_text": "#ff574f",
+      "color_borders": "#e4e4e4",
+      "color_button": "#ff574f",
+      "color_button_text": "#ffffff",
+      "color_small_button": "#eaeaea",
+      "color_small_button_text": "#162950",
+      "color_text_field": "#ffffff",
+      "color_text_field_text": "#162950",
+      "color_image_overlay_text": "#ffffff",
+      "color_image_overlay": "#3d3d3d",
+      "image_overlay_opacity": 30,
+      "color_body_bg": "#f8f8f8",
+      "type_header_family": "Google_Muli_600_sans",
+      "type_header_base_size": "26px",
+      "type_base_family": "Google_Muli_600_sans",
+      "type_base_size": "18px",
+      "type_bold_product_titles": true,
+      "share_facebook": true,
+      "share_twitter": true,
+      "share_pinterest": true,
+      "social_twitter_link": "",
+      "social_facebook_link": "",
+      "social_pinterest_link": "",
+      "social_instagram_link": "",
+      "social_tumblr_link": "",
+      "social_snapchat_link": "",
+      "social_youtube_link": "",
+      "social_vimeo_link": "",
+      "favicon": "",
+      "checkout_header_image": "",
+      "checkout_logo_image": "",
+      "checkout_logo_position": "left",
+      "checkout_logo_size": "small",
+      "checkout_body_background_image": "",
+      "checkout_body_background_color": "#0D0D0D",
+      "checkout_input_background_color_mode": "white",
+      "checkout_sidebar_background_image": "",
+      "checkout_sidebar_background_color": "#e8f3f6",
+      "checkout_heading_font": "Roboto",
+      "checkout_body_font": "Source Sans Pro",
+      "checkout_accent_color": "#1990c6",
+      "checkout_button_color": "#23314e",
+      "checkout_error_color": "#ff6d6d",
+      "sections": {
+        "footer": {
+          "type": "footer",
+          "settings": { "footer_linklist": "main-menu" }
+        },
+        "blog-template": {
+          "type": "blog-template",
+          "settings": {
+            "layout": "grid",
+            "blog_show_author": true,
+            "blog_show_date": false
+          }
+        },
+        "article-template": {
+          "type": "article-template",
+          "settings": {
+            "blog_show_author": true,
+            "blog_show_date": true,
+            "show_share_buttons": true
+          }
+        },
+        "cart-template": {
+          "type": "cart-template",
+          "settings": { "cart_notes_enable": false }
+        }
+      },
+      "content_for_index": []
+    },
+    "Light": {
+      "color_text": "#F7F7F7",
+      "color_body_text": "#F7F7F7",
+      "color_sale_text": "#008080",
+      "color_borders": "#e4e4e4",
+      "color_button": "#ff574f",
+      "color_button_text": "#ffffff",
+      "color_small_button": "#eaeaea",
+      "color_small_button_text": "#162950",
+      "color_text_field": "#ffffff",
+      "color_text_field_text": "#162950",
+      "color_image_overlay_text": "#ffffff",
+      "color_image_overlay": "#3d3d3d",
+      "image_overlay_opacity": 30,
+      "color_body_bg": "#0D0D0D",
+      "type_header_family": "Google_Muli_600_sans",
+      "type_header_base_size": "26px",
+      "type_base_family": "Google_Muli_600_sans",
+      "type_base_size": "18px",
+      "type_bold_product_titles": true,
+      "share_facebook": true,
+      "share_twitter": true,
+      "share_pinterest": true,
+      "social_twitter_link": "",
+      "social_facebook_link": "",
+      "social_pinterest_link": "",
+      "social_instagram_link": "",
+      "social_tumblr_link": "",
+      "social_snapchat_link": "",
+      "social_youtube_link": "",
+      "social_vimeo_link": "",
+      "favicon": "",
+      "checkout_header_image": "",
+      "checkout_logo_image": "",
+      "checkout_logo_position": "left",
+      "checkout_logo_size": "small",
+      "checkout_body_background_image": "",
+      "checkout_body_background_color": "#ffffff",
+      "checkout_input_background_color_mode": "white",
+      "checkout_sidebar_background_image": "",
+      "checkout_sidebar_background_color": "#e8f3f6",
+      "checkout_heading_font": "Roboto",
+      "checkout_body_font": "Source Sans Pro",
+      "checkout_accent_color": "#008080",
+      "checkout_button_color": "#008080",
+      "checkout_error_color": "#D64343",
+      "sections": {
+        "footer": {
+          "type": "footer",
+          "settings": { "footer_linklist": "main-menu" }
+        },
+        "blog-template": {
+          "type": "blog-template",
+          "settings": {
+            "layout": "grid",
+            "blog_show_author": true,
+            "blog_show_date": false
+          }
+        },
+        "article-template": {
+          "type": "article-template",
+          "settings": {
+            "blog_show_author": true,
+            "blog_show_date": true,
+            "show_share_buttons": true
+          }
+        },
+        "cart-template": {
+          "type": "cart-template",
+          "settings": { "cart_notes_enable": false }
+        }
+      },
+      "content_for_index": []
+    }
+  }
+}

@@ -1,0 +1,379 @@
+{% case settings.product_per_row %}
+{% when '3' %}
+{%- assign grid_items = 'xlg-grid-3-items lg-grid-3-items md-grid-3-items' -%}
+{% when '4' %}
+{%- assign grid_items = 'xlg-grid-4-items lg-grid-4-items md-grid-3-items' -%}
+{% endcase %}
+
+{%- assign limit = settings.products_per_page | plus:0 -%}
+
+<div class="vc_row wpb_row vc_row-fluid section-page-header" {% if collection.image %}style="background-image: url({{ collection.image | img_url: '1920x' }});"{% endif %}>
+    <div class="container">
+        <div class="page-header-inner" {% if settings.padding_collections != blank %}style="padding: {{ settings.padding_collections }};"{% endif %}>
+            <div class="row">
+                <div class="col-xs-12">
+                    <header>
+                        <div class="page-title h3" {% if settings.color_collections_text != blank %}style="color: {{ settings.color_collections_text }};"{% endif %}>{{ collection.title }}</div>
+                    </header>
+                    <div class="la-breadcrumbs hidden-xs">
+                        <div>
+                            <div class="la-breadcrumb-content">
+                                <div class="la-breadcrumb-wrap">
+                                    <div class="la-breadcrumb-item"><a href="{{ shop.url }}" class="la-breadcrumb-item-link is-home" rel="home" title="{{ shop.name | escape }}" {% if settings.color_collections_text != blank %}style="color: {{ settings.color_collections_text }};"{% endif %}>{{ 'general.breadcrumbs.home' | t }}</a></div>
+                                    <div class="la-breadcrumb-item">
+                                        <div class="la-breadcrumb-item-sep" {% if settings.color_collections_text != blank %}style="color: {{ settings.color_collections_text }};"{% endif %}>/</div>
+                                    </div>
+                                    <div class="la-breadcrumb-item" {% if settings.color_collections_text != blank %}style="color: {{ settings.color_collections_text }};"{% endif %}><span class="la-breadcrumb-item-target">{{ 'general.breadcrumbs.shop' | t }}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container {% if settings.use_no_gutter %}container-no-gutter{% endif %}">
+{%- case settings.layout -%}
+{% when 'grid' %}
+  {% paginate collection.products by limit %}
+    <div class="content-collection">
+      {% include 'collection-nav' %}
+      <div id="la_shop_products" class="la-shop-products">
+        <div class="row">
+          <div class="col-xs-12">
+            <ul class="products products-grid grid-space-default products-grid-1 grid-items {{ grid_items }} sm-grid-2-items xs-grid-1-items mb-grid-1-items">
+              {% for product in collection.products %}
+                {% include 'g_product_grid' %}
+              {% else %}
+                {% comment %}
+                Add default products to help with onboarding for collections/all only.
+
+                The onboarding styles and products are only loaded if the
+                store has no products.
+                {% endcomment %}
+                {% if collection.handle == 'all' and collection.all_vendors.size == 0 and collection.all_types.size == 0 %}
+                {% for i in (1..limit) %}
+                <li class="product_item grid-item product" data-width="1" data-height="1">
+                  <div class="product_item--inner">
+                    <div class="product_item--thumbnail">
+                      <div class="product_item--thumbnail-holder">
+                        <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
+                          {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                          {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                          <div class="item--overlay"></div>
+                        </a>
+                      </div>
+                      <div class="product_item--action">
+                        <a class="add_wishlist button" href="#" title="Add to Wishlist" rel="nofollow">Add to Compare</a>
+                        <div class="wrap-addto">
+                          <a class="quickview button la-quickview-button" href="#" title="Quick Shop">Quick Shop</a>
+                          <a rel="nofollow" href="#" title="Add to cart" class="button product_type_simple add_to_cart_button ajax_add_to_cart">Add to cart</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="product_item--info">
+                      <div class="product_item--info-inner">
+                        <h2 class="product_item--title">
+                          <a href="#">{{ 'homepage.onboarding.product_title' | t }}</a>
+                        </h2>
+                        <span class="price"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>56.00</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                {% endfor %}
+                {% else %}
+                   {%- assign g_empty_collection = true -%}
+                {% endif %}
+              {% endfor %} 
+            </ul>
+            {% if g_empty_collection %}
+              <p class="text-center">{{ 'collections.general.no_matches' | t }}</p>
+            {% endif %}
+          </div>
+        </div>
+        {% if paginate.pages > 1 %}
+          {% include 'pagination' %}
+        {% endif %}
+      </div>
+    </div>
+  {% endpaginate %}
+{% when 'left-sidebar' %}
+<div class="collection-sidebar row">
+<aside id="sidebar_primary" class="col-md-3 col-xs-12">
+  <div class="sidebar-inner">
+    {% section 'filter' %}
+  </div>
+</aside>
+{% paginate collection.products by limit %}
+
+<div id="main-collection" class="col-md-9 col-xs-12 site-content">
+  {% include 'collection-nav' %}
+  <div id="la_shop_products" class="la-shop-products">
+    <div class="row">
+      <div class="col-xs-12">
+        <ul class="products products-grid grid-space-default products-grid-1 grid-items {{ grid_items }} sm-grid-2-items xs-grid-1-items mb-grid-1-items" data-item_selector=".product_item" data-item_margin="30" data-item-width="270" data-item-height="390" data-md-col="3" data-sm-col="2" data-xs-col="1" data-mb-col="1">
+          {% for product in collection.products %}
+          {% include 'g_product_grid' %}
+          {% else %}
+          {% comment %}
+          Add default products to help with onboarding for collections/all only.
+
+          The onboarding styles and products are only loaded if the
+          store has no products.
+          {% endcomment %}
+          {% if collection.handle == 'all' and collection.all_vendors.size == 0 and collection.all_types.size == 0 %}
+          {% for i in (1..limit) %}
+          <li class="product_item grid-item product" data-width="1" data-height="1">
+            <div class="product_item--inner">
+              <div class="product_item--thumbnail">
+                <div class="product_item--thumbnail-holder">
+                  <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
+                    {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                    {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                    <div class="item--overlay"></div>
+                  </a>
+                </div>
+                <div class="product_item--action">
+                  <a class="add_wishlist button" href="#" title="Add to Wishlist" rel="nofollow">Add to Compare</a>
+                  <div class="wrap-addto">
+                    <a class="quickview button la-quickview-button" href="#" title="Quick Shop">Quick Shop</a>
+                    <a rel="nofollow" href="#" title="Add to cart" class="button product_type_simple add_to_cart_button ajax_add_to_cart">Add to cart</a>
+                  </div>
+                </div>
+              </div>
+              <div class="product_item--info">
+                <div class="product_item--info-inner">
+                  <h2 class="product_item--title">
+                    <a href="#">{{ 'homepage.onboarding.product_title' | t }}</a>
+                  </h2>
+                  <span class="price"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>56.00</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+          {% else %}
+          {%- assign g_empty_collection = true -%}
+          {% endif %}
+          {% endfor %} 
+        </ul>
+        {% if g_empty_collection %}
+        <p class="text-center">{{ 'collections.general.no_matches' | t }}</p>
+        {% endif %}
+      </div>
+    </div>
+    {% if paginate.pages > 1 %}
+    {% include 'pagination' %}
+    {% endif %}
+  </div>
+</div>
+{% endpaginate %}
+</div>
+{% when 'right-sidebar' %}
+<div class="collection-sidebar row">
+{% paginate collection.products by limit %}
+<div id="main-collection" class="col-md-9 col-xs-12 site-content">
+  {% include 'collection-nav' %}
+  <div id="la_shop_products" class="la-shop-products">
+    <div class="row">
+      <div class="col-xs-12">
+        <ul class="products products-grid grid-space-default products-grid-1 grid-items {{ grid_items }} sm-grid-2-items xs-grid-1-items mb-grid-1-items" data-item_selector=".product_item" data-item_margin="30" data-item-width="270" data-item-height="390" data-md-col="3" data-sm-col="2" data-xs-col="1" data-mb-col="1">
+          {% for product in collection.products %}
+          {% include 'g_product_grid' %}
+          {% else %}
+          {% comment %}
+          Add default products to help with onboarding for collections/all only.
+
+          The onboarding styles and products are only loaded if the
+          store has no products.
+          {% endcomment %}
+          {% if collection.handle == 'all' and collection.all_vendors.size == 0 and collection.all_types.size == 0 %}
+          {% for i in (1..limit) %}
+          <li class="product_item grid-item product" data-width="1" data-height="1">
+            <div class="product_item--inner">
+              <div class="product_item--thumbnail">
+                <div class="product_item--thumbnail-holder">
+                  <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
+                    {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                    {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                    <div class="item--overlay"></div>
+                  </a>
+                </div>
+                <div class="product_item--action">
+                  <a class="add_wishlist button" href="#" title="Add to Wishlist" rel="nofollow">Add to Compare</a>
+                  <div class="wrap-addto">
+                    <a class="quickview button la-quickview-button" href="#" title="Quick Shop">Quick Shop</a>
+                    <a rel="nofollow" href="#" title="Add to cart" class="button product_type_simple add_to_cart_button ajax_add_to_cart">Add to cart</a>
+                  </div>
+                </div>
+              </div>
+              <div class="product_item--info">
+                <div class="product_item--info-inner">
+                  <h2 class="product_item--title">
+                    <a href="#">{{ 'homepage.onboarding.product_title' | t }}</a>
+                  </h2>
+                  <span class="price"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>56.00</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+          {% else %}
+          {%- assign g_empty_collection = true -%}
+          {% endif %}
+          {% endfor %} 
+        </ul>
+        {% if g_empty_collection %}
+        <p class="text-center">{{ 'collections.general.no_matches' | t }}</p>
+        {% endif %}
+      </div>
+    </div>
+    {% if paginate.pages > 1 %}
+    {% include 'pagination' %}
+    {% endif %}
+  </div>
+</div>
+{% endpaginate %}
+<aside id="sidebar_primary" class="col-md-3 col-xs-12">
+  <div class="sidebar-inner text-right">
+    	{% section 'filter' %}
+  </div>
+</aside>
+</div>
+{% when 'masonry' %}
+  {% paginate collection.products by limit %}
+    <div class="content-collection">
+      {% include 'collection-nav' %}
+      <div id="la_shop_products" class="la-shop-products">
+        <div class="row">
+          <div class="col-xs-12">
+            <ul class="products products-grid grid-space-30 products-grid-1 prods_masonry la-isotope-container {{ grid_items }} sm-grid-2-items xs-grid-1-items mb-grid-1-items" data-item_selector=".product_item" data-item_margin="0" data-item-width="370" data-item-height="290" data-portfolionumber="{{ settings.product_per_row }}" data-md-col="3" data-sm-col="2" data-xs-col="1" data-mb-col="1">
+              {% for product in collection.products %}
+                {% include 'g_product_masonry' %}
+              {% else %}
+                {% comment %}
+                Add default products to help with onboarding for collections/all only.
+
+                The onboarding styles and products are only loaded if the
+                store has no products.
+                {% endcomment %}
+                {% if collection.handle == 'all' and collection.all_vendors.size == 0 and collection.all_types.size == 0 %}
+                {% for i in (1..limit) %}
+                <li class="product_item grid-item product" data-width="1" data-height="1">
+                  <div class="product_item--inner">
+                    <div class="product_item--thumbnail">
+                      <div class="product_item--thumbnail-holder">
+                        <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
+                          {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                          {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                          <div class="item--overlay"></div>
+                        </a>
+                      </div>
+                      <div class="product_item--action">
+                        <a class="add_wishlist button" href="#" title="Add to Wishlist" rel="nofollow">Add to Compare</a>
+                        <div class="wrap-addto">
+                          <a class="quickview button la-quickview-button" href="#" title="Quick Shop">Quick Shop</a>
+                          <a rel="nofollow" href="#" title="Add to cart" class="button product_type_simple add_to_cart_button ajax_add_to_cart">Add to cart</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="product_item--info">
+                      <div class="product_item--info-inner">
+                        <h2 class="product_item--title">
+                          <a href="#">{{ 'homepage.onboarding.product_title' | t }}</a>
+                        </h2>
+                        <span class="price"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>56.00</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                {% endfor %}
+                {% else %}
+                   {%- assign g_empty_collection = true -%}
+                {% endif %}
+              {% endfor %} 
+            </ul>
+            {% if g_empty_collection %}
+              <p class="text-center">{{ 'collections.general.no_matches' | t }}</p>
+            {% endif %}
+          </div>
+        </div>
+        {% if paginate.pages > 1 %}
+          {% include 'pagination' %}
+        {% endif %}
+      </div>
+    </div>
+  {% endpaginate %}
+{% when 'metro' %}
+  {% paginate collection.products by limit %}
+    <div class="content-collection">
+      {% include 'collection-nav' %}
+      <div id="la_shop_products" class="la-shop-products">
+        <div class="row">
+          <div class="col-xs-12">
+            <ul class="products products-grid grid-space-30 products-grid-1 prods_masonry la-isotope-container {{ grid_items }} sm-grid-2-items xs-grid-1-items mb-grid-1-items" data-item_selector=".product_item" data-item_margin="0" data-container-width="1760" data-item-width="425" data-item-height="550" data-portfolionumber="{{ settings.product_per_row }}" data-md-col="3" data-sm-col="2" data-xs-col="1" data-mb-col="1">
+              {% for product in collection.products %}
+                {% include 'g_product_metro' %}
+              {% else %}
+                {% comment %}
+                Add default products to help with onboarding for collections/all only.
+
+                The onboarding styles and products are only loaded if the
+                store has no products.
+                {% endcomment %}
+                {% if collection.handle == 'all' and collection.all_vendors.size == 0 and collection.all_types.size == 0 %}
+                {% for i in (1..limit) %}
+                <li class="product_item grid-item product" data-width="1" data-height="1">
+                  <div class="product_item--inner">
+                    <div class="product_item--thumbnail">
+                      <div class="product_item--thumbnail-holder">
+                        <a href="#" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
+                          {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                          {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                          <div class="item--overlay"></div>
+                        </a>
+                      </div>
+                      <div class="product_item--action">
+                        <a class="add_wishlist button" href="#" title="Add to Wishlist" rel="nofollow">Add to Compare</a>
+                        <div class="wrap-addto">
+                          <a class="quickview button la-quickview-button" href="#" title="Quick Shop">Quick Shop</a>
+                          <a rel="nofollow" href="#" title="Add to cart" class="button product_type_simple add_to_cart_button ajax_add_to_cart">Add to cart</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="product_item--info">
+                      <div class="product_item--info-inner">
+                        <h2 class="product_item--title">
+                          <a href="#">{{ 'homepage.onboarding.product_title' | t }}</a>
+                        </h2>
+                        <span class="price"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>56.00</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                {% endfor %}
+                {% else %}
+                   {%- assign g_empty_collection = true -%}
+                {% endif %}
+              {% endfor %} 
+            </ul>
+            {% if g_empty_collection %}
+              <p class="text-center">{{ 'collections.general.no_matches' | t }}</p>
+            {% endif %}
+          </div>
+        </div>
+        {% if paginate.pages > 1 %}
+          {% include 'pagination' %}
+        {% endif %}
+      </div>
+    </div>
+  {% endpaginate %}
+{%- endcase -%}
+</div>

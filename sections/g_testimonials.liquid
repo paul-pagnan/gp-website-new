@@ -1,0 +1,135 @@
+<div style="display: none;">{% include 'dlicon-arrow-left2' %}{% include 'dlicon-arrow-right2' %}</div>
+<div class="g-testimonial" {% if section.settings.image != blank %}style="background-image: url({{ section.settings.image | img_url: '1920x', format: 'pjpg' | split:'?' | first }}) !important;background-size: cover;background-position: center;{% if section.settings.margin != blank %}margin: {{ section.settings.margin }};{% endif %}"{% else %}style="background-color: {{ section.settings.color }}; {% if section.settings.margin != blank %}margin: {{ section.settings.margin }};{% endif %}"{% endif %}>
+  <div class="container text-center">
+    {% if section.settings.title != blank %}
+    	<div class="g-custom-block-title">{{ section.settings.title }}</div>
+    {% endif %}
+    {% if section.settings.subtitle != blank %}
+    	<div class="g-text-blocks">{{ section.settings.subtitle }}</div>
+    {% endif %}
+    <div class="g-stick-testimonial g-slick-slider" data-slick='{"infinite":{% if section.settings.use_loop %}true{% else %}false{% endif %},"dots":{% if section.settings.use_dots %}true{% else %}false{% endif %},"slidesToShow":1,"slidesToScroll":1,"autoplay":{% if section.settings.use_autoplay %}true{% else %}false{% endif %},"arrows":{% if section.settings.use_arrows %}true{% else %}false{% endif %},"speed":"1000","autoplaySpeed":3000,"centerMode":false,"variableWidth":false,"nextArrow":"<button type=\"button\" style=\"font-size:24px;width:24px;height:24px;line-height:24px;\" class=\"slick-next default\"><svg><use xlink:href=\"#dlicon-arrow-right2\"><\/use><\/svg><\/button>","prevArrow":"<button type=\"button\" style=\"font-size:24px;width:24px;height:24px;line-height:24px;\" class=\"slick-prev default\"><svg><use xlink:href=\"#dlicon-arrow-left2\"><\/use><\/svg><\/button>","responsive":[{"breakpoint":1824,"settings":{"slidesToShow":1,"slidesToScroll":1}},{"breakpoint":1200,"settings":{"slidesToShow":1,"slidesToScroll":1}},{"breakpoint":992,"settings":{"slidesToShow":1,"slidesToScroll":1}},{"breakpoint":768,"settings":{"slidesToShow":1,"slidesToScroll":1}},{"breakpoint":480,"settings":{"slidesToShow":1,"slidesToScroll":1}}]}'>
+      {% for block in section.blocks %}
+      <div class="testimonial_item">
+        <div class="testimonial_item--image">
+          {% if block.settings.image != blank %}
+          	<img src="{{ block.settings.image | img_url: '65x65' }}" alt="{{ block.settings.image.alt }}" />
+          {% else %}
+            {{ 'image' | placeholder_svg_tag }}
+          {% endif %}
+        </div>
+        {% if block.settings.quote != blank %}
+          <div class="testimonial_item--info">
+            {{ block.settings.quote }}
+          </div>
+        {% endif %}
+        {% if block.settings.author != blank %}
+          <div class="testimonial_item--bottom">
+            {{ block.settings.author }}
+          </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>    
+</div>
+{% schema %}
+  {
+    "name": "Testimonials",
+    "class": "globo_testimonials",
+    "max_blocks": 9,
+    "settings": [
+        {
+          "type": "text",
+          "id": "margin",
+          "label": "Margin: (top-right-bottom-left)",
+          "info": "Ex: 10px 0 30px 0"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Testimonial background color"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Testimonial background image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_arrows",
+          "label": "Use Arrows?",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "use_dots",
+          "label": "Use Dots?",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "use_autoplay",
+          "label": "Use autoplay?",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "use_loop",
+          "label": "Use Infinite loop sliding?",
+          "default": false
+        }
+    ],
+    "blocks": [
+      {
+        "type": "quote",
+        "name": "Testimonial",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "textarea",
+            "id": "quote",
+            "label": "Text",
+            "default": "&quot;Phasellus ut felis odio. Fusce hendrerit, ex ac finibus pulvinar, tortor felis egestas turpis, id pellentesque ligula risus vel sem. Nullam ut nunc a magna varius varius.&quot;"
+          },
+          {
+            "type": "text",
+            "id": "author",
+            "label": "Author",
+            "default": "Ophelia Conner<br>Customer"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Testimonials",
+        "category": "Text",
+        "blocks": [
+          {
+            "type": "quote"
+          },
+          {
+            "type": "quote"
+          },
+          {
+            "type": "quote"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

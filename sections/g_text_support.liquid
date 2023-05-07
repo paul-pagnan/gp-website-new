@@ -1,0 +1,91 @@
+<div class="g-text-support" {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+  <div class="{% if section.settings.use_container %}container{% else %}container-full{% endif %}">
+    <div class="row">
+      {% for block in section.blocks %}
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="img">
+          {% if block.settings.image != blank %}
+          <img class="lazy" data-src="{{ block.settings.image | img_url: 'small' | split:'?' | first }}" alt="{{ block.settings.image.alt }}" />
+          {% else %}
+          {{ 'image' | placeholder_svg_tag }}
+          {% endif %}
+        </div>
+        <div class="text">
+          {% if block.settings.title != blank %}
+          <h5>{{ block.settings.title }}</h5>
+          {% endif %}
+          {% if block.settings.text != blank %}
+          <p>{{ block.settings.text }}</p>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Block text support",
+    "class": "globo_text_support",
+	"max_blocks": 4,
+  	"presets": [
+      {
+        "name": "Block text support",
+        "category": "Text",
+        "blocks": [
+          {
+            "type": "block_text_support"
+          },
+          {
+            "type": "block_text_support"
+          },
+          {
+            "type": "block_text_support"
+          },
+          {
+            "type": "block_text_support"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "use_container",
+        "label": "Use container?",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      }
+    ],
+  	"blocks": [
+      {
+        "type": "block_text_support",
+        "name": "Block text support",
+        "settings": [
+         {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+         },
+         {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Free Worldwide Shipping"
+         },
+         {
+            "type": "text",
+            "id": "text",
+            "label": "Text",
+            "default": "On all orders over $100"
+         }
+        ]
+      }
+    ]
+  }
+{% endschema %}

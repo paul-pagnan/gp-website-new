@@ -1,0 +1,83 @@
+<div class="g--newsletter-background lazy cover-background" {% if section.settings.image != blank %}data-src="{{ section.settings.image | img_url: '1920x', format: 'pjpg' | split:'?' | first }}"{% endif %} {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 col-xs-12">
+        <div class="text-newsletter-background">
+          {% if section.settings.title != blank %}
+          	<h2>{{ section.settings.title }}</h2>
+          {% endif %}	
+          {% if section.settings.subtitle != blank %}
+          	<p>{{ section.settings.subtitle }}</p>
+          {% endif %}  	     	
+        </div>
+      </div>
+      <div class="col-sm-8 col-xs-12">
+        <div id="globo-mailchimp-container-bg" class="globo-mailchimp-container-bg g_column-inner">
+          {% form 'customer',  class:'globo-easy-mc-form' %}
+          {{ form.errors | default_errors }}
+          {% if form.posted_successfully? %}
+          <p class="form--success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+          {% else %}
+          <div class="input-group password__input-group">
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input type="email"
+                   name="contact[email]"
+                   id="Email"
+                   class="globo-easy-mc-email field-no-label"
+                   value="{% if customer %}{{ customer.email }}{% endif %}"
+                   placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                   autocorrect="off"
+                   autocapitalize="off">
+            <span class="input-group__btn">
+              <button type="submit" class="globo-easy-mc-submit-button btn btn-primary" name="commit" id="Subscribe">
+                <span>{{ 'general.newsletter_form.submit' | t }}</span>
+              </button>
+            </span>
+          </div>
+          {% endif %}
+          {% endform %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Newsletter background",
+    "class": "globo_newsletter_default",
+    "settings": [
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Join Our Newsletter"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Sub title",
+		"default": "Get off 20% for your next purchase!"
+      },
+      {
+        "type": "paragraph",
+        "content": "Any customers who sign up will have an account created for them in Shopify. [View customers](/admin/customers?query=&accepts_marketing=1)"
+      }
+    ],
+    "presets": [{
+      "name": "Newsletter background",
+      "category": "Promotional"
+    }]
+  }
+{% endschema %}

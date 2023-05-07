@@ -1,0 +1,161 @@
+<div class="g-banner-image-text" {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+  <div class="container">
+    {% for block in section.blocks %}
+    {%- case block.settings.layout -%}
+    {% when '1' %}
+      <div class="row">
+        <div class="col-sm-6 col-xs-12">
+          <figure class="wpb_wrapper vc_figure">
+            {% if block.settings.button_link != blank %}<a href="{{ block.settings.button_link }}" target="_self" class="vc_single_image-wrapper">{% endif %}
+              {% if block.settings.image != blank %}
+              <img data-src="{{ block.settings.image | img_url: '470x580' | split:'?' | first }}" class="vc_single_image-img attachment-full lazy" alt="{{ block.settings.image.alt }}">
+              {% else %}
+              {{ 'image' | placeholder_svg_tag }}
+              {% endif %}
+            {% if block.settings.button_link != blank %}</a>{% endif %}
+          </figure>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+          <div class="content-padding-top" style="padding: {{ block.settings.content_padding_top }}px 0 0 0;">
+            {% if block.settings.title != blank %}
+           	<div class="title">{{ block.settings.title }}</div>
+            {% endif %}
+            {% if block.settings.heading != blank %}
+            <h3 class="g-heading">{{ block.settings.heading }}</h3>
+            {% endif %}
+            {% if block.settings.text != blank %}
+            <p>{{ block.settings.text }}</p>
+            {% endif %}
+            {% if block.settings.button_name != blank %}
+            <div class="g-button-link"><a href="{{ block.settings.button_link }}">{{ block.settings.button_name }}</a></div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% when '2' %}
+      <div class="row">
+        <div class="col-sm-6 col-xs-12">
+          <div class="content-padding-top" style="padding: {{ block.settings.content_padding_top }}px 0 0 0;">
+            {% if block.settings.title != blank %}
+           	<div class="title">{{ block.settings.title }}</div>
+            {% endif %}
+            {% if block.settings.heading != blank %}
+            <h3 class="g-heading">{{ block.settings.heading }}</h3>
+            {% endif %}
+            {% if block.settings.text != blank %}
+            <p>{{ block.settings.text }}</p>
+            {% endif %}
+            {% if block.settings.button_name != blank %}
+            <div class="g-button-link"><a href="{{ block.settings.button_link }}">{{ block.settings.button_name }}</a></div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+          <figure class="wpb_wrapper vc_figure text-right">
+            {% if block.settings.button_link != blank %}<a href="{{ block.settings.button_link }}" target="_self" class="vc_single_image-wrapper">{% endif %}
+              {% if block.settings.image != blank %}
+              <img data-src="{{ block.settings.image | img_url: '470x580' | split:'?' | first }}" class="vc_single_image-img attachment-full lazy" alt="{{ block.settings.image.alt }}">
+              {% else %}
+              {{ 'image' | placeholder_svg_tag }}
+              {% endif %}
+            {% if block.settings.button_link != blank %}</a>{% endif %}
+          </figure>
+        </div>
+      </div>
+    {%- endcase -%}
+    {% endfor %}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Block banner image text",
+    "class": "globo_banner_image_text",
+	"max_blocks": 6,
+  	"presets": [
+      {
+        "name": "Block banner image text",
+        "category": "Categories & Banner",
+        "blocks": [
+          {
+            "type": "block_banner_image_text"
+          },
+          {
+            "type": "block_banner_image_text"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      }
+    ],
+  	"blocks": [
+      {
+        "type": "block_banner_image_text",
+        "name": "Block banner image text",
+        "settings": [
+           {
+            "type": "select",
+            "id": "layout",
+            "label": "Layout",
+            "default": "1",
+            "options": [
+                 {
+                   "value": "1",
+                   "label": "Image left content right"
+                 },
+                 {
+                   "value": "2",
+                   "label": "Image right content left"
+                 }
+               ]
+           },
+           {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+           },
+           {
+              "type": "text",
+              "id": "content_padding_top",
+              "label": "Content padding top",
+              "info": "Ex: 10, 50...(px)"
+           },
+           {
+              "type": "text",
+              "id": "title",
+              "label": "Title",
+              "default": "New Collections"
+           },
+           {
+              "type": "text",
+              "id": "heading",
+              "label": "Heading",
+              "default": "Bow linen skirt"
+           },
+           {
+              "type": "textarea",
+              "id": "text",
+              "label": "Text",
+              "default": "Phasellus ut felis odio.Nullam ut nunc a magna varius varius. Fusce ut magna ut felis tempor eleifend. Fusce hendrerit, ex ac finibus pulvinar, tortor felis egestas turpis, id pellentesque ligula"
+           },
+           {
+              "type": "text",
+              "id": "button_name",
+              "label": "Button name",
+              "default": "DiscoverNow"
+           },
+           {
+              "type": "url",
+              "id": "button_link",
+              "label": "Button link"
+           }
+        ]
+      }
+    ]
+  }
+{% endschema %}
